@@ -72,16 +72,29 @@ const corsOrigins = [
   process.env.CLIENT_BASE_URL || "http://localhost:5173",
   "http://localhost:5173",
   "http://127.0.0.1:5173",
+  "https://engage-hub-v2.vercel.app",
 ].filter(Boolean);
+
+// Handle Private Network Access preflight checks (for Chrome/Edge local dev access from secure public origins like Vercel)
+app.use((req, res, next) => {
+  if (req.headers["access-control-request-private-network"] === "true") {
+    res.setHeader("Access-Control-Allow-Private-Network", "true");
+  }
+  next();
+});
 
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || corsOrigins.includes(origin)) {
+      if (
+        !origin ||
+        corsOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app")
+      ) {
         callback(null, true);
         return;
       }
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error(`Not allowed by CORS: ${origin}`));
     },
     credentials: true,
   })
