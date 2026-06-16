@@ -39,7 +39,7 @@ export default function MediaLibraryPage() {
           <button
             onClick={handleUpload}
             disabled={uploading}
-            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-indigo-600/10 hover:from-purple-700 hover:to-indigo-700 transition"
+            className="flex items-center gap-2 rounded-xl bg-[#C8FF00] px-4 py-2.5 text-sm font-bold text-black shadow-sm hover:bg-[#d4ff33] transition"
           >
             {uploading ? (
               <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
@@ -60,7 +60,7 @@ export default function MediaLibraryPage() {
             placeholder="Search files by name..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-xl border border-slate-200 bg-slate-50/50 py-2 pl-10 pr-4 text-sm focus:border-purple-500 focus:bg-white focus:outline-none dark:border-slate-800 dark:bg-slate-950"
+            className="w-full rounded-xl border border-slate-200 bg-slate-50/50 py-2 pl-10 pr-4 text-sm focus:border-[#C8FF00] focus:bg-white focus:outline-none dark:border-slate-800 dark:bg-slate-950"
           />
         </div>
 
@@ -80,13 +80,13 @@ export default function MediaLibraryPage() {
           <div className="flex rounded-lg border border-slate-200 p-0.5 dark:border-slate-800">
             <button
               onClick={() => setViewMode("grid")}
-              className={`rounded px-2 py-1.5 ${viewMode === "grid" ? "bg-slate-100 dark:bg-slate-800 text-purple-600" : "text-slate-400"}`}
+              className={`rounded px-2 py-1.5 ${viewMode === "grid" ? "bg-slate-100 dark:bg-slate-800 text-[#82a800]" : "text-slate-400"}`}
             >
               <Grid size={14} />
             </button>
             <button
               onClick={() => setViewMode("list")}
-              className={`rounded px-2 py-1.5 ${viewMode === "list" ? "bg-slate-100 dark:bg-slate-800 text-purple-600" : "text-slate-400"}`}
+              className={`rounded px-2 py-1.5 ${viewMode === "list" ? "bg-slate-100 dark:bg-slate-800 text-[#82a800]" : "text-slate-400"}`}
             >
               <List size={14} />
             </button>

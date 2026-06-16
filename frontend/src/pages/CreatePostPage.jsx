@@ -168,7 +168,7 @@ export default function CreatePostPage() {
         <button
           type="button"
           onClick={() => navigate("/channels")}
-          className="mt-4 rounded-lg bg-buffer-600 px-4 py-2 text-sm font-semibold text-white hover:bg-buffer-700"
+          className="mt-4 rounded-lg bg-buffer-600 px-4 py-2 text-sm font-semibold text-black hover:bg-[#d4ff33]"
         >
           Connect channels
         </button>

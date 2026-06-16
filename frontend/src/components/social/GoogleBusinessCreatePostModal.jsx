@@ -635,7 +635,7 @@ export default function GoogleBusinessCreatePostModal({ open, onClose, account, 
                   type="file"
                   accept="image/*,video/*"
                   disabled={posting}
-                  className="block w-full text-sm text-slate-200 file:mr-3 file:rounded-md file:border-0 file:bg-brand-500 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white"
+                  className="block w-full text-sm text-slate-200 file:mr-3 file:rounded-md file:border-0 file:bg-[#C8FF00]/100 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-black font-bold"
                   onChange={(e) => setMediaFile(e.target.files?.[0] ?? null)}
                 />
                 {errors.media ? (
@@ -727,7 +727,7 @@ export default function GoogleBusinessCreatePostModal({ open, onClose, account, 
             </button>
             <button
               type="submit"
-              className="rounded-md bg-brand-500 px-4 py-2 text-xs font-semibold text-white hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-md bg-[#C8FF00]/100 px-4 py-2 text-xs font-semibold text-black font-bold hover:bg-[#C8FF00] disabled:cursor-not-allowed disabled:opacity-50"
               disabled={submitDisabled}
             >
               {posting ? "Posting…" : "Publish post"}

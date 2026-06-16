@@ -83,7 +83,7 @@ export default function AnalyticsPage() {
                   <tr key={row.platform} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
                     <td className="py-3.5 font-semibold text-slate-900 dark:text-white">{row.platform}</td>
                     <td className="py-3.5 text-right font-medium">{row.followers}</td>
-                    <td className="py-3.5 text-right text-purple-600 dark:text-purple-400 font-semibold">{row.engagement}</td>
+                    <td className="py-3.5 text-right text-[#82a800] dark:text-[#C8FF00] font-semibold">{row.engagement}</td>
                     <td className="py-3.5 text-right text-slate-500">{row.reach}</td>
                   </tr>
                 ))}
@@ -97,8 +97,8 @@ export default function AnalyticsPage() {
           <div>
             <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-3">AI Growth Insights</h3>
             <div className="space-y-4">
-              <div className="rounded-xl bg-purple-50/50 p-4 border border-purple-100/50 dark:bg-purple-950/20 dark:border-purple-900/30">
-                <p className="text-xs font-bold uppercase tracking-wide text-purple-700 dark:text-purple-400">Best time to post</p>
+              <div className="rounded-xl bg-[#C8FF00]/5 p-4 border border-[#C8FF00]/15 dark:bg-[#C8FF00]/10 dark:border-[#C8FF00]/20">
+                <p className="text-xs font-bold uppercase tracking-wide text-[#C8FF00] dark:text-[#C8FF00]">Best time to post</p>
                 <p className="text-sm font-semibold text-slate-800 mt-1 dark:text-slate-200">Tuesdays & Thursdays, 2:00 PM</p>
                 <p className="text-xs text-slate-500 mt-1">Based on engagement rates in the past 14 days.</p>
               </div>

@@ -35,7 +35,7 @@ export default function GitHubActivityFeed({ activity = [], loading = false }) {
 
   return (
     <ul className="relative space-y-0">
-      <span className="absolute left-[19px] top-2 bottom-2 w-px bg-gradient-to-b from-violet-500/40 via-slate-600/30 to-transparent" aria-hidden />
+      <span className="absolute left-[19px] top-2 bottom-2 w-px bg-gradient-to-b from-[#C8FF00]/40 via-slate-600/30 to-transparent" aria-hidden />
       {activity.map((item, index) => {
         const Icon = activityIcon(item.type);
         return (
@@ -46,7 +46,7 @@ export default function GitHubActivityFeed({ activity = [], loading = false }) {
             transition={{ delay: index * 0.03 }}
             className="relative flex gap-3 py-3"
           >
-            <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-600/80 bg-slate-900 text-violet-300">
+            <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-600/80 bg-slate-900 text-[#C8FF00]">
               <Icon size={16} aria-hidden />
             </span>
             <motion.div
@@ -63,7 +63,7 @@ export default function GitHubActivityFeed({ activity = [], loading = false }) {
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-violet-300 hover:text-violet-200"
+                  className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-[#C8FF00] hover:text-[#C8FF00]"
                 >
                   View on GitHub
                   <ExternalLink size={12} />

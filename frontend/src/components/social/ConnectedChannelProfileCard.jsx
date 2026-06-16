@@ -43,7 +43,7 @@ export default function ConnectedChannelProfileCard({ platformConfig, account, o
       <button
         type="button"
         onClick={onOpen}
-        className="flex min-h-0 flex-1 flex-col items-center rounded-xl text-center outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900"
+        className="flex min-h-0 flex-1 flex-col items-center rounded-xl text-center outline-none focus-visible:ring-2 focus-visible:ring-[#C8FF00]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900"
         aria-label={`Open ${platformConfig?.label} profile`}
       >
         <motion.div className="relative mb-3 shrink-0" layout>

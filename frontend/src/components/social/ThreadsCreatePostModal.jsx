@@ -160,7 +160,7 @@ export default function ThreadsCreatePostModal({ open, onClose, onPublishSuccess
                   }}
                   className={`rounded-full border px-3 py-1 text-xs font-semibold ${
                     mediaType === t
-                      ? "border-violet-500 bg-violet-500/15 text-violet-200"
+                      ? "border-[#C8FF00] bg-[#C8FF00]/15 text-[#C8FF00]"
                       : "border-slate-600 text-slate-400 hover:border-slate-500"
                   }`}
                 >
@@ -182,7 +182,7 @@ export default function ThreadsCreatePostModal({ open, onClose, onPublishSuccess
               disabled={posting}
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-violet-500 disabled:opacity-60"
+              className="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-[#C8FF00] disabled:opacity-60"
               placeholder={mediaType === "TEXT" ? "What do you want to share?" : "Optional caption…"}
             />
             <div className="mt-1 flex justify-between text-xs text-slate-500">
@@ -206,7 +206,7 @@ export default function ThreadsCreatePostModal({ open, onClose, onPublishSuccess
                   value={mediaUrlInput}
                   onChange={(e) => setMediaUrlInput(e.target.value)}
                   placeholder="https://…"
-                  className="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-violet-500 disabled:opacity-60"
+                  className="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-[#C8FF00] disabled:opacity-60"
                 />
                 {errors.mediaUrl ? <p className="mt-1 text-xs text-rose-400">{errors.mediaUrl}</p> : null}
               </div>
@@ -217,7 +217,7 @@ export default function ThreadsCreatePostModal({ open, onClose, onPublishSuccess
                   accept={MEDIA_ACCEPT}
                   disabled={posting || Boolean(mediaUrlInput.trim())}
                   onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                  className="mt-1 block w-full text-xs text-slate-400 file:mr-2 file:rounded-md file:border-0 file:bg-violet-600 file:px-2 file:py-1 file:text-white"
+                  className="mt-1 block w-full text-xs text-slate-400 file:mr-2 file:rounded-md file:border-0 file:bg-[#C8FF00] file:px-2 file:py-1 file:text-black"
                 />
                 {errors.file ? <p className="mt-1 text-xs text-rose-400">{errors.file}</p> : null}
                 <p className="mt-1 text-[11px] text-slate-500">Uploads are stored on your server and exposed at APP_BASE_URL so Threads can fetch them.</p>
@@ -250,7 +250,7 @@ export default function ThreadsCreatePostModal({ open, onClose, onPublishSuccess
             <button
               type="submit"
               disabled={posting}
-              className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-500 disabled:opacity-50"
+              className="rounded-lg bg-[#C8FF00] px-4 py-2 text-sm font-semibold text-black hover:bg-[#d4ff33] disabled:opacity-50"
             >
               {posting ? "Posting…" : "Publish to Threads"}
             </button>

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function LegalPageLayout({ title, lastUpdated, children }) {
   return (
-    <div className="legal-page-shell h-dvh w-full overflow-x-hidden overflow-y-auto overscroll-contain bg-[#e4ebe8] dark:bg-slate-950">
+    <div className="legal-page-shell h-dvh w-full overflow-x-hidden overflow-y-auto overscroll-contain bg-[#0a0a0a] dark:bg-slate-950">
       <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-8">
         <article className="rounded-[24px] bg-white p-6 shadow-[0_20px_60px_-12px_rgba(15,23,42,0.16)] ring-1 ring-slate-900/5 dark:bg-slate-900 dark:ring-white/10 sm:p-8">
           <p className="text-sm font-semibold text-slate-900 dark:text-white">EngageHub</p>

@@ -1,7 +1,7 @@
 export default function AuthReloadOverlay() {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#e4ebe8]"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#0a0a0a]"
       role="status"
       aria-live="polite"
       aria-label="Loading"

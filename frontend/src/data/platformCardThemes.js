@@ -8,7 +8,7 @@ export const PLATFORM_CARD_THEMES = {
   },
   instagram: {
     gradient:
-      "from-fuchsia-500/[0.12] via-purple-500/[0.08] to-white/80 dark:from-fuchsia-600/20 dark:via-purple-900/15 dark:to-slate-900/70",
+      "from-pink-500/[0.12] via-slate-500/[0.08] to-white/80 dark:from-pink-600/20 dark:via-slate-900/15 dark:to-slate-900/70",
     glow: "group-hover:shadow-[0_0_18px_rgba(221,42,123,0.35)]",
     iconBrand: "bg-gradient-to-br from-[#f58529] via-[#dd2a7b] to-[#8134af] text-white",
   },
@@ -56,7 +56,7 @@ export const PLATFORM_CARD_THEMES = {
   },
   discord: {
     gradient:
-      "from-indigo-500/[0.12] via-indigo-400/[0.06] to-white/80 dark:from-indigo-600/20 dark:via-indigo-950/15 dark:to-slate-900/70",
+      "from-slate-500/[0.12] via-slate-400/[0.06] to-white/80 dark:from-slate-600/20 dark:via-slate-900/15 dark:to-slate-900/70",
     glow: "group-hover:shadow-[0_0_18px_rgba(88,101,242,0.35)]",
     iconBrand: "bg-[#5865F2] text-white",
   },

@@ -223,7 +223,7 @@ export default function FacebookCreatePostModal({ open, onClose, account, onPubl
                   <input
                     type="radio"
                     name="fb-media-type"
-                    className="border-slate-500 text-brand-500"
+                    className="border-slate-500 text-[#C8FF00]"
                     checked={mediaType === t}
                     onChange={() => {
                       setMediaType(t);
@@ -251,7 +251,7 @@ export default function FacebookCreatePostModal({ open, onClose, account, onPubl
               id="fb-message"
               rows={5}
               maxLength={MAX_MESSAGE}
-              className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-brand-500"
+              className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-[#C8FF00]"
               placeholder={
                 mediaType === "LINK"
                   ? "Optional commentary with your link"
@@ -288,7 +288,7 @@ export default function FacebookCreatePostModal({ open, onClose, account, onPubl
               <input
                 id="fb-link"
                 type="url"
-                className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-brand-500"
+                className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-[#C8FF00]"
                 placeholder="https://example.com"
                 value={linkUrl}
                 onChange={(e) => {
@@ -314,7 +314,7 @@ export default function FacebookCreatePostModal({ open, onClose, account, onPubl
                 <input
                   id="fb-media-url"
                   type="url"
-                  className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-brand-500"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-[#C8FF00]"
                   placeholder="https://…"
                   value={mediaUrlInput}
                   onChange={(e) => {
@@ -370,7 +370,7 @@ export default function FacebookCreatePostModal({ open, onClose, account, onPubl
             </button>
             <button
               type="submit"
-              className="rounded-md bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-md bg-[#C8FF00]/100 px-4 py-2 text-sm font-semibold text-black font-bold hover:bg-[#C8FF00] disabled:cursor-not-allowed disabled:opacity-60"
               disabled={submitDisabled}
             >
               {posting ? "Posting…" : "Publish to Page"}

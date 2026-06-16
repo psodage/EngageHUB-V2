@@ -52,14 +52,14 @@ export default function GitHubActivityCardComposer({ defaultLinkUrl = "", onSucc
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title (e.g. Shipped v2.0)"
-          className="w-full rounded-lg border border-slate-600 bg-slate-800/80 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-violet-500/60 focus:outline-none focus:ring-1 focus:ring-violet-500/40"
+          className="w-full rounded-lg border border-slate-600 bg-slate-800/80 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-[#C8FF00]/60 focus:outline-none focus:ring-1 focus:ring-[#C8FF00]/40"
         />
         <textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
           placeholder="What changed?"
           rows={3}
-          className="w-full resize-none rounded-lg border border-slate-600 bg-slate-800/80 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-violet-500/60 focus:outline-none focus:ring-1 focus:ring-violet-500/40"
+          className="w-full resize-none rounded-lg border border-slate-600 bg-slate-800/80 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-[#C8FF00]/60 focus:outline-none focus:ring-1 focus:ring-[#C8FF00]/40"
         />
         <div className="grid gap-3 sm:grid-cols-2">
           <input
@@ -67,20 +67,20 @@ export default function GitHubActivityCardComposer({ defaultLinkUrl = "", onSucc
             value={repoName}
             onChange={(e) => setRepoName(e.target.value)}
             placeholder="Repository (optional)"
-            className="w-full rounded-lg border border-slate-600 bg-slate-800/80 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-violet-500/60 focus:outline-none"
+            className="w-full rounded-lg border border-slate-600 bg-slate-800/80 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-[#C8FF00]/60 focus:outline-none"
           />
           <input
             type="url"
             value={linkUrl}
             onChange={(e) => setLinkUrl(e.target.value)}
             placeholder="Link URL"
-            className="w-full rounded-lg border border-slate-600 bg-slate-800/80 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-violet-500/60 focus:outline-none"
+            className="w-full rounded-lg border border-slate-600 bg-slate-800/80 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-[#C8FF00]/60 focus:outline-none"
           />
         </div>
         <button
           type="submit"
           disabled={submitting}
-          className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:from-violet-500 hover:to-indigo-500 disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-lg bg-[#C8FF00] px-4 py-2 text-sm font-bold text-black transition hover:bg-[#d4ff33] disabled:opacity-50"
         >
           <Send size={16} />
           {submitting ? "Saving…" : "Save activity card"}

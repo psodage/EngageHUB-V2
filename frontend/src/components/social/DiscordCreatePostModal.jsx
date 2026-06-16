@@ -568,7 +568,7 @@ export default function DiscordCreatePostModal({ open, onClose, account, preset 
             <button
               type="submit"
               disabled={posting || !targets.length}
-              className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-lg bg-[#C8FF00]/100 px-4 py-2 text-sm font-semibold text-black font-bold hover:bg-[#C8FF00] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {posting ? "Posting…" : "Publish"}
             </button>

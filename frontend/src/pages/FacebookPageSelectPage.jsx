@@ -23,7 +23,7 @@ function InstagramChip({ ig, onboardingMode = false }) {
           : "border-slate-200 bg-slate-50 text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200",
       ].join(" ")}
     >
-      <span className="inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-amber-500" />
+      <span className="inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-pink-500 via-[#C8FF00] to-amber-500" />
       <span className="truncate">{ig.username ? `@${ig.username}` : "Instagram connected"}</span>
     </div>
   );

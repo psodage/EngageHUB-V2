@@ -92,13 +92,13 @@ export default function InfluencerProfileSetup() {
   };
 
   return (
-    <div className="min-h-dvh bg-[#e4ebe8] px-4 py-6 text-slate-900 sm:px-6">
+    <div className="min-h-dvh bg-[#0a0a0a] px-4 py-6 text-slate-900 sm:px-6">
       <div className="mx-auto max-w-2xl">
         <ProfileSetupStepper currentStep={step} />
 
         <div className="mt-8 rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur sm:p-8">
           <div className="mb-6">
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs text-brand-700">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-[#C8FF00]/30 bg-[#C8FF00]/10 px-3 py-1 text-xs text-[#5f7a00]">
               <Sparkles size={12} />
               Personalize your workspace
             </div>
@@ -120,7 +120,7 @@ export default function InfluencerProfileSetup() {
                     type="text"
                     value={form.fullName}
                     onChange={(e) => setForm({ ...form, fullName: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.fullName ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="Alex Morgan"
@@ -136,7 +136,7 @@ export default function InfluencerProfileSetup() {
                     type="text"
                     value={form.creatorUsername}
                     onChange={(e) => setForm({ ...form, creatorUsername: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.creatorUsername ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="@alexmorgan"
@@ -157,7 +157,7 @@ export default function InfluencerProfileSetup() {
                     type="text"
                     value={form.niche}
                     onChange={(e) => setForm({ ...form, niche: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.niche ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="Fitness & Wellness"
@@ -173,7 +173,7 @@ export default function InfluencerProfileSetup() {
                     type="text"
                     value={form.location}
                     onChange={(e) => setForm({ ...form, location: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.location ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="New York, NY"
@@ -191,7 +191,7 @@ export default function InfluencerProfileSetup() {
                   value={form.bio}
                   onChange={(e) => setForm({ ...form, bio: e.target.value })}
                   rows={3}
-                  className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                  className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                     errors.bio ? "border-red-500" : "border-slate-200"
                   }`}
                   placeholder="Tell your audience who you are and what you create..."
@@ -208,7 +208,7 @@ export default function InfluencerProfileSetup() {
                   type="email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                  className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                     errors.email ? "border-red-500" : "border-slate-200"
                   }`}
                   placeholder="alex@example.com"
@@ -220,7 +220,7 @@ export default function InfluencerProfileSetup() {
                 <button
                   type="button"
                   onClick={() => validateStep1() && setStep(2)}
-                  className="rounded-xl bg-brand-600 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500"
+                  className="rounded-xl bg-[#C8FF00] px-6 py-2.5 text-sm font-semibold text-black font-bold transition hover:bg-[#C8FF00]/100"
                 >
                   Continue
                 </button>
@@ -297,7 +297,7 @@ export default function InfluencerProfileSetup() {
                     type="text"
                     value={form.primaryPlatforms}
                     onChange={(e) => setForm({ ...form, primaryPlatforms: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.primaryPlatforms ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="Instagram, TikTok, YouTube"
@@ -315,7 +315,7 @@ export default function InfluencerProfileSetup() {
                     type="text"
                     value={form.followerCount}
                     onChange={(e) => setForm({ ...form, followerCount: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.followerCount ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="125K"
@@ -336,7 +336,7 @@ export default function InfluencerProfileSetup() {
                     type="text"
                     value={form.contentCategories}
                     onChange={(e) => setForm({ ...form, contentCategories: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.contentCategories ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="Workouts, Meal Prep, Motivation"
@@ -354,7 +354,7 @@ export default function InfluencerProfileSetup() {
                     type="text"
                     value={form.socialHandles}
                     onChange={(e) => setForm({ ...form, socialHandles: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.socialHandles ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="@alexmorgan (Instagram, TikTok, YouTube)"
@@ -377,7 +377,7 @@ export default function InfluencerProfileSetup() {
                   type="button"
                   onClick={handleFinish}
                   disabled={saving}
-                  className="rounded-xl bg-brand-600 px-8 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500 disabled:opacity-50"
+                  className="rounded-xl bg-[#C8FF00] px-8 py-2.5 text-sm font-semibold text-black font-bold transition hover:bg-[#C8FF00]/100 disabled:opacity-50"
                 >
                   {saving ? "Finishing..." : "Complete Setup"}
                 </button>

@@ -1,8 +1,8 @@
 /** Premium channel-detail page accents — hero, cover, glow, and glass surfaces. */
 export const PLATFORM_DETAIL_THEMES = {
   facebook: {
-    hero: "from-blue-600/30 via-indigo-950/60 to-slate-950",
-    cover: "from-blue-600/40 via-indigo-900/50 to-slate-950",
+    hero: "from-blue-600/30 via-slate-900/60 to-slate-950",
+    cover: "from-blue-600/40 via-slate-900/50 to-slate-950",
     glow: "shadow-[0_0_80px_rgba(37,99,235,0.35)]",
     ring: "ring-blue-500/40",
     accent: "text-blue-300",
@@ -64,12 +64,12 @@ export const PLATFORM_DETAIL_THEMES = {
     radial: "rgba(16,185,129,0.18)",
   },
   discord: {
-    hero: "from-indigo-500/20 via-indigo-950/50 to-slate-950",
-    cover: "from-indigo-500/30 via-indigo-900/40 to-slate-950",
+    hero: "from-slate-500/20 via-slate-900/50 to-slate-950",
+    cover: "from-slate-500/30 via-slate-900/40 to-slate-950",
     glow: "shadow-[0_0_80px_rgba(99,102,241,0.28)]",
-    ring: "ring-indigo-500/40",
-    accent: "text-indigo-300",
-    border: "border-indigo-500/20",
+    ring: "ring-slate-500/40",
+    accent: "text-slate-300",
+    border: "border-slate-500/20",
     radial: "rgba(99,102,241,0.2)",
   },
   x: {

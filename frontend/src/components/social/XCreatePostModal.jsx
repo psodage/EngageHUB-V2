@@ -108,7 +108,7 @@ export default function XCreatePostModal({ open, onClose, onPublishSuccess }) {
               id="x-post-content"
               rows={6}
               maxLength={MAX}
-              className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-brand-500"
+              className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-[#C8FF00]"
               placeholder="What's happening?"
               value={content}
               onChange={(e) => {
@@ -147,7 +147,7 @@ export default function XCreatePostModal({ open, onClose, onPublishSuccess }) {
             </button>
             <button
               type="submit"
-              className="rounded-md bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-md bg-[#C8FF00]/100 px-4 py-2 text-sm font-semibold text-black font-bold hover:bg-[#C8FF00] disabled:cursor-not-allowed disabled:opacity-60"
               disabled={submitDisabled}
             >
               {posting ? "Posting…" : "Post to X"}

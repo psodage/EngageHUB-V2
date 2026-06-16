@@ -240,7 +240,7 @@ export default function LinkedInCreatePostModal({ open, onClose, account, preset
                 <input
                   type="radio"
                   name="li-target"
-                  className="border-slate-500 text-brand-500"
+                  className="border-slate-500 text-[#C8FF00]"
                   checked={targetType === "profile"}
                   onChange={() => {
                     setTargetType("profile");
@@ -256,7 +256,7 @@ export default function LinkedInCreatePostModal({ open, onClose, account, preset
                 <input
                   type="radio"
                   name="li-target"
-                  className="border-slate-500 text-brand-500"
+                  className="border-slate-500 text-[#C8FF00]"
                   checked={targetType === "organization"}
                   onChange={() => {
                     if (!hasOrganizations) return;
@@ -339,7 +339,7 @@ export default function LinkedInCreatePostModal({ open, onClose, account, preset
                 key={fileInputKey}
                 id="li-media-file"
                 type="file"
-                className="block w-full text-sm text-slate-200 file:mr-3 file:rounded-md file:border-0 file:bg-brand-500 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white"
+                className="block w-full text-sm text-slate-200 file:mr-3 file:rounded-md file:border-0 file:bg-[#C8FF00]/100 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-black font-bold"
                 accept={mediaType === "IMAGE" ? "image/jpeg,image/png,image/gif,image/webp" : "video/mp4,video/quicktime"}
                 disabled={posting}
                 onChange={(e) => {
@@ -380,7 +380,7 @@ export default function LinkedInCreatePostModal({ open, onClose, account, preset
               id="li-post-content"
               rows={6}
               maxLength={MAX_CHARS}
-              className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-brand-500"
+              className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-[#C8FF00]"
               placeholder={mediaType === "LINK" ? "Add context above your link…" : "What do you want to share?"}
               value={content}
               onChange={(e) => {
@@ -413,7 +413,7 @@ export default function LinkedInCreatePostModal({ open, onClose, account, preset
                 id="li-link-url"
                 type="url"
                 inputMode="url"
-                className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-brand-500"
+                className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-[#C8FF00]"
                 placeholder="https://…"
                 value={linkUrl}
                 onChange={(e) => {
@@ -449,7 +449,7 @@ export default function LinkedInCreatePostModal({ open, onClose, account, preset
             </button>
             <button
               type="submit"
-              className="rounded-md bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-md bg-[#C8FF00]/100 px-4 py-2 text-sm font-semibold text-black font-bold hover:bg-[#C8FF00] disabled:cursor-not-allowed disabled:opacity-60"
               disabled={submitDisabled}
             >
               {posting ? "Posting…" : "Post to LinkedIn"}

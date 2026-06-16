@@ -21,7 +21,7 @@ import { PLATFORM_BRAND_ICONS } from "../data/platformBrandIcons";
 import { listScheduledPosts, deleteScheduledPost } from "../services/scheduleApi";
 
 // Custom premium Sparkline drawing component
-function Sparkline({ points, strokeColor = "#a855f7", id }) {
+function Sparkline({ points, strokeColor = "#C8FF00", id }) {
   const width = 180;
   const height = 45;
   const min = Math.min(...points);
@@ -231,7 +231,7 @@ export default function SaaSDashboard() {
       change: "+12% this week",
       trend: "up",
       points: [12, 14, 18, 15, 21, 23, 24.5],
-      strokeColor: "#8b5cf6" // Purple
+      strokeColor: "#C8FF00" // Accent
     },
     {
       name: "Post Engagements",
@@ -239,7 +239,7 @@ export default function SaaSDashboard() {
       change: "+8% this week",
       trend: "up",
       points: [850, 920, 1010, 980, 1120, 1190, 1204],
-      strokeColor: "#ec4899" // Pink
+      strokeColor: "#82a800" // Accent Dark
     },
     {
       name: "Profile Clicks",
@@ -247,19 +247,19 @@ export default function SaaSDashboard() {
       change: "+18% this week",
       trend: "up",
       points: [290, 310, 320, 360, 380, 400, 418],
-      strokeColor: "#3b82f6" // Blue
+      strokeColor: "#a8d600" // Accent Mid
     }
   ];
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col gap-8 p-6 bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-slate-200 overflow-y-auto">
       {/* Background glow decoration */}
-      <div className="absolute top-0 right-0 -z-10 h-96 w-96 rounded-full bg-gradient-to-tr from-purple-200/20 via-pink-200/10 to-blue-200/20 blur-3xl" />
+      <div className="absolute top-0 right-0 -z-10 h-96 w-96 rounded-full bg-gradient-to-tr from-[#C8FF00]/10 via-[#C8FF00]/5 to-[#C8FF00]/10 blur-3xl" />
 
       {/* Greeting Header */}
       <div className="flex flex-col gap-2">
         <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-          Good to see you, {firstName}! <Sparkles size={20} className="text-purple-500 animate-pulse" />
+          Good to see you, {firstName}! <Sparkles size={20} className="text-[#C8FF00] animate-pulse" />
         </h2>
         <p className="text-sm text-slate-500 dark:text-slate-400">
           Manage cross-platform postings, track OAuth integrations, and review real-time reach analytics.
@@ -295,7 +295,7 @@ export default function SaaSDashboard() {
                 {!plat.isConnected && (
                   <button
                     onClick={() => navigate("/channels")}
-                    className="rounded-xl border border-purple-200 bg-purple-50/50 hover:bg-purple-100 dark:border-purple-900/40 dark:bg-purple-950/30 px-3 py-1.5 text-xs font-bold text-purple-700 dark:text-purple-400 transition"
+                    className="rounded-xl border border-[#C8FF00]/30 bg-[#C8FF00]/5 hover:bg-[#C8FF00]/15 dark:border-[#C8FF00]/20 dark:bg-[#C8FF00]/10 px-3 py-1.5 text-xs font-bold text-[#C8FF00] dark:text-[#C8FF00] transition"
                   >
                     Connect
                   </button>
@@ -347,8 +347,8 @@ export default function SaaSDashboard() {
                 onClick={() => setStatusFilter(status)}
                 className={`rounded-lg px-3 py-1 text-xs font-bold capitalize transition duration-150 ${
                   statusFilter === status
-                    ? "bg-white text-purple-700 shadow-sm dark:bg-slate-850 dark:text-purple-400"
-                    : "text-slate-500 hover:text-slate-700 dark:text-slate-450 dark:hover:text-slate-350"
+                    ? "bg-white text-[#C8FF00] shadow-sm dark:bg-[#1a1a1a] dark:text-[#C8FF00]"
+                    : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-350"
                 }`}
               >
                 {status}
@@ -362,7 +362,7 @@ export default function SaaSDashboard() {
           onClick={handleRefresh}
           className="flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-600 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 transition shadow-sm"
         >
-          <RefreshCw size={14} className={refreshing ? "animate-spin text-purple-600" : ""} />
+          <RefreshCw size={14} className={refreshing ? "animate-spin text-[#82a800]" : ""} />
           <span>Refresh Analytics</span>
         </button>
       </section>
@@ -371,7 +371,7 @@ export default function SaaSDashboard() {
       <section className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Upcoming Content Queue</h3>
-          <Link to="/schedule" className="text-xs font-bold text-purple-600 hover:underline dark:text-purple-400">
+          <Link to="/schedule" className="text-xs font-bold text-[#82a800] hover:underline dark:text-[#C8FF00]">
             View Calendar →
           </Link>
         </div>
@@ -390,7 +390,7 @@ export default function SaaSDashboard() {
                 >
                   {/* Post Preview Info */}
                   <div className="min-w-0 flex-1 flex items-center gap-3">
-                    <div className="h-10 w-10 shrink-0 rounded-lg bg-purple-50 dark:bg-purple-950/35 border border-purple-100/50 dark:border-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400 text-xs font-bold uppercase overflow-hidden">
+                    <div className="h-10 w-10 shrink-0 rounded-lg bg-[#C8FF00]/10 dark:bg-[#C8FF00]/10 border border-[#C8FF00]/15 dark:border-[#C8FF00]/20 flex items-center justify-center text-[#82a800] dark:text-[#C8FF00] text-xs font-bold uppercase overflow-hidden">
                       {item.title.substring(0, 2)}
                     </div>
                     
@@ -470,7 +470,7 @@ export default function SaaSDashboard() {
                                     setActiveMenuId(null);
                                     navigate(`/schedule/${item.id}`);
                                   }}
-                                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs font-semibold text-slate-750 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800 transition"
+                                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800 transition"
                                 >
                                   <Edit size={12} />
                                   Edit Post
@@ -480,7 +480,7 @@ export default function SaaSDashboard() {
                                     setActiveMenuId(null);
                                     handleDeletePost(item.id);
                                   }}
-                                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs font-semibold text-red-650 hover:bg-red-50 dark:hover:bg-red-950/20 transition"
+                                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 transition"
                                 >
                                   <Trash2 size={12} />
                                   Delete

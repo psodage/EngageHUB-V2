@@ -279,7 +279,7 @@ export default function YouTubeCreatePostModal({ open, onClose, account, onPubli
               key={fileInputKey}
               id="yt-video-file"
               type="file"
-              className="block w-full text-sm text-slate-200 file:mr-3 file:rounded-md file:border-0 file:bg-brand-500 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white"
+              className="block w-full text-sm text-slate-200 file:mr-3 file:rounded-md file:border-0 file:bg-[#C8FF00]/100 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-black font-bold"
               accept="video/*"
               disabled={uploading}
               onChange={(e) => {
@@ -314,7 +314,7 @@ export default function YouTubeCreatePostModal({ open, onClose, account, onPubli
               id="yt-title"
               type="text"
               maxLength={MAX_TITLE + 50}
-              className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-brand-500"
+              className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-[#C8FF00]"
               value={title}
               onChange={(e) => {
                 setTitle(e.target.value);
@@ -344,7 +344,7 @@ export default function YouTubeCreatePostModal({ open, onClose, account, onPubli
               id="yt-desc"
               rows={4}
               maxLength={MAX_DESC}
-              className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-brand-500"
+              className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-[#C8FF00]"
               value={description}
               onChange={(e) => {
                 setDescription(e.target.value);
@@ -372,7 +372,7 @@ export default function YouTubeCreatePostModal({ open, onClose, account, onPubli
             <input
               id="yt-tags"
               type="text"
-              className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-brand-500"
+              className="w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-[#C8FF00]"
               placeholder="marketing, tutorial, update"
               value={tags}
               onChange={(e) => setTags(e.target.value)}
@@ -426,7 +426,7 @@ export default function YouTubeCreatePostModal({ open, onClose, account, onPubli
             <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-200">
               <input
                 type="checkbox"
-                className="rounded border-slate-500 text-brand-500"
+                className="rounded border-slate-500 text-[#C8FF00]"
                 checked={madeForKids}
                 onChange={(e) => setMadeForKids(e.target.checked)}
                 disabled={uploading}
@@ -444,7 +444,7 @@ export default function YouTubeCreatePostModal({ open, onClose, account, onPubli
               </div>
               <div className="h-2 overflow-hidden rounded-full bg-slate-800">
                 <div
-                  className="h-full bg-brand-500 transition-all"
+                  className="h-full bg-[#C8FF00]/100 transition-all"
                   style={{ width: `${uploadProgress}%` }}
                 />
               </div>
@@ -468,7 +468,7 @@ export default function YouTubeCreatePostModal({ open, onClose, account, onPubli
             </button>
             <button
               type="submit"
-              className="rounded-md bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-md bg-[#C8FF00]/100 px-4 py-2 text-sm font-semibold text-black font-bold hover:bg-[#C8FF00] disabled:cursor-not-allowed disabled:opacity-60"
               disabled={submitDisabled}
             >
               {uploading ? "Uploading…" : "Upload to YouTube"}

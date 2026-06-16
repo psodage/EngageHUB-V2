@@ -349,7 +349,7 @@ export default function CreatePostWorkspace({
             type="button"
             disabled={publishing || importingRemoteMedia || !hasContent}
             onClick={handleSubmit}
-            className="inline-flex items-center gap-2 rounded-lg bg-buffer-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-buffer-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-lg bg-buffer-600 px-6 py-3 text-sm font-semibold text-black shadow-sm hover:bg-[#d4ff33] disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Send size={16} />
             {publishing ? "Posting…" : submitLabel}

@@ -81,7 +81,7 @@ export default function GitHubDashboard({ account, setToast, onSyncComplete }) {
           type="button"
           onClick={handleSync}
           disabled={syncing || loading}
-          className="inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800/80 px-3 py-2 text-xs font-semibold text-slate-200 transition hover:border-violet-500/40 hover:text-white disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800/80 px-3 py-2 text-xs font-semibold text-slate-200 transition hover:border-[#C8FF00]/40 hover:text-white disabled:opacity-50"
         >
           <RefreshCw size={14} className={syncing ? "animate-spin" : ""} />
           {syncing ? "Syncing…" : "Sync now"}
@@ -105,7 +105,7 @@ export default function GitHubDashboard({ account, setToast, onSyncComplete }) {
       {topRepos.length > 0 ? (
         <section className="rounded-xl border border-slate-700/60 bg-slate-900/40 p-4">
           <h4 className="flex items-center gap-2 text-sm font-semibold text-white">
-            <BookOpen size={16} className="text-violet-300" />
+            <BookOpen size={16} className="text-[#C8FF00]" />
             Top repositories
           </h4>
           <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -115,7 +115,7 @@ export default function GitHubDashboard({ account, setToast, onSyncComplete }) {
                 whileHover={{ y: -2 }}
                 className="rounded-lg border border-slate-700/50 bg-slate-800/50 px-3 py-2"
               >
-                <a href={repo.htmlUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-violet-200 hover:text-white">
+                <a href={repo.htmlUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#C8FF00] hover:text-white">
                   {repo.name}
                 </a>
                 <p className="mt-1 text-xs text-slate-500">

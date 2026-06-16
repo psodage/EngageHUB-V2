@@ -127,7 +127,7 @@ export default function DashboardPage() {
         <div className="mt-5 flex flex-wrap gap-3">
           <Link
             to="/create-post"
-            className="inline-flex items-center gap-2 rounded-lg bg-buffer-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-buffer-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-buffer-600 px-4 py-2.5 text-sm font-semibold text-black hover:bg-[#d4ff33]"
           >
             <PenSquare size={16} />
             Create
@@ -261,7 +261,7 @@ export default function DashboardPage() {
           </div>
           <Link
             to="/channels"
-            className="inline-flex items-center gap-2 rounded-lg bg-buffer-600 px-4 py-2 text-sm font-semibold text-white hover:bg-buffer-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-buffer-600 px-4 py-2 text-sm font-semibold text-black hover:bg-[#d4ff33]"
           >
             Connect channels
             <ArrowRight size={14} />

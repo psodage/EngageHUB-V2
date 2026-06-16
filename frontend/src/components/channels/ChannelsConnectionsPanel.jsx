@@ -87,7 +87,7 @@ export default function ChannelsConnectionsPanel({ variant = "channels", showHea
             <button
               type="button"
               onClick={() => setConnectModalOpen(true)}
-              className="inline-flex items-center gap-2 rounded-lg bg-buffer-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-buffer-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-buffer-600 px-4 py-2 text-sm font-semibold text-black shadow-sm hover:bg-[#d4ff33]"
             >
               <Plus size={16} />
               Connect a channel
@@ -171,7 +171,7 @@ export default function ChannelsConnectionsPanel({ variant = "channels", showHea
           <button
             type="button"
             onClick={() => setConnectModalOpen(true)}
-            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-buffer-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-buffer-700"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-buffer-600 px-5 py-2.5 text-sm font-semibold text-black hover:bg-[#d4ff33]"
           >
             <Plus size={16} />
             Connect a New Channel

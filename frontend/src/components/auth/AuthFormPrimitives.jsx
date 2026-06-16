@@ -16,7 +16,7 @@ export function AuthTopLink({ muted, linkText, linkTo }) {
       <a
         href={linkTo}
         onClick={onClick}
-        className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900"
+        className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-[#C8FF00] hover:text-[#C8FF00] transition"
       >
         {linkText}
       </a>
@@ -56,7 +56,7 @@ export function AuthField({
             ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/15"
             : valid
               ? "border-emerald-300 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/15"
-              : "border-slate-200 focus:border-slate-400 focus:ring-2 focus:ring-slate-900/5"
+              : "border-slate-200 focus:border-[#C8FF00] focus:ring-2 focus:ring-[#C8FF00]/15"
         }`}
       />
       <AnimatePresence initial={false}>
@@ -93,15 +93,15 @@ export function AuthInlineAlert({ alert }) {
           transition={{ duration: 0.22, ease: "easeOut" }}
           className={`flex items-start gap-2.5 rounded-xl border px-3.5 py-2.5 text-xs font-medium ${
             isSuccess
-              ? "border-emerald-100 bg-gradient-to-r from-emerald-50/70 via-emerald-50/40 to-transparent text-emerald-800 shadow-[0_4px_12px_rgba(16,185,129,0.05)] dark:border-emerald-500/20 dark:from-emerald-950/20 dark:via-emerald-950/10 dark:to-transparent dark:text-emerald-300"
-              : "border-red-100 bg-gradient-to-r from-red-50/70 via-red-50/40 to-transparent text-red-800 shadow-[0_4px_12px_rgba(239,68,68,0.05)] dark:border-red-500/20 dark:from-red-950/20 dark:via-red-950/10 dark:to-transparent dark:text-red-300"
+              ? "border-[#C8FF00]/30 bg-gradient-to-r from-[#C8FF00]/10 via-[#C8FF00]/5 to-transparent text-[#5f7a00] shadow-[0_4px_12px_rgba(200,255,0,0.05)]"
+              : "border-red-100 bg-gradient-to-r from-red-50/70 via-red-50/40 to-transparent text-red-800 shadow-[0_4px_12px_rgba(239,68,68,0.05)]"
           }`}
           role="status"
           aria-live="polite"
         >
           <Icon
             size={14}
-            className={`mt-0.5 shrink-0 ${isSuccess ? "text-emerald-600" : "text-red-500"}`}
+            className={`mt-0.5 shrink-0 ${isSuccess ? "text-[#82a800]" : "text-red-500"}`}
           />
           <span className="leading-relaxed">{alert.message}</span>
         </motion.div>
@@ -154,7 +154,7 @@ export function AuthHeading() {
   return (
     <>
       <h1 className="text-[1.6rem] font-bold leading-tight tracking-tight text-slate-900 sm:text-[1.7rem]">
-        Welcome to EngageHub
+        Welcome to <span className="text-[#C8FF00]">EngageHub</span>
       </h1>
       <p className="mt-1 text-xs leading-snug text-slate-500 sm:text-sm">
         Manage all your social media channels from one powerful workspace.
@@ -167,7 +167,7 @@ export function AuthSubmitButton({ children, ...props }) {
   return (
     <button
       type="submit"
-      className="w-full rounded-full bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
+      className="w-full rounded-full bg-[#C8FF00] px-4 py-2.5 text-sm font-bold text-black shadow-sm transition hover:bg-[#d4ff33] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C8FF00]"
       {...props}
     >
       {children}

@@ -7,5 +7,5 @@ export function normalizeOAuthFlow(flowParam) {
 export function getOAuthReturnPath(flow) {
   if (flow === "onboarding") return "/onboarding/link-accounts";
   if (flow === "channels") return "/channels";
-  return "/settings";
+  return "/settings/channels";
 }

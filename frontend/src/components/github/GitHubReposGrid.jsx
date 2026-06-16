@@ -67,7 +67,7 @@ export default function GitHubReposGrid({ repos = [], loading = false }) {
                     href={repo.htmlUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex text-violet-300 hover:text-violet-200"
+                    className="inline-flex text-[#C8FF00] hover:text-[#C8FF00]"
                     aria-label={`Open ${repo.name} on GitHub`}
                   >
                     <ExternalLink size={16} />

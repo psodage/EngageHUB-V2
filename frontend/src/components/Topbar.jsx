@@ -63,7 +63,7 @@ export default function Topbar({ onOpenSidebar }) {
           <button
             type="button"
             onClick={onOpenSidebar}
-            className="rounded-xl p-2 text-slate-500 hover:bg-slate-100 lg:hidden dark:hover:bg-slate-800"
+            className="rounded-xl p-2 text-slate-500 hover:bg-slate-100 lg:hidden dark:hover:bg-[#1a1a1a]"
             aria-label="Open menu"
           >
             <Menu size={20} />
@@ -96,7 +96,7 @@ export default function Topbar({ onOpenSidebar }) {
           <input
             type="text"
             placeholder="Search posts, campaigns, or accounts..."
-            className="w-full rounded-xl border border-slate-200/80 bg-slate-50/50 py-2 pl-10 pr-4 text-xs font-medium text-slate-700 placeholder:text-slate-400 focus:border-purple-500 focus:bg-white focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:focus:border-purple-400"
+            className="w-full rounded-xl border border-slate-200 bg-[#fafafa] py-2 pl-10 pr-4 text-xs font-medium text-slate-700 placeholder:text-slate-400 focus:border-[#C8FF00] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#C8FF00]/30 dark:border-[#222] dark:bg-[#111] dark:text-slate-200 dark:focus:border-[#C8FF00]"
           />
         </div>
 
@@ -105,7 +105,7 @@ export default function Topbar({ onOpenSidebar }) {
           {/* Primary Action Button */}
           <Link
             to="/create-post"
-            className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:from-purple-700 hover:to-indigo-700 transition"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[#C8FF00] px-4 py-2 text-xs font-bold text-black shadow-sm hover:bg-[#d4ff33] transition"
           >
             <Plus size={14} strokeWidth={2.5} />
             <span>Create Post</span>
@@ -114,19 +114,19 @@ export default function Topbar({ onOpenSidebar }) {
           {/* Notification Bell */}
           <button
             type="button"
-            className="relative rounded-xl border border-slate-200 bg-white p-2 text-slate-500 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800 transition duration-150"
+            className="relative rounded-xl border border-slate-200 bg-white p-2 text-slate-500 hover:bg-slate-50 dark:border-[#222] dark:bg-[#111] dark:hover:bg-[#1a1a1a] transition duration-150"
             aria-label="Notifications"
           >
             <Bell size={16} />
             {/* Active notification indicator */}
-            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-900" />
+            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#C8FF00] ring-2 ring-white dark:ring-[#0a0a0a]" />
           </button>
 
           {/* Theme Toggle */}
           <button
             type="button"
             onClick={toggleTheme}
-            className="rounded-xl border border-slate-200 bg-white p-2 text-slate-500 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800 transition duration-150"
+            className="rounded-xl border border-slate-200 bg-white p-2 text-slate-500 hover:bg-slate-50 dark:border-[#222] dark:bg-[#111] dark:hover:bg-[#1a1a1a] transition duration-150"
             aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           >
             <ThemeIcon size={16} />
@@ -141,7 +141,7 @@ export default function Topbar({ onOpenSidebar }) {
             <img
               src={user?.profileImage || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80"}
               alt="User Profile"
-              className="h-8 w-8 rounded-full border border-slate-200 object-cover dark:border-slate-700 shadow-sm hover:ring-2 hover:ring-purple-500/30 transition duration-150"
+              className="h-8 w-8 rounded-full border border-slate-200 object-cover dark:border-[#333] shadow-sm hover:ring-2 hover:ring-[#C8FF00]/30 transition duration-150"
             />
           </Link>
         </div>

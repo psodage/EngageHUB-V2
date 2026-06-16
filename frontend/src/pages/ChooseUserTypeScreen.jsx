@@ -46,12 +46,12 @@ export default function ChooseUserTypeScreen() {
   };
 
   return (
-    <div className="min-h-dvh bg-[#e4ebe8] px-4 py-6 text-slate-900 sm:px-6">
+    <div className="min-h-dvh bg-[#0a0a0a] px-4 py-6 text-slate-900 sm:px-6">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-5">
         <OnboardingStepIndicator activeStep="user-type" />
-        <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur sm:p-8">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg backdrop-blur sm:p-8">
           <div className="mb-6">
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs text-brand-700">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-[#C8FF00]/30 bg-[#C8FF00]/10 px-3 py-1 text-xs text-[#5f7a00]">
               <Sparkles size={12} />
               Personalize your EngageHub experience
             </div>
@@ -75,13 +75,13 @@ export default function ChooseUserTypeScreen() {
                   className={[
                     "rounded-2xl border p-5 text-left transition",
                     isSelected
-                      ? "border-brand-300 bg-brand-50 shadow-[0_0_0_1px_rgba(74,108,247,0.2)]"
-                      : "border-slate-200 bg-white hover:border-brand-300",
+                      ? "border-[#C8FF00] bg-[#C8FF00]/5 shadow-[0_0_0_1px_rgba(200,255,0,0.3)]"
+                      : "border-slate-200 bg-white hover:border-[#C8FF00]/50",
                   ].join(" ")}
                 >
                   <div className="mb-3 flex items-center gap-3">
                     <div className="rounded-xl border border-slate-200 bg-slate-50 p-2">
-                      <Icon size={20} className={isSelected ? "text-brand-600" : "text-slate-500"} />
+                      <Icon size={20} className={isSelected ? "text-[#82a800]" : "text-slate-500"} />
                     </div>
                     <p className="text-lg font-semibold">{option.title}</p>
                   </div>
@@ -96,7 +96,7 @@ export default function ChooseUserTypeScreen() {
               type="button"
               disabled={!selected || submitting}
               onClick={handleContinue}
-              className="rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500 disabled:cursor-not-allowed disabled:opacity-45"
+              className="rounded-xl bg-[#C8FF00] px-5 py-2.5 text-sm font-bold text-black transition hover:bg-[#d4ff33] disabled:cursor-not-allowed disabled:opacity-45"
             >
               {submitting ? "Saving..." : "Continue"}
             </button>

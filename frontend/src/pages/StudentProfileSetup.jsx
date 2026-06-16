@@ -105,13 +105,13 @@ export default function StudentProfileSetup() {
   };
 
   return (
-    <div className="min-h-dvh bg-[#e4ebe8] px-4 py-6 text-slate-900 sm:px-6">
+    <div className="min-h-dvh bg-[#0a0a0a] px-4 py-6 text-slate-900 sm:px-6">
       <div className="mx-auto max-w-2xl">
         <ProfileSetupStepper currentStep={step} />
 
         <div className="mt-8 rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur sm:p-8">
           <div className="mb-6">
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs text-brand-700">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-[#C8FF00]/30 bg-[#C8FF00]/10 px-3 py-1 text-xs text-[#5f7a00]">
               <Sparkles size={12} />
               Personalize your workspace
             </div>
@@ -133,7 +133,7 @@ export default function StudentProfileSetup() {
                     type="text"
                     value={form.fullName}
                     onChange={(e) => setForm({ ...form, fullName: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.fullName ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="Alex Morgan"
@@ -151,7 +151,7 @@ export default function StudentProfileSetup() {
                     type="text"
                     value={form.schoolName}
                     onChange={(e) => setForm({ ...form, schoolName: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.schoolName ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="Stanford University"
@@ -172,7 +172,7 @@ export default function StudentProfileSetup() {
                     type="text"
                     value={form.major}
                     onChange={(e) => setForm({ ...form, major: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.major ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="Computer Science"
@@ -190,7 +190,7 @@ export default function StudentProfileSetup() {
                     type="text"
                     value={form.gradYear}
                     onChange={(e) => setForm({ ...form, gradYear: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.gradYear ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="2027"
@@ -210,7 +210,7 @@ export default function StudentProfileSetup() {
                   value={form.bio}
                   onChange={(e) => setForm({ ...form, bio: e.target.value })}
                   rows={3}
-                  className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                  className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                     errors.bio ? "border-red-500" : "border-slate-200"
                   }`}
                   placeholder="Tell us what you're passionate about..."
@@ -224,7 +224,7 @@ export default function StudentProfileSetup() {
                 <button
                   type="button"
                   onClick={() => validateStep1() && setStep(2)}
-                  className="rounded-xl bg-brand-600 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500"
+                  className="rounded-xl bg-[#C8FF00] px-6 py-2.5 text-sm font-semibold text-black font-bold transition hover:bg-[#C8FF00]/100"
                 >
                   Continue
                 </button>
@@ -304,7 +304,7 @@ export default function StudentProfileSetup() {
                     type="text"
                     value={form.interests}
                     onChange={(e) => setForm({ ...form, interests: e.target.value })}
-                    className="w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 border-slate-200"
+                    className="w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 border-slate-200"
                     placeholder="Coding, Design, Marketing"
                   />
                 </div>
@@ -317,7 +317,7 @@ export default function StudentProfileSetup() {
                     type="url"
                     value={form.portfolioUrl}
                     onChange={(e) => setForm({ ...form, portfolioUrl: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.portfolioUrl ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="https://alexmorgan.dev"
@@ -340,7 +340,7 @@ export default function StudentProfileSetup() {
                   type="button"
                   onClick={handleFinish}
                   disabled={saving}
-                  className="rounded-xl bg-brand-600 px-8 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500 disabled:opacity-50"
+                  className="rounded-xl bg-[#C8FF00] px-8 py-2.5 text-sm font-semibold text-black font-bold transition hover:bg-[#C8FF00]/100 disabled:opacity-50"
                 >
                   {saving ? "Finishing..." : "Complete Setup"}
                 </button>

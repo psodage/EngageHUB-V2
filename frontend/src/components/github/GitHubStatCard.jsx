@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-export default function GitHubStatCard({ label, value, icon: Icon, accent = "from-violet-500/20 to-indigo-500/10" }) {
+export default function GitHubStatCard({ label, value, icon: Icon, accent = "from-[#C8FF00]/15 to-[#C8FF00]/5" }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -17,7 +17,7 @@ export default function GitHubStatCard({ label, value, icon: Icon, accent = "fro
           <p className="mt-1 text-2xl font-semibold tabular-nums text-white">{value ?? "—"}</p>
         </div>
         {Icon ? (
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-800/80 text-violet-300">
+          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-800/80 text-[#C8FF00]">
             <Icon size={18} aria-hidden />
           </span>
         ) : null}

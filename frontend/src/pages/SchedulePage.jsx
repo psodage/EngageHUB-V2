@@ -106,7 +106,7 @@ export default function SchedulePage() {
           </div>
           <Link
             to="/schedule/new"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-buffer-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-buffer-700"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-buffer-600 px-4 py-2.5 text-sm font-semibold text-black hover:bg-[#d4ff33]"
           >
             <CalendarClock size={16} />
             Schedule post

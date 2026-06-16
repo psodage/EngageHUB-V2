@@ -17,7 +17,7 @@ export default function ProgressTracker({ processedCount, totalCount, percent })
         </motion.div>
         <div className="h-1.5 overflow-hidden rounded-full bg-slate-200">
           <motion.div
-            className="h-full rounded-full bg-brand-500"
+            className="h-full rounded-full bg-[#C8FF00]/100"
             initial={{ width: 0 }}
             animate={{ width: `${percent}%` }}
             transition={{ duration: 0.4, ease: "easeOut" }}

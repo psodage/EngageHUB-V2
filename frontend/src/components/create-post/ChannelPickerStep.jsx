@@ -124,7 +124,7 @@ export default function ChannelPickerStep({
             type="button"
             disabled={!canContinue}
             onClick={onContinue}
-            className="rounded-lg bg-buffer-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-buffer-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-lg bg-buffer-600 px-5 py-2.5 text-sm font-semibold text-black hover:bg-[#d4ff33] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {continueLabel} ({selectedKeys.length} channel{selectedKeys.length === 1 ? "" : "s"})
           </button>

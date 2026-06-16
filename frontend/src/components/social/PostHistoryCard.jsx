@@ -77,7 +77,7 @@ export default function PostHistoryCard({ record, platformLabel }) {
             href={record.externalPostUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-buffer-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-buffer-700"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-buffer-600 px-3 py-1.5 text-xs font-semibold text-black hover:bg-[#d4ff33]"
           >
             View on platform
             <ExternalLink size={14} aria-hidden />

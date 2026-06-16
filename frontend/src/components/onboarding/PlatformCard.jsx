@@ -59,7 +59,7 @@ export default function PlatformCard({
             : status === "skipped"
               ? "border-amber-200 bg-amber-50/70"
               : isSelected && !started
-                ? "border-brand-400/60 bg-brand-50/40 ring-1 ring-brand-500/20"
+                ? "border-[#C8FF00]/60 bg-[#C8FF00]/10 ring-1 ring-[#C8FF00]/20"
                 : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/80"
       } ${disabled && !isConnected ? "cursor-not-allowed opacity-90" : started ? "cursor-default" : "cursor-pointer"} flex items-start gap-3.5 ${className}`}
     >
@@ -84,7 +84,7 @@ export default function PlatformCard({
       {!started && isInteractive && !isConnected ? (
         <span
           className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border ${
-            isSelected ? "border-brand-500 bg-brand-500 text-white" : "border-slate-300 bg-white"
+            isSelected ? "border-[#C8FF00] bg-[#C8FF00]/100 text-black font-bold" : "border-slate-300 bg-white"
           }`}
         >
           {isSelected ? <Check size={12} strokeWidth={3} /> : null}
@@ -96,7 +96,7 @@ export default function PlatformCard({
         </span>
       ) : null}
       {isProcessing ? (
-        <span className="flex h-5 w-5 shrink-0 items-center justify-center text-brand-500">
+        <span className="flex h-5 w-5 shrink-0 items-center justify-center text-[#C8FF00]">
           <Loader2 size={14} className="animate-spin" />
         </span>
       ) : null}

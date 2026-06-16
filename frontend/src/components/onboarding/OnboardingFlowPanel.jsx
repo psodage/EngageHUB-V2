@@ -24,7 +24,7 @@ export default function OnboardingFlowPanel({
 
       {processingPlatform ? (
         <p className="mt-2 flex items-center gap-2 text-sm text-slate-600">
-          <Loader2 size={15} className="animate-spin text-brand-500" />
+          <Loader2 size={15} className="animate-spin text-[#C8FF00]" />
           Opening {processingPlatform} authorization…
         </p>
       ) : null}

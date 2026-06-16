@@ -97,13 +97,13 @@ export default function BusinessProfileSetup() {
   };
 
   return (
-    <div className="min-h-dvh bg-[#e4ebe8] px-4 py-6 text-slate-900 sm:px-6">
+    <div className="min-h-dvh bg-[#0a0a0a] px-4 py-6 text-slate-900 sm:px-6">
       <div className="mx-auto max-w-2xl">
         <ProfileSetupStepper currentStep={step} />
 
         <div className="mt-8 rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur sm:p-8">
           <div className="mb-6">
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs text-brand-700">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-[#C8FF00]/30 bg-[#C8FF00]/10 px-3 py-1 text-xs text-[#5f7a00]">
               <Sparkles size={12} />
               Personalize your workspace
             </div>
@@ -125,7 +125,7 @@ export default function BusinessProfileSetup() {
                     type="text"
                     value={form.businessName}
                     onChange={(e) => setForm({ ...form, businessName: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.businessName ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="Acme Corp"
@@ -143,7 +143,7 @@ export default function BusinessProfileSetup() {
                     type="text"
                     value={form.industry}
                     onChange={(e) => setForm({ ...form, industry: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.industry ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="Technology"
@@ -180,7 +180,7 @@ export default function BusinessProfileSetup() {
                     type="text"
                     value={form.contactNumber}
                     onChange={(e) => setForm({ ...form, contactNumber: e.target.value })}
-                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                    className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                       errors.contactNumber ? "border-red-500" : "border-slate-200"
                     }`}
                     placeholder="+1 555 123 4567"
@@ -200,7 +200,7 @@ export default function BusinessProfileSetup() {
                   type="url"
                   value={form.websiteUrl}
                   onChange={(e) => setForm({ ...form, websiteUrl: e.target.value })}
-                  className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                  className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                     errors.websiteUrl ? "border-red-500" : "border-slate-200"
                   }`}
                   placeholder="https://acme.com"
@@ -219,7 +219,7 @@ export default function BusinessProfileSetup() {
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                   rows={3}
-                  className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 ${
+                  className={`w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 ${
                     errors.description ? "border-red-500" : "border-slate-200"
                   }`}
                   placeholder="Tell us what your business does..."
@@ -233,7 +233,7 @@ export default function BusinessProfileSetup() {
                 <button
                   type="button"
                   onClick={() => validateStep1() && setStep(2)}
-                  className="rounded-xl bg-brand-600 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500"
+                  className="rounded-xl bg-[#C8FF00] px-6 py-2.5 text-sm font-semibold text-black font-bold transition hover:bg-[#C8FF00]/100"
                 >
                   Continue
                 </button>
@@ -313,7 +313,7 @@ export default function BusinessProfileSetup() {
                     type="text"
                     value={form.brandColors}
                     onChange={(e) => setForm({ ...form, brandColors: e.target.value })}
-                    className="w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 border-slate-200"
+                    className="w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 border-slate-200"
                     placeholder="#6D5EF8, #FFFFFF"
                   />
                 </div>
@@ -326,7 +326,7 @@ export default function BusinessProfileSetup() {
                     type="text"
                     value={form.companyLocation}
                     onChange={(e) => setForm({ ...form, companyLocation: e.target.value })}
-                    className="w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-brand-500/20 border-slate-200"
+                    className="w-full rounded-xl border bg-white px-4 py-2.5 transition focus:ring-2 focus:ring-[#C8FF00]/20 border-slate-200"
                     placeholder="San Francisco, CA"
                   />
                 </div>
@@ -344,7 +344,7 @@ export default function BusinessProfileSetup() {
                   type="button"
                   onClick={handleFinish}
                   disabled={saving}
-                  className="rounded-xl bg-brand-600 px-8 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500 disabled:opacity-50"
+                  className="rounded-xl bg-[#C8FF00] px-8 py-2.5 text-sm font-semibold text-black font-bold transition hover:bg-[#C8FF00]/100 disabled:opacity-50"
                 >
                   {saving ? "Finishing..." : "Complete Setup"}
                 </button>
