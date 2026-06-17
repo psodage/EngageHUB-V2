@@ -168,7 +168,7 @@ export default function Sidebar({ open, onClose, onLogout }) {
                     return (
                       <button
                         type="button"
-                        key={account._id || account.id}
+                        key={account.platform}
                         onClick={() => {
                           navigate(`/channels/${account.platform}`);
                           onClose?.();
