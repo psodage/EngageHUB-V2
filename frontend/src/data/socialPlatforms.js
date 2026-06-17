@@ -51,13 +51,6 @@ export const SOCIAL_PLATFORM_CONFIGS = [
     connectSubtitle: "Business location",
   },
   {
-    key: "github",
-    label: "GitHub",
-    icon: PLATFORM_BRAND_ICONS.github,
-    hint: "Repositories, activity & dev analytics",
-    connectSubtitle: "Developer profile",
-  },
-  {
     key: "reddit",
     label: "Reddit",
     icon: PLATFORM_BRAND_ICONS.reddit,
@@ -76,7 +69,6 @@ export const SOCIAL_PLATFORM_CONFIGS = [
 export const PLATFORMS_BY_USER_TYPE = {
   business: ["instagram", "facebook", "linkedin", "x", "youtube", "googleBusiness"],
   influencer: ["instagram", "threads", "x", "youtube", "facebook", "pinterest"],
-  student: ["instagram", "linkedin", "threads", "github"],
 };
 
 export function getPlatformsForUserType(userType) {
@@ -93,7 +85,6 @@ export const CONNECT_CHANNEL_MODAL_PLATFORM_ORDER = [
   "googleBusiness",
   "x",
   "youtube",
-  "github",
   "reddit",
 ];
 
@@ -126,5 +117,4 @@ export const PLATFORM_CAPABILITY_MATRIX = {
   x: { badges: ["Posting", "Limited API"], supportLevel: "limited", oauth: true },
   reddit: { badges: ["Posting", "Limited API"], supportLevel: "limited", oauth: true },
   googleBusiness: { badges: ["Posting", "Analytics"], supportLevel: "full", oauth: true },
-  github: { badges: ["Analytics", "Activity", "Scheduling-ready"], supportLevel: "full", oauth: true },
 };

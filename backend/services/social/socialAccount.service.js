@@ -168,6 +168,19 @@ export async function upsertConnectedAccount({ userId, platform, profile, tokenD
     }
   }
 
+  // Enforce single connected account limit per social platform per user
+  const existingForPlatform = await SocialAccount.findOne({
+    userId,
+    platform: normalizedPlatform,
+    isConnected: true,
+  });
+  if (existingForPlatform && existingForPlatform.platformUserId !== platformUserId) {
+    const err = new Error(`You can only connect one account for ${platform}. Please disconnect your existing account first.`);
+    err.status = 400;
+    err.code = "single_account_limit_exceeded";
+    throw err;
+  }
+
   if (isOAuthRootEntityType(entityType)) {
     const existingForUser = await SocialAccount.findOne({
       userId,

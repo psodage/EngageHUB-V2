@@ -20,7 +20,7 @@ export function getDashboardContentLayout(pathname) {
   if (pathname.startsWith("/settings")) {
     return "settings";
   }
-  if (pathname.startsWith("/schedule")) {
+  if (pathname.startsWith("/schedule") || pathname.startsWith("/dashboard")) {
     return "wide";
   }
   return "default";

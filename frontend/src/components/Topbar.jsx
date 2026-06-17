@@ -88,7 +88,7 @@ export default function Topbar({ onOpenSidebar }) {
         </div>
 
         {/* Center: Search Bar */}
-        <div className="hidden max-w-sm flex-1 md:block relative">
+        <div className="hidden max-w-sm flex-1 md:block lg:hidden relative">
           <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
@@ -102,7 +102,7 @@ export default function Topbar({ onOpenSidebar }) {
           {/* Primary Action Button */}
           <Link
             to="/create-post"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#C8FF00] px-4 py-2 text-xs font-bold text-black shadow-sm hover:bg-[#d4ff33] transition"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[#C8FF00] px-4 py-2 text-xs font-bold text-black shadow-sm hover:bg-[#d4ff33] transition lg:hidden"
           >
             <Plus size={14} strokeWidth={2.5} />
             <span>Create Post</span>

@@ -43,18 +43,6 @@ import {
   threadsOauthCallback,
 } from "../controllers/threads.controller.js";
 import {
-  connectGithub,
-  createGithubActivityCard,
-  disconnectGithub,
-  getGithubActivity,
-  getGithubAnalytics,
-  getGithubAutomationCatalog,
-  githubOauthCallback,
-  listGithubRepos,
-  previewGithubAutomation,
-  syncGithub,
-} from "../controllers/github.controller.js";
-import {
   handleLinkedInPostUpload,
   handleSocialPublicUpload,
   handleYouTubeVideoUpload,
@@ -89,16 +77,6 @@ export function createSocialRoutes(requireAuth) {
   router.get("/threads/callback", threadsOauthCallback);
   router.post("/threads/disconnect", requireAuth, disconnectThreads);
   router.post("/threads/post", requireAuth, createThreadsPost);
-  router.get("/github/connect", requireAuth, connectGithub);
-  router.get("/github/callback", githubOauthCallback);
-  router.post("/github/disconnect", requireAuth, disconnectGithub);
-  router.get("/github/repos", requireAuth, listGithubRepos);
-  router.get("/github/analytics", requireAuth, getGithubAnalytics);
-  router.get("/github/activity", requireAuth, getGithubActivity);
-  router.post("/github/sync", requireAuth, syncGithub);
-  router.post("/github/activity-cards", requireAuth, createGithubActivityCard);
-  router.get("/github/automation", requireAuth, getGithubAutomationCatalog);
-  router.post("/github/automation/preview", requireAuth, previewGithubAutomation);
   router.post("/upload/public-media", requireAuth, handleSocialPublicUpload, uploadPublicSocialMedia);
   router.post("/upload/remote-media", requireAuth, ingestRemoteSocialMedia);
   router.get("/meta/connect", requireAuth, connectMetaPlatform);

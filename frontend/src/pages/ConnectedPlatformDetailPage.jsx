@@ -8,8 +8,6 @@ import {
   startSocialConnect,
 } from "../services/socialApi";
 import { isPlatformConnectTemporarilyDisabled } from "../data/socialPlatforms";
-import { syncGitHubAccount } from "../services/githubApi";
-import GitHubDashboard from "../components/github/GitHubDashboard";
 import { AlertCircle } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { PLATFORM_CAPABILITY_MATRIX, SOCIAL_PLATFORM_CONFIGS } from "../data/socialPlatforms";
@@ -116,11 +114,7 @@ export default function ConnectedPlatformDetailPage() {
   const handleRefresh = async () => {
     setSyncing(true);
     try {
-      if (platformKey === "github") {
-        await syncGitHubAccount();
-      } else {
-        await refreshSocial(platformKey);
-      }
+      await refreshSocial(platformKey);
       if (refreshConnectedAccounts) await refreshConnectedAccounts();
       setToast?.({ message: `${channelInfo?.platformLabel || label} synced successfully.` });
       bumpHistory();
@@ -230,7 +224,7 @@ export default function ConnectedPlatformDetailPage() {
         postCount={postCount}
         createPostPath={createPostPath}
         onRefresh={handleRefresh}
-        onAddAccount={handleAddAnotherAccount}
+        onAddAccount={undefined}
         addingAccount={connectingAnother}
         syncing={syncing}
         activeTab={detailTab}
@@ -246,17 +240,6 @@ export default function ConnectedPlatformDetailPage() {
             capabilities={capabilities}
             onDisconnectEntity={handleDisconnectEntity}
             disconnectingEntityId={disconnectingGoogleLocationId || disconnectingAccountId}
-          />
-        ) : null}
-
-        {detailTab === "analytics" && platformKey === "github" ? (
-          <GitHubDashboard
-            account={account}
-            setToast={setToast}
-            onSyncComplete={async () => {
-              if (refreshConnectedAccounts) await refreshConnectedAccounts();
-              bumpHistory();
-            }}
           />
         ) : null}
 

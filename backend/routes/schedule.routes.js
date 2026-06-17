@@ -4,6 +4,7 @@ import {
   deleteScheduledPost,
   getScheduledPost,
   listScheduledPosts,
+  updateScheduledPost,
 } from "../controllers/schedule.controller.js";
 
 export function createScheduleRoutes(requireAuth) {
@@ -11,6 +12,8 @@ export function createScheduleRoutes(requireAuth) {
   router.get("/", requireAuth, listScheduledPosts);
   router.post("/", requireAuth, createScheduledPost);
   router.get("/:id", requireAuth, getScheduledPost);
+  router.put("/:id", requireAuth, updateScheduledPost);
   router.delete("/:id", requireAuth, deleteScheduledPost);
   return router;
 }
+

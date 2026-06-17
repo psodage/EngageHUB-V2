@@ -12,7 +12,6 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ChooseUserTypeScreen from "./pages/ChooseUserTypeScreen";
 import BusinessProfileSetup from "./pages/BusinessProfileSetup";
 import InfluencerProfileSetup from "./pages/InfluencerProfileSetup";
-import StudentProfileSetup from "./pages/StudentProfileSetup";
 import LinkAccounts from "./pages/LinkAccounts";
 
 // Connect / selection pages
@@ -24,7 +23,6 @@ import GoogleBusinessLocationSelectPage from "./pages/GoogleBusinessLocationSele
 // Dashboards and inner pages
 import BusinessDashboard from "./pages/BusinessDashboard";
 import InfluencerDashboard from "./pages/InfluencerDashboard";
-import StudentDashboard from "./pages/StudentDashboard";
 import CreatePostPage from "./pages/CreatePostPage";
 import ContentCalendarPage from "./pages/ContentCalendarPage";
 import SchedulePage from "./pages/SchedulePage";
@@ -107,7 +105,6 @@ function ProfileSetupRoute() {
     draft?.selectedUserType || user.userType || localStorage.getItem(STORAGE_KEYS.userType) || "";
   if (resolvedUserType === "business") return <BusinessProfileSetup />;
   if (resolvedUserType === "influencer") return <InfluencerProfileSetup />;
-  if (resolvedUserType === "student") return <StudentProfileSetup />;
   return <Navigate to="/onboarding/user-type" replace />;
 }
 
@@ -229,7 +226,6 @@ function RootRouter() {
         <Route path="dashboard" element={<DashboardRedirect />} />
         <Route path="dashboard/business" element={<BusinessDashboard />} />
         <Route path="dashboard/influencer" element={<InfluencerDashboard />} />
-        <Route path="dashboard/student" element={<StudentDashboard />} />
         <Route path="create-post" element={<CreatePostPage />} />
         <Route path="content-calendar" element={<ContentCalendarPage />} />
         <Route path="content-calender" element={<Navigate to="/content-calendar" replace />} />

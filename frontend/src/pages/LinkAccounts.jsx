@@ -70,7 +70,6 @@ export default function LinkAccounts() {
 
   const getDashboardPath = (userType) => {
     if (userType === "influencer") return "/dashboard/influencer";
-    if (userType === "student") return "/dashboard/student";
     return "/dashboard/business";
   };
 

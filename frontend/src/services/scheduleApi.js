@@ -62,3 +62,13 @@ export async function deleteScheduledPost(id) {
     throw new Error(parseError(error, "Unable to delete scheduled post."));
   }
 }
+
+export async function updateScheduledPost(id, payload) {
+  try {
+    const { data } = await client.put(`/api/schedule/${id}`, payload);
+    return data.data?.post || data.post;
+  } catch (error) {
+    throw new Error(parseError(error, "Unable to update scheduled post."));
+  }
+}
+

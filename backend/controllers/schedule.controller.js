@@ -98,3 +98,58 @@ export async function deleteScheduledPost(req, res) {
     return error(res, err?.message || "Could not delete.", 500);
   }
 }
+
+export async function updateScheduledPost(req, res) {
+  try {
+    const userId = new ObjectId(req.auth.userId);
+    const id = req.params?.id;
+    if (!ObjectId.isValid(id)) return error(res, "Invalid post id.");
+
+    const post = await ScheduledPost.findOne({ _id: new ObjectId(id), userId });
+    if (!post) return error(res, "Scheduled post not found.", 404);
+
+    if (post.status === "published" || post.status === "publishing") {
+      return error(res, "Cannot edit post in this status.");
+    }
+
+    const caption = (req.body?.caption !== undefined ? req.body.caption : post.caption || "").trim();
+    const channelKeys = Array.isArray(req.body?.channelKeys)
+      ? req.body.channelKeys.filter((k) => typeof k === "string" && k.trim())
+      : post.channelKeys;
+    const scheduledAtRaw = req.body?.scheduledAt || post.scheduledAt;
+    const timezone = (req.body?.timezone || post.timezone || "UTC").trim();
+    const mediaUrl = req.body?.mediaUrl !== undefined ? req.body.mediaUrl.trim() : post.mediaUrl || "";
+    const title = (req.body?.title !== undefined ? req.body.title : post.title || caption.slice(0, 80) || "Scheduled post").trim();
+    const status = req.body?.status || post.status || "scheduled";
+
+    if (!caption && !mediaUrl) {
+      return error(res, "Caption or media is required.");
+    }
+    if (!channelKeys.length) {
+      return error(res, "Select at least one channel.");
+    }
+
+    const scheduledAt = new Date(scheduledAtRaw);
+    if (Number.isNaN(scheduledAt.getTime())) {
+      return error(res, "Invalid schedule date.");
+    }
+
+    post.title = title;
+    post.caption = caption;
+    post.mediaUrl = mediaUrl;
+    post.channelKeys = channelKeys;
+    post.scheduledAt = scheduledAt;
+    post.timezone = timezone;
+    post.status = status;
+
+    if (req.body?.channelKeys) {
+      post.channelResults = channelKeys.map((channelKey) => buildScheduledChannelResult(channelKey, status));
+    }
+
+    await post.save();
+    return success(res, { post });
+  } catch (err) {
+    return error(res, err?.message || "Could not update scheduled post.", 500);
+  }
+}
+

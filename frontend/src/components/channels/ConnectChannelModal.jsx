@@ -97,7 +97,7 @@ export default function ConnectChannelModal({
                 Connect a New Channel
               </h2>
               <p className="mt-1 text-center text-xs text-slate-500 dark:text-slate-400">
-                Select channels to link. You can add another account for platforms already connected.
+                Select channels to link. You can connect one account per social platform.
               </p>
               <button
                 type="button"
@@ -118,7 +118,7 @@ export default function ConnectChannelModal({
                 {platforms.map((platform) => {
                   const isConnected = connectedKeys.has(platform.key);
                   const isDisabled = isPlatformConnectTemporarilyDisabled(platform.key);
-                  const isSelectable = !isDisabled;
+                  const isSelectable = !isDisabled && !isConnected;
                   const isSelected = selectedKeys.has(platform.key);
                   const isProcessing = processingPlatform === platform.key;
                   const subtitle = platform.connectSubtitle || platform.hint;
@@ -161,7 +161,7 @@ export default function ConnectChannelModal({
                           {platform.label.replace(/ \(Twitter\)/, "")}
                         </span>
                         <span className="mt-0.5 block text-[11px] leading-snug text-slate-500 dark:text-slate-400">
-                          {isDisabled ? "Coming soon" : isConnected ? "Add another account" : subtitle}
+                          {isDisabled ? "Coming soon" : isConnected ? "Connected" : subtitle}
                         </span>
                       </span>
                     </button>

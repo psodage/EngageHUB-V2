@@ -11,7 +11,9 @@ import {
   Plus,
   LogOut,
   X,
-  PenSquare
+  PenSquare,
+  Sun,
+  Moon
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { PLATFORM_BRAND_ICONS } from "../data/platformBrandIcons";
@@ -19,9 +21,10 @@ import { PLATFORM_BRAND_ICONS } from "../data/platformBrandIcons";
 export default function Sidebar({ open, onClose, onLogout }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { connectedAccounts, user } = useApp();
+  const { connectedAccounts, user, toggleTheme, theme } = useApp();
 
   const userType = user?.userType || "business";
+  const ThemeIcon = theme === "dark" ? Sun : Moon;
 
   const activeConnections = useMemo(() => {
     return connectedAccounts ? connectedAccounts.filter((a) => a.isConnected) : [];
@@ -34,14 +37,7 @@ export default function Sidebar({ open, onClose, onLogout }) {
       { key: "dashboard", label: "Dashboard", path: "/dashboard", icon: LayoutDashboard }
     ];
 
-    if (userType === "student") {
-      items.push(
-        { key: "create-post", label: "New Post", path: "/create-post", icon: PenSquare },
-        { key: "content-calendar", label: "Content Calendar", path: "/content-calendar", icon: Calendar },
-        { key: "channels", label: "Social Accounts", path: "/channels", icon: Share2 },
-        { key: "media", label: "Media Library", path: "/media", icon: Image }
-      );
-    } else if (userType === "influencer") {
+    if (userType === "influencer") {
       items.push(
         { key: "create-post", label: "Create Post", path: "/create-post", icon: PenSquare },
         { key: "schedule", label: "Content Calendar", path: "/schedule", icon: Calendar },
@@ -88,7 +84,7 @@ export default function Sidebar({ open, onClose, onLogout }) {
           >
 
             <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Engage<span className="text-[#C8FF00]">Hub</span>
+              Engage<span className="text-[#000000] bg-[#C8FF00] px-1">Hub</span>
             </span>
           </NavLink>
 
@@ -114,7 +110,7 @@ export default function Sidebar({ open, onClose, onLogout }) {
                     to={item.path}
                     onClick={onClose}
                     className={`flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition duration-200 ${active
-                      ? "bg-[#C8FF00]/10 text-[#C8FF00] dark:bg-[#C8FF00]/10 dark:text-[#C8FF00] font-semibold"
+                      ? "bg-[#C8FF00] text-black font-semibold shadow-sm"
                       : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-[#1a1a1a]"
                       }`}
                   >
@@ -130,7 +126,7 @@ export default function Sidebar({ open, onClose, onLogout }) {
           <div className="mt-auto">
             {activeCount <= 1 && (
               <div className="rounded-2xl bg-gradient-to-br from-[#C8FF00]/5 via-slate-50 to-[#C8FF00]/10 dark:from-[#C8FF00]/5 dark:via-[#111] dark:to-[#C8FF00]/10 border border-[#C8FF00]/20 dark:border-[#C8FF00]/15 p-4 mb-3">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-[#C8FF00] dark:text-[#C8FF00]">API & Integrations</h4>
+
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">Connect more accounts to expand your cross-posting reach.</p>
                 <button
                   type="button"
@@ -152,14 +148,19 @@ export default function Sidebar({ open, onClose, onLogout }) {
                     {activeCount}
                   </span>
                 </div>
-                <div className="space-y-1 max-h-32 overflow-y-auto pr-1 custom-scrollbar">
+                <div className="space-y-1">
                   {activeConnections.map((account) => {
                     const Icon = PLATFORM_BRAND_ICONS[account.platform];
                     const displayName = account.accountName || account.username || account.platform;
                     return (
-                      <div
+                      <button
+                        type="button"
                         key={account._id || account.id}
-                        className="flex items-center gap-1.5 rounded-lg bg-slate-50/50 dark:bg-[#111] p-1.5 border border-slate-100/50 dark:border-[#222] hover:bg-slate-100/70 dark:hover:bg-[#1a1a1a] transition duration-150 group"
+                        onClick={() => {
+                          navigate(`/channels/${account.platform}`);
+                          onClose?.();
+                        }}
+                        className="w-full flex items-center gap-1.5 rounded-lg bg-slate-50/50 dark:bg-[#111] p-1.5 border border-slate-100/50 dark:border-[#222] hover:bg-slate-100/70 dark:hover:bg-[#1a1a1a] transition duration-150 group text-left cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#C8FF00]/50"
                       >
                         {account.profileImage ? (
                           <img
@@ -174,8 +175,8 @@ export default function Sidebar({ open, onClose, onLogout }) {
                             }}
                           />
                         ) : null}
-                        
-                        <div 
+
+                        <div
                           className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-100 dark:bg-[#1a1a1a] text-slate-600 dark:text-slate-300 ${account.profileImage ? 'hidden' : ''}`}
                         >
                           {Icon ? <Icon size={10} className="group-hover:scale-110 transition duration-200" /> : null}
@@ -189,7 +190,7 @@ export default function Sidebar({ open, onClose, onLogout }) {
                             {account.platform}
                           </p>
                         </div>
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
@@ -198,7 +199,7 @@ export default function Sidebar({ open, onClose, onLogout }) {
                   <button
                     type="button"
                     onClick={() => { navigate("/channels"); onClose?.(); }}
-                    className="mt-2.5 flex w-full items-center justify-center gap-1.5 rounded-xl border border-[#C8FF00]/30 hover:border-[#C8FF00]/60 dark:border-[#C8FF00]/20 dark:hover:border-[#C8FF00]/40 bg-[#C8FF00]/5 hover:bg-[#C8FF00]/10 dark:bg-[#C8FF00]/5 dark:hover:bg-[#C8FF00]/10 text-[#C8FF00] dark:text-[#C8FF00] py-1.5 text-xs font-semibold shadow-sm transition duration-200"
+                    className="mt-2.5 flex w-full items-center justify-center gap-1.5 rounded-xl border border-[#C8FF00]/30 hover:border-[#C8FF00]/60 dark:border-[#C8FF00]/20 dark:hover:border-[#C8FF00]/40 bg-[#C8FF00]/5 hover:bg-[#C8FF00]/10 dark:bg-[#C8FF00]/5 dark:hover:bg-[#C8FF00]/10 text-[#4a6100] dark:text-[#C8FF00] py-1.5 text-xs font-semibold shadow-sm transition duration-200"
                   >
                     <Plus size={12} strokeWidth={2.5} />
                     Add Account
@@ -222,21 +223,29 @@ export default function Sidebar({ open, onClose, onLogout }) {
               <NavLink
                 to="/settings/account"
                 onClick={onClose}
-                className={({ isActive }) => 
-                  `flex items-center gap-3 rounded-xl px-4 py-2 text-xs font-medium transition ${
-                    isActive
-                      ? "bg-[#C8FF00]/10 text-[#C8FF00] dark:bg-[#C8FF00]/10 dark:text-[#C8FF00] font-semibold"
-                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-[#1a1a1a] dark:hover:text-slate-200"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 rounded-xl px-4 py-2 text-xs font-medium transition ${isActive
+                    ? "bg-[#C8FF00] text-black font-semibold shadow-sm"
+                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-[#1a1a1a] dark:hover:text-slate-200"
                   }`
                 }
               >
                 {({ isActive }) => (
                   <>
-                    <Settings size={16} className={isActive ? "text-[#C8FF00]" : "text-slate-400"} />
+                    <Settings size={16} className={isActive ? "text-black" : "text-slate-400"} />
                     <span>Settings</span>
                   </>
                 )}
               </NavLink>
+
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="flex w-full items-center gap-3 rounded-xl px-4 py-2 text-xs font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-[#1a1a1a] dark:hover:text-slate-200 transition text-left"
+              >
+                <ThemeIcon size={16} className="text-slate-400" />
+                <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
+              </button>
 
               <button
                 type="button"

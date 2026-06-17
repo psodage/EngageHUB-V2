@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BriefcaseBusiness, GraduationCap, Sparkles, UserRound } from "lucide-react";
+import { BriefcaseBusiness, Sparkles, UserRound } from "lucide-react";
 import { motion } from "framer-motion";
 import { useApp } from "../context/AppContext";
 import OnboardingStepIndicator from "../components/onboarding/OnboardingStepIndicator";
@@ -17,12 +17,6 @@ const OPTIONS = [
     title: "Influencer",
     icon: UserRound,
     description: "Scale content reach with creator-first tools, audience targeting, and growth insights.",
-  },
-  {
-    key: "student",
-    title: "Student",
-    icon: GraduationCap,
-    description: "Manage your personal brand, projects, and academic social presence with ease.",
   },
 ];
 

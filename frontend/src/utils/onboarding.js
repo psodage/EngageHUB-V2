@@ -5,7 +5,6 @@ export function getOnboardingRoute(user) {
   const onboardingCompleted = user.onboardingCompleted || localStorage.getItem(STORAGE_KEYS.onboardingCompleted) === "1";
   if (onboardingCompleted) {
     if (user.userType === "influencer") return "/dashboard/influencer";
-    if (user.userType === "student") return "/dashboard/student";
     return "/dashboard/business";
   }
   if (!user.userType) return "/onboarding/user-type";
@@ -14,14 +13,12 @@ export function getOnboardingRoute(user) {
 }
 
 export function normalizeOnboardingUser(payloadUser = {}) {
-  const userType = payloadUser.userType === "business" || payloadUser.userType === "influencer" || payloadUser.userType === "student" ? payloadUser.userType : "";
+  const userType = payloadUser.userType === "business" || payloadUser.userType === "influencer" ? payloadUser.userType : "";
   let profileImage = "";
   if (userType === "business") {
     profileImage = payloadUser.businessProfile?.logo || "";
   } else if (userType === "influencer") {
     profileImage = payloadUser.influencerProfile?.profileImage || "";
-  } else if (userType === "student") {
-    profileImage = payloadUser.studentProfile?.profileImage || "";
   }
   return {
     email: payloadUser.email || "",
@@ -31,7 +28,6 @@ export function normalizeOnboardingUser(payloadUser = {}) {
     profileSetup: { completed: Boolean(payloadUser.profileSetup?.completed) },
     businessProfile: payloadUser.businessProfile || {},
     influencerProfile: payloadUser.influencerProfile || {},
-    studentProfile: payloadUser.studentProfile || {},
     linkedAccounts: Array.isArray(payloadUser.linkedAccounts) ? payloadUser.linkedAccounts : [],
     profileImage,
   };

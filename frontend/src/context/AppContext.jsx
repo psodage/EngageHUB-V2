@@ -17,7 +17,7 @@ const AppContext = createContext(null);
 
 function isClientFullyRegistered(payloadUser) {
   const userType = payloadUser?.userType;
-  const hasUserType = userType === "business" || userType === "influencer" || userType === "student";
+  const hasUserType = userType === "business" || userType === "influencer";
   const profileCompleted = Boolean(payloadUser?.profileSetup?.completed);
   return hasUserType && profileCompleted;
 }
@@ -37,7 +37,6 @@ function getInitialUser() {
     profileSetup: { completed: localStorage.getItem(STORAGE_KEYS.profileSetupCompleted) === "1" },
     businessProfile: {},
     influencerProfile: {},
-    studentProfile: {},
     linkedAccounts: [],
     accountsLinked: localStorage.getItem(STORAGE_KEYS.accountsLinked) === "1",
     profileImage: localStorage.getItem(STORAGE_KEYS.profileImage) ?? "",
@@ -103,7 +102,7 @@ export function AppProvider({ children }) {
     if (!isAuthed) return;
     const hasValidRegisteredUser = Boolean(
       user?.profileSetup?.completed &&
-        (user?.userType === "business" || user?.userType === "influencer" || user?.userType === "student")
+        (user?.userType === "business" || user?.userType === "influencer")
     );
     console.log("[auth:useEffect] hasValidRegisteredUser:", hasValidRegisteredUser);
     if (hasValidRegisteredUser) return;
@@ -184,7 +183,7 @@ export function AppProvider({ children }) {
       name: name || "",
       email: String(email).trim().toLowerCase(),
       authDraftToken,
-      selectedUserType: (selectedUserType === "business" || selectedUserType === "influencer" || selectedUserType === "student") ? selectedUserType : "",
+      selectedUserType: (selectedUserType === "business" || selectedUserType === "influencer") ? selectedUserType : "",
     };
     sessionStorage.setItem(STORAGE_KEYS.draftSignupSession, JSON.stringify(normalizedDraft));
     setDraftSignupSession(normalizedDraft);
@@ -269,7 +268,7 @@ export function AppProvider({ children }) {
   }, []);
 
   const completeDraftSignup = useCallback(
-    async ({ selectedUserType, businessProfile, influencerProfile, studentProfile }) => {
+    async ({ selectedUserType, businessProfile, influencerProfile }) => {
       if (!draftSignupSession?.authDraftToken) {
         return { ok: false, error: new Error("Signup session expired. Please sign up again.") };
       }
@@ -279,7 +278,6 @@ export function AppProvider({ children }) {
           selectedUserType,
           businessProfile,
           influencerProfile,
-          studentProfile,
         });
         applyAuthPayload(payload);
         discardDraftSignupSession();
@@ -388,12 +386,11 @@ export function AppProvider({ children }) {
       const payload = await updateOnboardingStatus(token, onboardingState);
       const nextUser = {
         ...user,
-        userType: (payload.userType === "business" || payload.userType === "influencer" || payload.userType === "student") ? payload.userType : user.userType,
+        userType: (payload.userType === "business" || payload.userType === "influencer") ? payload.userType : user.userType,
         onboardingCompleted: Boolean(payload.onboardingCompleted),
         profileSetup: payload.profileSetup || user.profileSetup,
         businessProfile: payload.businessProfile || user.businessProfile,
         influencerProfile: payload.influencerProfile || user.influencerProfile,
-        studentProfile: payload.studentProfile || user.studentProfile,
         linkedAccounts: Array.isArray(payload.linkedAccounts) ? payload.linkedAccounts : user.linkedAccounts,
       };
 
@@ -402,8 +399,6 @@ export function AppProvider({ children }) {
         profileImage = nextUser.businessProfile?.logo || "";
       } else if (nextUser.userType === "influencer") {
         profileImage = nextUser.influencerProfile?.profileImage || "";
-      } else if (nextUser.userType === "student") {
-        profileImage = nextUser.studentProfile?.profileImage || "";
       }
       nextUser.profileImage = profileImage;
       localStorage.setItem(STORAGE_KEYS.profileImage, profileImage || "");

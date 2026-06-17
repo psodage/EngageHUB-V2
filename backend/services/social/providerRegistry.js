@@ -9,7 +9,6 @@ import telegramService from "./telegram.service.js";
 import discordService from "./discord.service.js";
 import googleBusinessService from "./googleBusiness.service.js";
 import youtubeService from "./youtube.service.js";
-import githubService from "./github.service.js";
 
 export const SOCIAL_PLATFORMS = [
   "facebook",
@@ -23,7 +22,6 @@ export const SOCIAL_PLATFORMS = [
   "telegram",
   "discord",
   "googleBusiness",
-  "github",
 ];
 
 const providerRegistry = {
@@ -39,7 +37,6 @@ const providerRegistry = {
   google: youtubeService,
   linkedin: linkedinService,
   youtube: youtubeService,
-  github: githubService,
 };
 
 export function getProvider(platform) {

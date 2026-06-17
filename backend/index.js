@@ -150,7 +150,6 @@ function createAuthResponse(user) {
       profileSetup: user.profileSetup || { completed: false },
       businessProfile: user.businessProfile || {},
       influencerProfile: user.influencerProfile || {},
-      studentProfile: user.studentProfile || {},
       onboardingCompleted: Boolean(user.onboardingCompleted),
       onboardingSkippedPlatforms: Array.isArray(user.onboardingSkippedPlatforms) ? user.onboardingSkippedPlatforms : [],
     },
@@ -248,7 +247,6 @@ app.post("/api/auth/register/complete", async (req, res) => {
       selectedUserType,
       businessProfile,
       influencerProfile,
-      studentProfile,
     } = req.body;
 
     if (!authDraftToken) {
@@ -274,8 +272,7 @@ app.post("/api/auth/register/complete", async (req, res) => {
 
     if (
       selectedUserType !== "business" &&
-      selectedUserType !== "influencer" &&
-      selectedUserType !== "student"
+      selectedUserType !== "influencer"
     ) {
       return res.status(400).json({ error: "Invalid user type selected." });
     }
@@ -290,8 +287,6 @@ app.post("/api/auth/register/complete", async (req, res) => {
       updates.businessProfile = businessProfile || {};
     } else if (selectedUserType === "influencer") {
       updates.influencerProfile = influencerProfile || {};
-    } else if (selectedUserType === "student") {
-      updates.studentProfile = studentProfile || {};
     }
 
     const result = await usersCollection.findOneAndUpdate(
@@ -332,7 +327,6 @@ app.get("/api/auth/me", requireAuth, async (req, res) => {
         profileSetup: user.profileSetup || { completed: false },
         businessProfile: user.businessProfile || {},
         influencerProfile: user.influencerProfile || {},
-        studentProfile: user.studentProfile || {},
         onboardingCompleted: Boolean(user.onboardingCompleted),
         onboardingSkippedPlatforms: Array.isArray(user.onboardingSkippedPlatforms) ? user.onboardingSkippedPlatforms : [],
       },
