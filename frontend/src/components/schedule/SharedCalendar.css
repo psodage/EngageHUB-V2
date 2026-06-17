@@ -9,7 +9,7 @@
   font-family: "DM Sans", system-ui, sans-serif;
   color: var(--text-primary);
 
-  /* Theme variables - Light Mode defaults */
+  /* Theme variables - Light Mode defaults (Lime Green) */
   --text-primary: #0f172a;
   --text-secondary: #334155;
   --text-muted: #64748b;
@@ -17,9 +17,10 @@
   --bg-surface: #ffffff;
   --bg-surface-raised: #f8fafc;
   --bg-app: #f1f5f9;
-  --color-accent: #9333ea;
-  --color-accent-light: #f3e8ff;
-  --color-accent-dark: #7e22ce;
+  --color-accent: #3D7A00;
+  --color-accent-light: #F7FCE5;
+  --color-accent-medium: #A3D900;
+  --color-accent-dark: #1E4D00;
   --radius-md: 12px;
 }
 
@@ -32,9 +33,10 @@
   --bg-surface: #1e293b;
   --bg-surface-raised: #0f172a;
   --bg-app: #0f172a;
-  --color-accent: #c084fc;
-  --color-accent-light: rgba(192, 132, 252, 0.15);
-  --color-accent-dark: #e9d5ff;
+  --color-accent: #A3D900;
+  --color-accent-light: rgba(163, 217, 0, 0.12);
+  --color-accent-medium: #8FBF00;
+  --color-accent-dark: #F7FCE5;
 }
 
 /* ── Toolbar (nav + legend row) ───────────────── */
@@ -47,41 +49,50 @@
   margin-bottom: 20px;
 }
 
-/* ── Navigation ───────────────────────────────── */
+/* ── Navigation (redesigned month switcher) ───── */
 .calendar-nav {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 4px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 4px;
 }
 
 .nav-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  background: var(--bg-surface);
-  color: var(--text-primary);
-  font-size: 16px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 15px;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .nav-btn:hover {
   background: var(--color-accent-light);
-  border-color: var(--color-accent);
   color: var(--color-accent);
 }
 
+.nav-btn:active {
+  transform: scale(0.92);
+}
+
 .calendar-title {
-  font-size: 1.2rem;
+  font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--text-primary);
-  min-width: 180px;
+  min-width: 160px;
   text-align: center;
+  padding: 0 8px;
+  line-height: 34px;
 }
 
 /* ── Legend ────────────────────────────────────── */
@@ -197,7 +208,7 @@
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: var(--color-accent);
+  background: var(--color-accent-medium);
   color: var(--color-accent-dark);
   font-size: 0.8rem;
   font-weight: 700;
@@ -364,8 +375,8 @@
   }
 
   .calendar-title {
-    font-size: 1rem;
-    min-width: 140px;
+    font-size: 0.85rem;
+    min-width: 120px;
   }
 
   .calendar-toolbar {

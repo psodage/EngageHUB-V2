@@ -16,11 +16,8 @@ export default function Topbar({ onOpenSidebar }) {
   const ThemeIcon = theme === "dark" ? Sun : Moon;
 
   const displayTitle = useMemo(() => {
-    if (location.pathname === "/" || location.pathname.startsWith("/dashboard")) {
-      return "Dashboard Overview";
-    }
     return title;
-  }, [location.pathname, title]);
+  }, [title]);
 
   const channelBreadcrumb = useMemo(() => {
     const match = location.pathname.match(/^\/channels\/([^/]+)$/);

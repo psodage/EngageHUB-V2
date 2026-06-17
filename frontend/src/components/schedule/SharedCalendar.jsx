@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, CalendarDays } from "lucide-react";
 import { useApp } from "../../context/AppContext.jsx";
 import { getClientApiBaseUrl } from "../../config/api.js";
 import "./SharedCalendar.css";
@@ -196,7 +197,7 @@ export default function SharedCalendar() {
             onClick={prevMonth}
             aria-label="Previous month"
           >
-            ←
+            <ChevronLeft size={18} />
           </button>
           <h2 className="calendar-title">{monthLabel}</h2>
           <button
@@ -205,7 +206,18 @@ export default function SharedCalendar() {
             onClick={nextMonth}
             aria-label="Next month"
           >
-            →
+            <ChevronRight size={18} />
+          </button>
+          <button
+            type="button"
+            className="nav-btn"
+            onClick={() => setCurrentDate(new Date())}
+            aria-label="Go to today"
+            title="Today"
+            style={{ marginLeft: 4, fontSize: '0.65rem', fontWeight: 700, width: 'auto', padding: '0 10px' }}
+          >
+            <CalendarDays size={14} style={{ marginRight: 4 }} />
+            Today
           </button>
         </div>
 

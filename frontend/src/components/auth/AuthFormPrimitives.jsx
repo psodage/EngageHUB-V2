@@ -167,7 +167,7 @@ export function AuthSubmitButton({ children, ...props }) {
   return (
     <button
       type="submit"
-      className="w-full rounded-full bg-[#C8FF00] px-4 py-2.5 text-sm font-bold text-black shadow-sm transition hover:bg-[#d4ff33] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C8FF00]"
+      className="w-full rounded-full bg-[#C8FF00] px-4 py-2.5 text-sm font-bold text-black shadow-sm transition hover:bg-[#d4ff33] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7CB800]"
       {...props}
     >
       {children}

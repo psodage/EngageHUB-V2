@@ -62,6 +62,7 @@ export default function ConnectChannelModal({
       {open ? (
         <motion.div
           className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+          style={{ minHeight: '100vh', minWidth: '100vw', top: 0, left: 0, right: 0, bottom: 0 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -69,7 +70,8 @@ export default function ConnectChannelModal({
           <motion.button
             type="button"
             aria-label="Close"
-            className="absolute inset-0 bg-slate-900/70 backdrop-blur-sm"
+            className="fixed inset-0 z-0 h-full w-full bg-slate-900/70 backdrop-blur-sm"
+            style={{ minHeight: '100vh', minWidth: '100vw' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

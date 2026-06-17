@@ -239,7 +239,7 @@ export default function SaaSDashboard() {
       change: "+8% this week",
       trend: "up",
       points: [850, 920, 1010, 980, 1120, 1190, 1204],
-      strokeColor: "#82a800" // Accent Dark
+      strokeColor: "#568000" // Accent Dark
     },
     {
       name: "Profile Clicks",

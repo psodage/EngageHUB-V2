@@ -54,6 +54,26 @@ export function getPageTitle(pathname) {
   const all = [...MAIN_NAV, ...SETTINGS_NAV, { label: "Settings", path: "/settings" }];
   const exact = all.find((r) => r.path === pathname);
   if (exact) return exact.label;
+
+  // Exact path matches for pages without nav entries
+  const PAGE_TITLES = {
+    "/": "Dashboard Overview",
+    "/dashboard": "Dashboard Overview",
+    "/create-post": "Create Post",
+    "/schedule": "Content Calendar",
+    "/schedule/new": "Schedule Post",
+    "/content-calendar": "Content Calendar",
+    "/channels": "Social Accounts",
+    "/analytics": "Analytics",
+    "/media": "Media Library",
+    "/settings": "Settings",
+    "/settings/account": "Account Settings",
+    "/settings/channels": "Channels & Connections",
+    "/settings/preferences": "Preferences",
+  };
+
+  if (PAGE_TITLES[pathname]) return PAGE_TITLES[pathname];
+
   if (pathname.startsWith("/settings/")) {
     const section = SETTINGS_NAV.find((r) => r.path === pathname);
     return section ? section.label : "Settings";
@@ -62,14 +82,17 @@ export function getPageTitle(pathname) {
     const platformKey = pathname.split("/")[2];
     const platform = SOCIAL_PLATFORM_CONFIGS?.find?.((p) => p.key === platformKey);
     if (platform) return platform.label;
-    return "Channel";
+    return "Channel Details";
   }
   if (pathname.startsWith("/settings")) return "Settings";
-  if (pathname.startsWith("/channels")) return "Connect channels";
-  if (pathname.startsWith("/schedule/new")) return "Schedule post";
-  if (/^\/schedule\/[^/]+$/.test(pathname)) return "Scheduled post";
-  if (pathname.startsWith("/schedule")) return "Schedule";
-  if (pathname.startsWith("/create-post")) return "Create";
-  if (pathname === "/" || pathname === "/dashboard") return "Home";
-  return "Home";
+  if (pathname.startsWith("/channels")) return "Social Accounts";
+  if (pathname.startsWith("/schedule/new")) return "Schedule Post";
+  if (/^\/schedule\/[^/]+$/.test(pathname)) return "Scheduled Post";
+  if (pathname.startsWith("/schedule")) return "Content Calendar";
+  if (pathname.startsWith("/content-calendar")) return "Content Calendar";
+  if (pathname.startsWith("/create-post")) return "Create Post";
+  if (pathname.startsWith("/analytics")) return "Analytics";
+  if (pathname.startsWith("/media")) return "Media Library";
+  if (pathname === "/" || pathname === "/dashboard") return "Dashboard Overview";
+  return "Dashboard Overview";
 }
