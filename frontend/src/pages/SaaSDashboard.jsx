@@ -34,6 +34,7 @@ import {
   createScheduledPost, 
   updateScheduledPost 
 } from "../services/scheduleApi";
+import { listCampaigns } from "../services/campaignApi";
 
 // List of available team members for assignment (mock data)
 const TEAM_MEMBERS = [
@@ -130,6 +131,7 @@ export default function SaaSDashboard() {
   // Drawer / Editing States
   const [selectedPost, setSelectedPost] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [campaigns, setCampaigns] = useState([]);
 
   // Right-click / Dropdown Menu Active ID
   const [activeMenuId, setActiveMenuId] = useState(null);
@@ -168,6 +170,19 @@ export default function SaaSDashboard() {
   useEffect(() => {
     loadPosts();
   }, [loadPosts]);
+
+  const loadCampaigns = async () => {
+    try {
+      const data = await listCampaigns();
+      setCampaigns(data || []);
+    } catch (err) {
+      console.error("Failed to load campaigns in dashboard:", err);
+    }
+  };
+
+  useEffect(() => {
+    loadCampaigns();
+  }, []);
 
   // Close context menu when clicking elsewhere
   useEffect(() => {
@@ -394,6 +409,7 @@ export default function SaaSDashboard() {
       assignedTeamMember: "Steven M.",
       mediaUrl: "",
       engagementRate: "0.0%",
+      campaignId: "",
       isNew: true
     });
     setIsDrawerOpen(true);
@@ -466,6 +482,7 @@ export default function SaaSDashboard() {
         scheduledAt: isoDate,
         mediaUrl: updated.mediaUrl,
         status: updated.status,
+        campaignId: updated.campaignId || null,
       };
 
       try {
@@ -495,6 +512,7 @@ export default function SaaSDashboard() {
             scheduledAt: isoDate,
             mediaUrl: updated.mediaUrl,
             status: updated.status,
+            campaignId: updated.campaignId || null,
           });
           setPosts((prev) => prev.map((p) => p._id === updated._id ? res : p));
           setToast({ message: "Post updated successfully." });
@@ -704,14 +722,19 @@ export default function SaaSDashboard() {
                       No approved drafts in backlog.
                     </div>
                   ) : (
-                    approvedPosts.map((post) => (
-                      <BacklogCard 
-                        key={post._id} 
-                        post={post} 
-                        onDragStart={(e) => handleDragStart(e, post)}
-                        onClick={() => handleOpenEditDrawer(post)} 
-                      />
-                    ))
+                    approvedPosts.map((post) => {
+                      const campaign = campaigns.find((c) => c._id === post.campaignId);
+                      return (
+                        <BacklogCard 
+                          key={post._id} 
+                          post={post} 
+                          campaignName={campaign?.name}
+                          campaignColor={campaign?.color}
+                          onDragStart={(e) => handleDragStart(e, post)}
+                          onClick={() => handleOpenEditDrawer(post)} 
+                        />
+                      );
+                    })
                   )}
                 </div>
               </div>
@@ -733,14 +756,19 @@ export default function SaaSDashboard() {
                       No draft posts in queue.
                     </div>
                   ) : (
-                    draftPosts.map((post) => (
-                      <BacklogCard 
-                        key={post._id} 
-                        post={post} 
-                        onDragStart={(e) => handleDragStart(e, post)}
-                        onClick={() => handleOpenEditDrawer(post)} 
-                      />
-                    ))
+                    draftPosts.map((post) => {
+                      const campaign = campaigns.find((c) => c._id === post.campaignId);
+                      return (
+                        <BacklogCard 
+                          key={post._id} 
+                          post={post} 
+                          campaignName={campaign?.name}
+                          campaignColor={campaign?.color}
+                          onDragStart={(e) => handleDragStart(e, post)}
+                          onClick={() => handleOpenEditDrawer(post)} 
+                        />
+                      );
+                    })
                   )}
                 </div>
               </div>
@@ -795,23 +823,28 @@ export default function SaaSDashboard() {
                             Empty
                           </div>
                         ) : (
-                          dayPosts.map((post) => (
-                            <CalendarPostCard
-                              key={post._id}
-                              post={post}
-                              onDragStart={(e) => handleDragStart(e, post)}
-                              onClick={() => handleOpenEditDrawer(post)}
-                              onMenuToggle={(e) => {
-                                e.stopPropagation();
-                                setActiveMenuId(activeMenuId === post._id ? null : post._id);
-                              }}
-                              isActiveMenu={activeMenuId === post._id}
-                              onEdit={() => handleOpenEditDrawer(post)}
-                              onDuplicate={() => handleDuplicate(post)}
-                              onDelete={() => handleDelete(post._id)}
-                              menuRef={menuRef}
-                            />
-                          ))
+                          dayPosts.map((post) => {
+                            const campaign = campaigns.find((c) => c._id === post.campaignId);
+                            return (
+                              <CalendarPostCard
+                                key={post._id}
+                                post={post}
+                                campaignName={campaign?.name}
+                                campaignColor={campaign?.color}
+                                onDragStart={(e) => handleDragStart(e, post)}
+                                onClick={() => handleOpenEditDrawer(post)}
+                                onMenuToggle={(e) => {
+                                  e.stopPropagation();
+                                  setActiveMenuId(activeMenuId === post._id ? null : post._id);
+                                }}
+                                isActiveMenu={activeMenuId === post._id}
+                                onEdit={() => handleOpenEditDrawer(post)}
+                                onDuplicate={() => handleDuplicate(post)}
+                                onDelete={() => handleDelete(post._id)}
+                                menuRef={menuRef}
+                              />
+                            );
+                          })
                         )}
                       </div>
                     </div>
@@ -1030,6 +1063,23 @@ export default function SaaSDashboard() {
                   </div>
                 </div>
 
+                {/* Campaign Selection */}
+                {campaigns.length > 0 && (
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Associated Campaign</label>
+                    <select
+                      value={selectedPost.campaignId || ""}
+                      onChange={(e) => setSelectedPost({ ...selectedPost, campaignId: e.target.value })}
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 cursor-pointer"
+                    >
+                      <option value="">-- No Campaign --</option>
+                      {campaigns.map((c) => (
+                        <option key={c._id} value={c._id}>{c.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
                 {/* Platforms selection */}
                 <div className="flex flex-col gap-2">
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Target Channels</label>
@@ -1149,7 +1199,7 @@ function getStatusLineColor(status) {
 // --- Card Render Sub-components ---
 
 // 1. Backlog Queue item rendering on Left Panel
-function BacklogCard({ post, onDragStart, onClick }) {
+function BacklogCard({ post, campaignName, campaignColor, onDragStart, onClick }) {
   return (
     <div
       draggable
@@ -1157,6 +1207,17 @@ function BacklogCard({ post, onDragStart, onClick }) {
       onClick={onClick}
       className="p-3 rounded-xl border border-slate-200 bg-white hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900/60 shadow-sm transition-all cursor-grab active:cursor-grabbing hover:-translate-y-0.5 group"
     >
+      {campaignName && (
+        <div className="flex items-center gap-1.5 mb-1.5">
+          <span 
+            className="w-1.5 h-1.5 rounded-full shrink-0" 
+            style={{ backgroundColor: campaignColor || "#C8FF00" }} 
+          />
+          <span className="text-[9px] font-bold text-[#82a800] dark:text-[#C8FF00] uppercase tracking-wider truncate max-w-full">
+            {campaignName}
+          </span>
+        </div>
+      )}
       <div className="flex items-center justify-between mb-1">
         <span className={`px-2 py-0.5 rounded-lg text-[9px] font-bold capitalize ${getStatusColorClass(post.status)}`}>
           {post.status}
@@ -1182,6 +1243,8 @@ function BacklogCard({ post, onDragStart, onClick }) {
 // 2. Calendar stack post cell card render
 function CalendarPostCard({ 
   post, 
+  campaignName,
+  campaignColor,
   onDragStart, 
   onClick, 
   onMenuToggle, 
@@ -1265,6 +1328,19 @@ function CalendarPostCard({
             )}
           </div>
         </div>
+
+        {/* Campaign association */}
+        {campaignName && (
+          <div className="flex items-center gap-1.5 mt-0.5">
+            <span 
+              className="w-1.5 h-1.5 rounded-full shrink-0" 
+              style={{ backgroundColor: campaignColor || "#C8FF00" }} 
+            />
+            <span className="text-[9px] font-bold text-[#82a800] dark:text-[#C8FF00] uppercase tracking-wider truncate">
+              {campaignName}
+            </span>
+          </div>
+        )}
 
         {/* Post text */}
         <div>

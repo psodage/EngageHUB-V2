@@ -10,6 +10,7 @@ import { createSocialRoutes } from "./routes/social.routes.js";
 import { createAiRoutes } from "./routes/ai.routes.js";
 import { createScheduleRoutes } from "./routes/schedule.routes.js";
 import { createLinkPreviewRoutes } from "./routes/linkPreview.routes.js";
+import { createCampaignRoutes } from "./routes/campaign.routes.js";
 import { startScheduledPostWorker } from "./jobs/scheduledPostWorker.js";
 import { getProviderEnvStatus, getRequiredEnvStatus, getAppConfig } from "./config/social.config.js";
 import {
@@ -424,6 +425,7 @@ app.post("/api/webhooks/instagram", receiveInstagramWebhook);
 app.use("/api/social", createSocialRoutes(requireAuth));
 app.use("/api/ai", createAiRoutes(requireAuth));
 app.use("/api/schedule", createScheduleRoutes(requireAuth));
+app.use("/api/campaigns", createCampaignRoutes(requireAuth));
 app.use("/api", createLinkPreviewRoutes(requireAuth));
 
 app.get("/api/health", (_req, res) => {

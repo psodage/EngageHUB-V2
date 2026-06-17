@@ -13,7 +13,14 @@ import {
   X,
   PenSquare,
   Sun,
-  Moon
+  Moon,
+  Sparkles,
+  TrendingUp,
+  Coins,
+  Palette,
+  MessageSquare,
+  Inbox,
+  Layers
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { PLATFORM_BRAND_ICONS } from "../data/platformBrandIcons";
@@ -34,13 +41,17 @@ export default function Sidebar({ open, onClose, onLogout }) {
 
   const navItems = useMemo(() => {
     const items = [
-      { key: "dashboard", label: "Dashboard", path: "/dashboard", icon: LayoutDashboard }
+      { key: "dashboard", label: "Content Planner", path: "/dashboard", icon: LayoutDashboard }
     ];
 
     if (userType === "influencer") {
       items.push(
         { key: "create-post", label: "Create Post", path: "/create-post", icon: PenSquare },
-        { key: "schedule", label: "Content Calendar", path: "/schedule", icon: Calendar },
+        { key: "ai-writer", label: "AI Scriptwriter", path: "/ai-writer/influencer", icon: Sparkles },
+        { key: "trends", label: "Trend Detection", path: "/trends", icon: TrendingUp },
+        { key: "monetization", label: "Sponsorships", path: "/monetization", icon: Coins },
+        { key: "brand-kit", label: "Brand Kit", path: "/brand-kit", icon: Palette },
+        { key: "automation", label: "Automations", path: "/automation", icon: MessageSquare },
         { key: "channels", label: "Social Accounts", path: "/channels", icon: Share2 },
         { key: "analytics", label: "Analytics", path: "/analytics", icon: BarChart3 },
         { key: "media", label: "Media Library", path: "/media", icon: Image }
@@ -48,7 +59,9 @@ export default function Sidebar({ open, onClose, onLogout }) {
     } else { // business
       items.push(
         { key: "create-post", label: "Create Post", path: "/create-post", icon: PenSquare },
-        { key: "schedule", label: "Content Calendar", path: "/schedule", icon: Calendar },
+        { key: "campaigns", label: "Campaigns", path: "/campaigns", icon: Layers },
+        { key: "ai-writer", label: "AI Business Writer", path: "/ai-writer/business", icon: Sparkles },
+        { key: "leads", label: "Lead Management", path: "/leads", icon: Inbox },
         { key: "channels", label: "Social Accounts", path: "/channels", icon: Share2 },
         { key: "analytics", label: "Analytics", path: "/analytics", icon: BarChart3 }
       );

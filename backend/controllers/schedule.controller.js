@@ -43,6 +43,8 @@ export async function createScheduledPost(req, res) {
     }
 
     const entry = createScheduleEntry({ post: { caption, mediaUrl }, scheduledAt, timezone });
+    const campaignIdRaw = req.body?.campaignId;
+    const campaignId = campaignIdRaw && ObjectId.isValid(campaignIdRaw) ? new ObjectId(campaignIdRaw) : null;
 
     const doc = await ScheduledPost.create({
       userId,
@@ -51,6 +53,7 @@ export async function createScheduledPost(req, res) {
       mediaUrl,
       channelKeys,
       drafts,
+      campaignId,
       scheduledAt: entry.scheduledAt,
       timezone: entry.timezone,
       status: "scheduled",
@@ -141,6 +144,12 @@ export async function updateScheduledPost(req, res) {
     post.scheduledAt = scheduledAt;
     post.timezone = timezone;
     post.status = status;
+
+    if (req.body?.campaignId !== undefined) {
+      post.campaignId = req.body.campaignId && ObjectId.isValid(req.body.campaignId) 
+        ? new ObjectId(req.body.campaignId) 
+        : null;
+    }
 
     if (req.body?.channelKeys) {
       post.channelResults = channelKeys.map((channelKey) => buildScheduledChannelResult(channelKey, status));

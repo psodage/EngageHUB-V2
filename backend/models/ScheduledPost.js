@@ -29,6 +29,7 @@ const scheduledPostSchema = new mongoose.Schema(
       index: true,
     },
     channelResults: { type: [channelResultSchema], default: [] },
+    campaignId: { type: mongoose.Schema.Types.ObjectId, ref: "Campaign", default: null, index: true },
     lastError: { type: String, default: "" },
     publishedAt: { type: Date, default: null },
   },

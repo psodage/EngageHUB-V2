@@ -33,6 +33,18 @@ import ConnectedPlatformDetailPage from "./pages/ConnectedPlatformDetailPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import MediaLibraryPage from "./pages/MediaLibraryPage";
 
+// Business pages
+import CampaignsPage from "./pages/business/CampaignsPage";
+import LeadsPage from "./pages/business/LeadsPage";
+import AiBusinessWriter from "./pages/business/AiBusinessWriter";
+
+// Influencer pages
+import TrendsPage from "./pages/influencer/TrendsPage";
+import AiInfluencerWriter from "./pages/influencer/AiInfluencerWriter";
+import MonetizationPage from "./pages/influencer/MonetizationPage";
+import BrandKitPage from "./pages/influencer/BrandKitPage";
+import AutomationPage from "./pages/influencer/AutomationPage";
+
 // Layouts
 import DashboardLayout from "./layouts/DashboardLayout";
 import SettingsLayout from "./layouts/SettingsLayout";
@@ -236,6 +248,18 @@ function RootRouter() {
         <Route path="channels/:platformKey" element={<ConnectedPlatformDetailPage />} />
         <Route path="analytics" element={<AnalyticsPage />} />
         <Route path="media" element={<MediaLibraryPage />} />
+        
+        {/* Persona Business Routes */}
+        <Route path="campaigns" element={<CampaignsPage />} />
+        <Route path="leads" element={<LeadsPage />} />
+        <Route path="ai-writer/business" element={<AiBusinessWriter />} />
+
+        {/* Persona Influencer Routes */}
+        <Route path="trends" element={<TrendsPage />} />
+        <Route path="ai-writer/influencer" element={<AiInfluencerWriter />} />
+        <Route path="monetization" element={<MonetizationPage />} />
+        <Route path="brand-kit" element={<BrandKitPage />} />
+        <Route path="automation" element={<AutomationPage />} />
         <Route path="connected-platforms" element={<Navigate to="/channels" replace />} />
         <Route path="connected-platforms/:platformKey" element={<RedirectLegacyConnectedPlatform />} />
         <Route path="settings" element={<SettingsLayout />}>
