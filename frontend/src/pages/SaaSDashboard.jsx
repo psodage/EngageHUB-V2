@@ -1,38 +1,38 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Search, 
-  Filter, 
-  Plus, 
-  Calendar, 
-  Clock, 
-  Edit, 
-  Copy, 
-  Trash2, 
-  CheckCircle2, 
-  AlertCircle, 
-  X, 
-  ChevronLeft, 
-  ChevronRight, 
-  MoreHorizontal, 
-  Sparkles, 
-  TrendingUp, 
-  Check, 
-  Image as ImageIcon, 
-  User, 
-  LayoutGrid, 
+import {
+  Search,
+  Filter,
+  Plus,
+  Calendar,
+  Clock,
+  Edit,
+  Copy,
+  Trash2,
+  CheckCircle2,
+  AlertCircle,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  MoreHorizontal,
+  Sparkles,
+  TrendingUp,
+  Check,
+  Image as ImageIcon,
+  User,
+  LayoutGrid,
   Briefcase,
   Layers,
   ChevronDown
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { PLATFORM_BRAND_ICONS, PLATFORM_BRAND_BG } from "../data/platformBrandIcons";
-import { 
-  listScheduledPosts, 
-  deleteScheduledPost, 
-  createScheduledPost, 
-  updateScheduledPost 
+import {
+  listScheduledPosts,
+  deleteScheduledPost,
+  createScheduledPost,
+  updateScheduledPost
 } from "../services/scheduleApi";
 import { listCampaigns } from "../services/campaignApi";
 
@@ -145,7 +145,7 @@ export default function SaaSDashboard() {
     setLoading(true);
     try {
       const dbPosts = await listScheduledPosts();
-      
+
       // Merge db posts with seed mock posts that aren't already present in db
       // We match based on title to avoid adding multiple copies of mock seeds
       const merged = [...dbPosts];
@@ -201,11 +201,11 @@ export default function SaaSDashboard() {
       const title = (post.title || "").toLowerCase();
       const caption = (post.caption || "").toLowerCase();
       const matchesSearch = title.includes(searchTerm.toLowerCase()) || caption.includes(searchTerm.toLowerCase());
-      
-      const matchesChannel = 
-        channelFilter === "all" || 
+
+      const matchesChannel =
+        channelFilter === "all" ||
         (post.channelKeys || []).includes(channelFilter);
-        
+
       return matchesSearch && matchesChannel;
     });
   }, [posts, searchTerm, channelFilter]);
@@ -216,12 +216,12 @@ export default function SaaSDashboard() {
     const scheduled = filteredPosts.filter((p) => p.status === "scheduled").length;
     const published = filteredPosts.filter((p) => p.status === "published").length;
     const drafts = filteredPosts.filter((p) => p.status === "draft").length;
-    
+
     // Engagement rate mock average computation
     const validRates = filteredPosts
       .map((p) => parseFloat(p.engagementRate || "0"))
       .filter((r) => r > 0);
-    const avgRate = validRates.length 
+    const avgRate = validRates.length
       ? (validRates.reduce((a, b) => a + b, 0) / validRates.length).toFixed(1) + "%"
       : "4.5%";
 
@@ -354,7 +354,7 @@ export default function SaaSDashboard() {
     if (!draggedPost) return;
 
     const originalDate = draggedPost.scheduledAt ? new Date(draggedPost.scheduledAt) : new Date();
-    
+
     // Construct new date keeping original hours and minutes
     const newDate = new Date(date);
     newDate.setHours(originalDate.getHours());
@@ -422,7 +422,7 @@ export default function SaaSDashboard() {
       ...post,
       _id: `dup-${Date.now()}`,
       title: `${post.title || "Untitled"} (Copy)`,
-      scheduledAt: post.scheduledAt 
+      scheduledAt: post.scheduledAt
         ? new Date(new Date(post.scheduledAt).getTime() + 2 * 60 * 60 * 1000).toISOString() // +2 hours
         : new Date().toISOString(),
       status: "draft"
@@ -546,9 +546,7 @@ export default function SaaSDashboard() {
       {/* Greeting Title Header */}
       <header className="flex flex-col gap-1.5 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2 font-sans">
-            Content Planner <Sparkles size={18} className="text-[#C8FF00] animate-pulse" />
-          </h1>
+
           <p className="text-xs text-slate-500 dark:text-slate-400">
             Welcome, {firstName}. Draft, organize, and schedule your social media catalog visually.
           </p>
@@ -562,9 +560,9 @@ export default function SaaSDashboard() {
           { label: "Scheduled", value: stats.scheduled, color: "text-blue-500" },
           { label: "Published", value: stats.published, color: "text-emerald-500" },
           { label: "Drafts", value: stats.drafts, color: "text-slate-500" },
-          { 
-            label: "Engagement Rate", 
-            value: stats.avgRate, 
+          {
+            label: "Engagement Rate",
+            value: stats.avgRate,
             color: "text-purple-500",
             extra: (
               <span className="flex items-center gap-0.5 text-[10px] text-emerald-500 font-bold ml-1">
@@ -573,8 +571,8 @@ export default function SaaSDashboard() {
             )
           },
         ].map((stat) => (
-          <div 
-            key={stat.label} 
+          <div
+            key={stat.label}
             className="flex flex-col justify-between p-3.5 rounded-xl border border-slate-200/60 bg-white shadow-card dark:border-slate-800/80 dark:bg-slate-900"
           >
             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{stat.label}</span>
@@ -588,7 +586,7 @@ export default function SaaSDashboard() {
 
       {/* B. Main Calendar Planner Card */}
       <div className="w-full rounded-2xl border border-slate-200/60 bg-white dark:border-slate-800/80 dark:bg-slate-900 p-5 shadow-sm overflow-hidden flex flex-col gap-6">
-        
+
         {/* Planner controls row */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-100 dark:border-slate-800/60 pb-5">
           <div className="flex flex-wrap items-center gap-3">
@@ -662,17 +660,16 @@ export default function SaaSDashboard() {
                 <button
                   key={mode}
                   onClick={() => setViewMode(mode)}
-                  className={`rounded-lg px-3 py-1 text-xs font-bold capitalize transition duration-150 ${
-                    viewMode === mode
+                  className={`rounded-lg px-3 py-1 text-xs font-bold capitalize transition duration-150 ${viewMode === mode
                       ? "bg-white text-[#82a800] dark:bg-slate-900 dark:text-[#C8FF00] shadow-sm"
                       : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
-                  }`}
+                    }`}
                 >
                   {mode}
                 </button>
               ))}
             </div>
-            
+
             {/* Create Post Button */}
             <button
               onClick={handleOpenCreateDrawer}
@@ -686,13 +683,13 @@ export default function SaaSDashboard() {
 
         {/* C. Split Panel: Planning Side vs Main Calendar Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-0 flex-1">
-          
+
           {/* Left Planning Panel Column (1/4 Width) */}
           <aside className="lg:col-span-1 flex flex-col gap-4 border-r border-slate-100 dark:border-slate-850/60 lg:pr-5">
             <div>
               <div className="flex items-center justify-between mb-1">
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Planning Queue</span>
-                <button 
+                <button
                   onClick={handleOpenCreateDrawer}
                   className="flex items-center gap-0.5 text-[10px] font-bold text-[#82a800] hover:underline dark:text-[#C8FF00]"
                 >
@@ -704,7 +701,7 @@ export default function SaaSDashboard() {
 
             {/* Backlog Tabs / Accordions */}
             <div className="flex flex-col gap-4 overflow-y-auto max-h-[480px] pr-1.5 scrollbar-thin">
-              
+
               {/* Approved Posts Backlog */}
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-1">
@@ -715,7 +712,7 @@ export default function SaaSDashboard() {
                     {approvedPosts.length}
                   </span>
                 </div>
-                
+
                 <div className="flex flex-col gap-2">
                   {approvedPosts.length === 0 ? (
                     <div className="py-4 text-center text-[11px] text-slate-400 italic bg-slate-50/50 dark:bg-slate-900/50 rounded-lg">
@@ -725,13 +722,13 @@ export default function SaaSDashboard() {
                     approvedPosts.map((post) => {
                       const campaign = campaigns.find((c) => c._id === post.campaignId);
                       return (
-                        <BacklogCard 
-                          key={post._id} 
-                          post={post} 
+                        <BacklogCard
+                          key={post._id}
+                          post={post}
                           campaignName={campaign?.name}
                           campaignColor={campaign?.color}
                           onDragStart={(e) => handleDragStart(e, post)}
-                          onClick={() => handleOpenEditDrawer(post)} 
+                          onClick={() => handleOpenEditDrawer(post)}
                         />
                       );
                     })
@@ -749,7 +746,7 @@ export default function SaaSDashboard() {
                     {draftPosts.length}
                   </span>
                 </div>
-                
+
                 <div className="flex flex-col gap-2">
                   {draftPosts.length === 0 ? (
                     <div className="py-4 text-center text-[11px] text-slate-400 italic bg-slate-50/50 dark:bg-slate-900/50 rounded-lg">
@@ -759,13 +756,13 @@ export default function SaaSDashboard() {
                     draftPosts.map((post) => {
                       const campaign = campaigns.find((c) => c._id === post.campaignId);
                       return (
-                        <BacklogCard 
-                          key={post._id} 
-                          post={post} 
+                        <BacklogCard
+                          key={post._id}
+                          post={post}
                           campaignName={campaign?.name}
                           campaignColor={campaign?.color}
                           onDragStart={(e) => handleDragStart(e, post)}
-                          onClick={() => handleOpenEditDrawer(post)} 
+                          onClick={() => handleOpenEditDrawer(post)}
                         />
                       );
                     })
@@ -784,30 +781,28 @@ export default function SaaSDashboard() {
                 Loading planner grid...
               </div>
             ) : viewMode === "week" ? (
-              
+
               /* Week View layout */
               <div className="grid grid-cols-7 gap-2 h-full">
                 {weekDates.map((date) => {
                   const dayPosts = getPostsForDay(date);
                   const isCurrent = isToday(date);
-                  
+
                   return (
                     <div
                       key={date.toISOString()}
-                      className={`flex flex-col rounded-xl border border-dashed min-h-[420px] transition-all relative ${
-                        isCurrent 
+                      className={`flex flex-col rounded-xl border border-dashed min-h-[420px] transition-all relative ${isCurrent
                           ? "bg-[#C8FF00]/5 dark:bg-[#C8FF00]/5 border-[#C8FF00] shadow-sm"
                           : "bg-slate-50/40 border-slate-200 hover:border-slate-300 dark:bg-[#151515] dark:border-slate-800 dark:hover:border-slate-700"
-                      }`}
+                        }`}
                       onDragOver={handleDragOver}
                       onDrop={(e) => handleDrop(e, date)}
                     >
                       {/* Day Header */}
-                      <div className={`p-2.5 text-center sticky top-0 z-10 border-b rounded-t-xl transition ${
-                        isCurrent 
-                          ? "bg-[#C8FF00] text-black border-[#C8FF00]" 
+                      <div className={`p-2.5 text-center sticky top-0 z-10 border-b rounded-t-xl transition ${isCurrent
+                          ? "bg-[#C8FF00] text-black border-[#C8FF00]"
                           : "bg-white dark:bg-[#111] border-slate-100 dark:border-slate-800/80 text-slate-500"
-                      }`}>
+                        }`}>
                         <div className="text-[10px] font-bold uppercase tracking-wider">
                           {date.toLocaleString("default", { weekday: "short" })}
                         </div>
@@ -852,7 +847,7 @@ export default function SaaSDashboard() {
                 })}
               </div>
             ) : (
-              
+
               /* Month View grid */
               <div className="flex flex-col border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden">
                 {/* Headers */}
@@ -869,29 +864,26 @@ export default function SaaSDashboard() {
                   {monthDates.map(({ date, isCurrentMonth }, idx) => {
                     const dayPosts = getPostsForDay(date);
                     const isCurrent = isToday(date);
-                    
+
                     return (
                       <div
                         key={idx}
-                        className={`min-h-[92px] p-1 flex flex-col justify-between transition relative ${
-                          isCurrentMonth 
-                            ? "bg-white dark:bg-[#111]" 
+                        className={`min-h-[92px] p-1 flex flex-col justify-between transition relative ${isCurrentMonth
+                            ? "bg-white dark:bg-[#111]"
                             : "bg-slate-50/50 text-slate-400 dark:bg-slate-950/20"
-                        } ${
-                          isCurrent 
-                            ? "bg-[#C8FF00]/5 dark:bg-[#C8FF00]/5" 
+                          } ${isCurrent
+                            ? "bg-[#C8FF00]/5 dark:bg-[#C8FF00]/5"
                             : ""
-                        }`}
+                          }`}
                         onDragOver={handleDragOver}
                         onDrop={(e) => handleDrop(e, date)}
                       >
                         {/* Day number */}
                         <div className="flex justify-between items-center mb-1">
-                          <span className={`text-[10px] font-bold flex h-5 w-5 items-center justify-center rounded-full ${
-                            isCurrent 
-                              ? "bg-[#C8FF00] text-black font-extrabold" 
+                          <span className={`text-[10px] font-bold flex h-5 w-5 items-center justify-center rounded-full ${isCurrent
+                              ? "bg-[#C8FF00] text-black font-extrabold"
                               : isCurrentMonth ? "text-slate-800 dark:text-slate-200" : "text-slate-400"
-                          }`}>
+                            }`}>
                             {date.getDate()}
                           </span>
                           {dayPosts.length > 0 && (
@@ -912,9 +904,8 @@ export default function SaaSDashboard() {
                                 e.stopPropagation();
                                 handleOpenEditDrawer(post);
                               }}
-                              className={`text-[9px] font-semibold truncate rounded px-1.5 py-0.5 border cursor-pointer hover:shadow-sm transition-all ${
-                                getStatusBorderAndBgClass(post.status)
-                              }`}
+                              className={`text-[9px] font-semibold truncate rounded px-1.5 py-0.5 border cursor-pointer hover:shadow-sm transition-all ${getStatusBorderAndBgClass(post.status)
+                                }`}
                             >
                               {post.title || post.caption || "Untitled"}
                             </div>
@@ -973,7 +964,7 @@ export default function SaaSDashboard() {
 
               {/* Drawer Scrollable Content */}
               <div className="p-5 flex-1 overflow-y-auto flex flex-col gap-5">
-                
+
                 {/* Title Input */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Post Title</label>
@@ -1008,7 +999,7 @@ export default function SaaSDashboard() {
                     placeholder="Paste image/video URL link..."
                     className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 outline-none transition"
                   />
-                  
+
                   {/* Media Preview Box */}
                   {selectedPost.mediaUrl ? (
                     <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 max-h-40 flex items-center justify-center relative group">
@@ -1036,7 +1027,7 @@ export default function SaaSDashboard() {
 
                 {/* Grid: Date/Time + Assigned */}
                 <div className="grid grid-cols-2 gap-4">
-                  
+
                   {/* Date & Time Picker */}
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Scheduled Date & Time</label>
@@ -1087,7 +1078,7 @@ export default function SaaSDashboard() {
                     {channelOptions.map((opt) => {
                       const Icon = PLATFORM_BRAND_ICONS[opt.key] || Briefcase;
                       const isSelected = (selectedPost.channelKeys || []).includes(opt.key);
-                      
+
                       return (
                         <button
                           key={opt.key}
@@ -1099,11 +1090,10 @@ export default function SaaSDashboard() {
                               : [...current, opt.key];
                             setSelectedPost({ ...selectedPost, channelKeys: next });
                           }}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition ${
-                            isSelected 
-                              ? "bg-slate-900 border-slate-900 text-white dark:bg-white dark:text-slate-900" 
+                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition ${isSelected
+                              ? "bg-slate-900 border-slate-900 text-white dark:bg-white dark:text-slate-900"
                               : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100 dark:bg-slate-950 dark:border-slate-800 dark:text-slate-300"
-                          }`}
+                            }`}
                         >
                           <Icon size={12} className={isSelected ? "text-[#C8FF00] dark:text-slate-900" : "text-slate-400"} />
                           {opt.label}
@@ -1122,11 +1112,10 @@ export default function SaaSDashboard() {
                         key={status}
                         type="button"
                         onClick={() => setSelectedPost({ ...selectedPost, status })}
-                        className={`py-1.5 rounded-xl text-[10px] font-bold capitalize border text-center transition ${
-                          selectedPost.status === status
+                        className={`py-1.5 rounded-xl text-[10px] font-bold capitalize border text-center transition ${selectedPost.status === status
                             ? getStatusBorderAndBgClass(status) + " ring-1 ring-offset-1 dark:ring-offset-slate-900"
                             : "bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100 dark:bg-slate-950 dark:border-slate-800"
-                        }`}
+                          }`}
                       >
                         {status}
                       </button>
@@ -1209,9 +1198,9 @@ function BacklogCard({ post, campaignName, campaignColor, onDragStart, onClick }
     >
       {campaignName && (
         <div className="flex items-center gap-1.5 mb-1.5">
-          <span 
-            className="w-1.5 h-1.5 rounded-full shrink-0" 
-            style={{ backgroundColor: campaignColor || "#C8FF00" }} 
+          <span
+            className="w-1.5 h-1.5 rounded-full shrink-0"
+            style={{ backgroundColor: campaignColor || "#C8FF00" }}
           />
           <span className="text-[9px] font-bold text-[#82a800] dark:text-[#C8FF00] uppercase tracking-wider truncate max-w-full">
             {campaignName}
@@ -1229,7 +1218,7 @@ function BacklogCard({ post, campaignName, campaignColor, onDragStart, onClick }
           })}
         </div>
       </div>
-      
+
       <h4 className="text-xs font-bold text-slate-800 dark:text-white truncate">
         {post.title || "Untitled draft"}
       </h4>
@@ -1241,16 +1230,16 @@ function BacklogCard({ post, campaignName, campaignColor, onDragStart, onClick }
 }
 
 // 2. Calendar stack post cell card render
-function CalendarPostCard({ 
-  post, 
+function CalendarPostCard({
+  post,
   campaignName,
   campaignColor,
-  onDragStart, 
-  onClick, 
-  onMenuToggle, 
-  isActiveMenu, 
-  onEdit, 
-  onDuplicate, 
+  onDragStart,
+  onClick,
+  onMenuToggle,
+  isActiveMenu,
+  onEdit,
+  onDuplicate,
   onDelete,
   menuRef
 }) {
@@ -1271,16 +1260,16 @@ function CalendarPostCard({
     >
       {/* Top Status Border line */}
       <div className={`h-1 w-full ${getStatusLineColor(post.status)}`} />
-      
+
       <div className="p-2.5 flex flex-col gap-1.5">
-        
+
         {/* Header time and dots actions */}
         <div className="flex items-center justify-between gap-1">
           <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
             <Clock size={9} />
             {timeStr}
           </span>
-          
+
           {/* Options Dots context menu */}
           <div className="relative" ref={menuRef}>
             <button
@@ -1332,9 +1321,9 @@ function CalendarPostCard({
         {/* Campaign association */}
         {campaignName && (
           <div className="flex items-center gap-1.5 mt-0.5">
-            <span 
-              className="w-1.5 h-1.5 rounded-full shrink-0" 
-              style={{ backgroundColor: campaignColor || "#C8FF00" }} 
+            <span
+              className="w-1.5 h-1.5 rounded-full shrink-0"
+              style={{ backgroundColor: campaignColor || "#C8FF00" }}
             />
             <span className="text-[9px] font-bold text-[#82a800] dark:text-[#C8FF00] uppercase tracking-wider truncate">
               {campaignName}
@@ -1355,10 +1344,10 @@ function CalendarPostCard({
         {/* Platform logo attachments & Preview image */}
         {post.mediaUrl && (
           <div className="w-full h-14 rounded-lg overflow-hidden border border-slate-100 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-950">
-            <img 
-              src={post.mediaUrl} 
-              alt="Media card attachment" 
-              className="w-full h-full object-cover" 
+            <img
+              src={post.mediaUrl}
+              alt="Media card attachment"
+              className="w-full h-full object-cover"
             />
           </div>
         )}
