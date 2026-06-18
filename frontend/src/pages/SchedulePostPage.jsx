@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { getSocialAccounts } from "../services/socialApi";
 import { SOCIAL_PLATFORM_CONFIGS } from "../data/socialPlatforms";
 import { createEmptyChannelDraft } from "../data/platformComposerConfig";
@@ -13,6 +13,7 @@ import {
 
 export default function SchedulePostPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const [connectedAccounts, setConnectedAccounts] = useState([]);
   const [step, setStep] = useState("pick");
@@ -25,7 +26,10 @@ export default function SchedulePostPage() {
     return SOCIAL_PLATFORM_CONFIGS.some((c) => c.key === raw) ? raw : null;
   }, [searchParams]);
 
-  const scopedEntityId = useMemo(() => searchParams.get("entity")?.trim() || "", [searchParams]);
+  const scopedEntityId = useMemo(
+    () => searchParams.get("entity")?.trim() || searchParams.get("entityId")?.trim() || "",
+    [searchParams]
+  );
 
   useEffect(() => {
     getSocialAccounts()
@@ -54,26 +58,38 @@ export default function SchedulePostPage() {
 
     let keys = [scopedPlatformKey];
 
-    if (scopedPlatformKey === "facebook") {
-      if (!scopedEntityId) return;
+    if (scopedPlatformKey === "facebook" || scopedPlatformKey === "linkedin") {
       const platformChannelKeys = channelOptions
-        .filter((o) => o.platformKey === "facebook")
+        .filter((o) => o.platformKey === scopedPlatformKey)
         .map((o) => o.key);
-      const match = platformChannelKeys.find(
-        (key) => parseCreatePostChannelKey(key).entityId === scopedEntityId
-      );
-      if (!match) return;
-      keys = [match];
+      if (scopedEntityId) {
+        const match = platformChannelKeys.find(
+          (key) => parseCreatePostChannelKey(key).entityId === scopedEntityId
+        );
+        if (!match) return;
+        keys = [match];
+      } else if (scopedPlatformKey === "linkedin") {
+        const profileKey = platformChannelKeys.find(
+          (key) => parseCreatePostChannelKey(key).entityType === "profile"
+        );
+        keys = profileKey ? [profileKey] : platformChannelKeys.slice(0, 1);
+      } else if (scopedPlatformKey === "facebook") {
+        keys = platformChannelKeys.length ? [platformChannelKeys[0]] : [];
+        if (!keys.length) return;
+      }
     }
 
     setSelectedChannelKeys(keys);
     const nextDrafts = {};
+    const initialCaption = location.state?.caption || searchParams.get("caption") || "";
     keys.forEach((key) => {
-      nextDrafts[key] = createEmptyChannelDraft(key);
+      const draft = createEmptyChannelDraft(key);
+      if (initialCaption) draft.caption = initialCaption;
+      nextDrafts[key] = draft;
     });
     setDrafts(nextDrafts);
     setStep("compose");
-  }, [scopedPlatformKey, scopedEntityId, connectedByPlatform, channelOptions]);
+  }, [scopedPlatformKey, scopedEntityId, connectedByPlatform, channelOptions, location.state, searchParams]);
 
   const toggleChannel = useCallback((key) => {
     setSelectedChannelKeys((prev) =>
@@ -91,12 +107,15 @@ export default function SchedulePostPage() {
 
   const startCompose = useCallback(() => {
     const nextDrafts = {};
+    const initialCaption = location.state?.caption || searchParams.get("caption") || "";
     selectedChannelKeys.forEach((key) => {
-      nextDrafts[key] = drafts[key] || createEmptyChannelDraft(key);
+      const draft = drafts[key] || createEmptyChannelDraft(key);
+      if (!draft.caption && initialCaption) draft.caption = initialCaption;
+      nextDrafts[key] = draft;
     });
     setDrafts(nextDrafts);
     setStep("compose");
-  }, [selectedChannelKeys, drafts]);
+  }, [selectedChannelKeys, drafts, location.state, searchParams]);
 
   const onSetDrafts = useCallback((nextDrafts) => {
     setDrafts(nextDrafts);

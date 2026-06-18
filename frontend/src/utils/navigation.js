@@ -5,7 +5,7 @@ export function isDashboardActive(pathname) {
 
 /** @param {string} pathname */
 export function isCreatePostActive(pathname) {
-  return pathname === "/create-post" || pathname.startsWith("/create-post/");
+  return pathname === "/schedule/new" || pathname.startsWith("/schedule/new/");
 }
 
 /** @param {string} pathname */

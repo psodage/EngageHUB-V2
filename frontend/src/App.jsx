@@ -23,7 +23,6 @@ import GoogleBusinessLocationSelectPage from "./pages/GoogleBusinessLocationSele
 // Dashboards and inner pages
 import BusinessDashboard from "./pages/BusinessDashboard";
 import InfluencerDashboard from "./pages/InfluencerDashboard";
-import CreatePostPage from "./pages/CreatePostPage";
 import ContentCalendarPage from "./pages/ContentCalendarPage";
 import SchedulePage from "./pages/SchedulePage";
 import SchedulePostPage from "./pages/SchedulePostPage";
@@ -238,7 +237,6 @@ function RootRouter() {
         <Route path="dashboard" element={<DashboardRedirect />} />
         <Route path="dashboard/business" element={<BusinessDashboard />} />
         <Route path="dashboard/influencer" element={<InfluencerDashboard />} />
-        <Route path="create-post" element={<CreatePostPage />} />
         <Route path="content-calendar" element={<ContentCalendarPage />} />
         <Route path="content-calender" element={<Navigate to="/content-calendar" replace />} />
         <Route path="schedule/new" element={<SchedulePostPage />} />

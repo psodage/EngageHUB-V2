@@ -87,7 +87,7 @@ export default function AiBusinessWriter() {
   // Direct send to planner
   const handleSendToPlanner = (text) => {
     setToast({ message: "Redirecting to planner composer..." });
-    navigate("/create-post", { state: { caption: text } });
+    navigate("/schedule/new", { state: { caption: text } });
   };
 
   return (

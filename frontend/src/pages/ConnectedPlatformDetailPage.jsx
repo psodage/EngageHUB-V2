@@ -53,7 +53,7 @@ export default function ConnectedPlatformDetailPage() {
   }, [account, platformKey, scopedEntityId]);
 
   const createPostPath = useMemo(() => {
-    if (!platformKey) return "/create-post";
+    if (!platformKey) return "/schedule/new";
     const entityId =
       platformKey === "facebook" || platformKey === "linkedin"
         ? String(displayAccount?.entityId || scopedEntityId || "").trim()

@@ -33,7 +33,7 @@ export default function ChannelProfileHeader({
   const synced = Boolean(account?.lastSyncedAt);
 
   const composerPath =
-    createPostPath || `/create-post?platform=${encodeURIComponent(platformKey)}`;
+    createPostPath || `/schedule/new?platform=${encodeURIComponent(platformKey)}`;
 
   const stats = [
     { label: "Posts", value: postCount != null ? String(postCount) : "\u2014" },

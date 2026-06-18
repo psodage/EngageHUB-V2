@@ -11,7 +11,7 @@ export const DASHBOARD_CONTENT_MAX = {
 
 /** @param {string} pathname @returns {DashboardContentLayout} */
 export function getDashboardContentLayout(pathname) {
-  if (pathname.startsWith("/create-post") || pathname.startsWith("/schedule/new")) {
+  if (pathname.startsWith("/schedule/new")) {
     return "composer";
   }
   if (/^\/channels\/[^/]+$/.test(pathname)) {
@@ -32,5 +32,5 @@ export function getDashboardContentMaxClass(layout) {
 }
 /** Whether the top bar should show the standard page title (some routes use in-page headers only). */
 export function shouldShowTopbarTitle(pathname) {
-  return !pathname.startsWith("/create-post");
+  return !pathname.startsWith("/schedule/new");
 }

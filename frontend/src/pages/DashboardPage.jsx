@@ -126,11 +126,11 @@ export default function DashboardPage() {
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link
-            to="/create-post"
-            className="inline-flex items-center gap-2 rounded-lg bg-buffer-600 px-4 py-2.5 text-sm font-semibold text-black hover:bg-[#d4ff33]"
+            to="/schedule/new"
+            className="inline-flex items-center gap-2 rounded-lg bg-[#C8FF00] hover:bg-[#d4ff33] px-4 py-2.5 text-sm font-semibold text-black shadow-sm transition"
           >
             <PenSquare size={16} />
-            Create
+            Schedule
           </Link>
           <Link
             to="/channels"
@@ -223,8 +223,8 @@ export default function DashboardPage() {
           </div>
           <ul className="p-3 space-y-1">
             {[
-              { label: "Create post", desc: "Compose and publish to multiple channels", to: "/create-post", icon: PenSquare },
-              { label: "Schedule post", desc: "Queue content for later", to: "/schedule/new", icon: CalendarDays },
+              { label: "Schedule post", desc: "Compose and queue content for multiple channels", to: "/schedule/new", icon: PenSquare },
+              { label: "Content calendar", desc: "View scheduled posts in calendar layout", to: "/content-calendar", icon: CalendarDays },
               { label: "View scheduled", desc: "Your scheduled queue", to: "/schedule", icon: CalendarDays },
               { label: "Channel settings", desc: "Connections and OAuth", to: "/settings/channels", icon: Radio },
             ].map((item) => {

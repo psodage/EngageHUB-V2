@@ -276,16 +276,16 @@ export function buildScopedCreatePostPath(channel, groupedAccount = null) {
   if (channel.platformKey === "facebook") {
     if (channel.entityType === "page" && channel.entityId) {
       const params = new URLSearchParams({ platform: "facebook", entity: channel.entityId });
-      return `/create-post?${params.toString()}`;
+      return `/schedule/new?${params.toString()}`;
     }
     if (groupedAccount) return resolveFacebookPageCreatePostPath(groupedAccount);
-    return "/create-post?platform=facebook";
+    return "/schedule/new?platform=facebook";
   }
   if (channel.platformKey === "linkedin" && channel.entityId) {
     const params = new URLSearchParams({ platform: "linkedin", entity: channel.entityId });
-    return `/create-post?${params.toString()}`;
+    return `/schedule/new?${params.toString()}`;
   }
   const params = new URLSearchParams({ platform: channel.platformKey });
   if (channel.entityId) params.set("entity", channel.entityId);
-  return `/create-post?${params.toString()}`;
+  return `/schedule/new?${params.toString()}`;
 }

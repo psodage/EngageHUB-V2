@@ -107,11 +107,11 @@ export function isMultiChannelPublishable(channelKey) {
 export function resolveFacebookPageCreatePostPath(groupedFacebookAccount) {
   const pages = getFacebookConnectionEntities(groupedFacebookAccount);
   const page = pages[0];
-  if (!page) return "/create-post?platform=facebook";
+  if (!page) return "/schedule/new?platform=facebook";
   const pageId = String(page.entityId || page.platformUserId || "").trim();
   return pageId
-    ? `/create-post?platform=facebook&entity=${encodeURIComponent(pageId)}`
-    : "/create-post?platform=facebook";
+    ? `/schedule/new?platform=facebook&entity=${encodeURIComponent(pageId)}`
+    : "/schedule/new?platform=facebook";
 }
 
 /**
@@ -231,5 +231,5 @@ export function buildConnectedByChannelKey(connectedAccounts) {
 export function buildCreatePostUrl(channel) {
   const params = new URLSearchParams({ platform: channel.platformKey });
   if (channel.entityId) params.set("entity", channel.entityId);
-  return `/create-post?${params.toString()}`;
+  return `/schedule/new?${params.toString()}`;
 }

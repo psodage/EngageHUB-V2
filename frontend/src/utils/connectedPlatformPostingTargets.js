@@ -111,7 +111,7 @@ export function buildPostingTargetsConfig(platformKey, account) {
         if (!entityId) return card;
         return {
           ...card,
-          path: `/create-post?platform=facebook&entity=${encodeURIComponent(entityId)}`,
+          path: `/schedule/new?platform=facebook&entity=${encodeURIComponent(entityId)}`,
         };
       }),
       emptyBanner: pageRows.length
@@ -141,7 +141,7 @@ export function buildPostingTargetsConfig(platformKey, account) {
         title: entityDisplayName(profileRow),
         sublabel: "Personal profile",
         imageUrl: profileRow.profileImage || placeholderImage("linkedin"),
-        path: "/create-post?platform=linkedin",
+        path: "/schedule/new?platform=linkedin",
         linkedinAction: { targetType: "profile", organizationId: null },
       });
     } else {
@@ -152,7 +152,7 @@ export function buildPostingTargetsConfig(platformKey, account) {
         title: entityDisplayName(row),
         sublabel: "Personal profile",
         imageUrl: row.profileImage || placeholderImage("linkedin"),
-        path: "/create-post?platform=linkedin",
+        path: "/schedule/new?platform=linkedin",
         linkedinAction: { targetType: "profile", organizationId: null },
       });
     }
@@ -163,7 +163,7 @@ export function buildPostingTargetsConfig(platformKey, account) {
         title: entityDisplayName(org),
         sublabel: org.entityId ? `Company page · ID ${org.entityId}` : "Company page",
         imageUrl: org.profileImage || placeholderImage("linkedin"),
-        path: `/create-post?platform=linkedin&entityId=${encodeURIComponent(org.entityId)}`,
+        path: `/schedule/new?platform=linkedin&entityId=${encodeURIComponent(org.entityId)}`,
         linkedinAction: { targetType: "organization", organizationId: org.entityId ? String(org.entityId) : null },
       });
     }
@@ -190,7 +190,7 @@ export function buildPostingTargetsConfig(platformKey, account) {
       description:
         "Post as your personal profile or as a company page. Choose a card to open the composer with the right target.",
       primaryCtaLabel: "Create post (profile)",
-      primaryCtaPath: "/create-post?platform=linkedin",
+      primaryCtaPath: "/schedule/new?platform=linkedin",
       cards,
       emptyBanner,
     };
@@ -203,7 +203,7 @@ export function buildPostingTargetsConfig(platformKey, account) {
       title,
       description,
       primaryCtaLabel: "Create post",
-      primaryCtaPath: `/create-post?platform=${platformKey}`,
+      primaryCtaPath: `/schedule/new?platform=${platformKey}`,
       cards: [
         {
           key: `target-${row.entityId || account.platformUserId}`,
@@ -211,7 +211,7 @@ export function buildPostingTargetsConfig(platformKey, account) {
           title: entityDisplayName(row),
           sublabel,
           imageUrl: row.profileImage || placeholderImage(platformKey),
-          path: `/create-post?platform=${platformKey}`,
+          path: `/schedule/new?platform=${platformKey}`,
         },
       ],
       emptyBanner: null,
