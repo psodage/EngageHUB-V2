@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 import PlatformBrandIcon from "../channels/PlatformBrandIcon";
 import { getPlatformKeyFromCreatePostChannelKey } from "../../utils/createPostChannels";
 
