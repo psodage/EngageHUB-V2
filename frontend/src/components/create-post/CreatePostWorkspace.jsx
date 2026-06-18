@@ -266,7 +266,7 @@ export default function CreatePostWorkspace({
   };
 
   const cardShell = isFullscreen
-    ? "fixed inset-0 z-50 flex flex-col overflow-hidden bg-slate-100 p-4 dark:bg-slate-950 md:p-6"
+    ? "fixed inset-0 z-50 flex flex-col overflow-hidden bg-slate-50 p-4 dark:bg-slate-950 md:p-6"
     : null;
 
   return (
@@ -349,9 +349,9 @@ export default function CreatePostWorkspace({
             type="button"
             disabled={publishing || importingRemoteMedia || !hasContent}
             onClick={handleSubmit}
-            className="inline-flex items-center gap-2 rounded-lg bg-buffer-600 px-6 py-3 text-sm font-semibold text-black shadow-sm hover:bg-[#d4ff33] disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#C8FF00] px-6 py-3 text-xs font-bold text-black shadow-sm hover:bg-[#d4ff33] disabled:cursor-not-allowed disabled:opacity-50 transition duration-150"
           >
-            <Send size={16} />
+            <Send size={14} />
             {publishing ? "Posting…" : submitLabel}
           </button>
         </footer>

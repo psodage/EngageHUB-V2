@@ -169,13 +169,13 @@ export default function CreatePostPage() {
   let content;
   if (!channelOptions.length) {
     content = (
-      <section className="buffer-card mx-auto w-full max-w-lg p-6">
-        <p className="font-semibold text-slate-900 dark:text-white">No connected platforms</p>
-        <p className="mt-1 text-sm text-slate-500">Connect at least one channel to create posts.</p>
+      <section className="rounded-2xl border border-slate-200/60 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-sm mx-auto w-full max-w-lg text-center py-12 flex flex-col items-center justify-center">
+        <p className="font-bold text-slate-900 dark:text-white text-sm">No connected platforms</p>
+        <p className="mt-1.5 text-xs text-slate-500 max-w-xs">Connect at least one channel under Social Accounts to start creating posts.</p>
         <button
           type="button"
           onClick={() => navigate("/channels")}
-          className="mt-4 rounded-lg bg-buffer-600 px-4 py-2 text-sm font-semibold text-black hover:bg-[#d4ff33]"
+          className="mt-5 rounded-xl bg-[#C8FF00] hover:bg-[#d4ff33] px-5 py-2.5 text-xs font-bold text-black shadow-sm transition"
         >
           Connect channels
         </button>
