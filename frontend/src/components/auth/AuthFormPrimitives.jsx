@@ -51,13 +51,12 @@ export function AuthField({
         autoComplete={autoComplete}
         aria-invalid={hasError}
         aria-describedby={hasError ? `${id}-error` : undefined}
-        className={`w-full rounded-lg border bg-white px-3 py-2 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 ${
-          hasError
-            ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/15"
-            : valid
-              ? "border-emerald-300 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/15"
-              : "border-slate-200 focus:border-[#C8FF00] focus:ring-2 focus:ring-[#C8FF00]/15"
-        }`}
+        className={`w-full rounded-lg border bg-white px-3 py-2 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 ${hasError
+          ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-500/15"
+          : valid
+            ? "border-emerald-300 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/15"
+            : "border-slate-200 focus:border-[#C8FF00] focus:ring-2 focus:ring-[#C8FF00]/15"
+          }`}
       />
       <AnimatePresence initial={false}>
         {hasError ? (
@@ -91,11 +90,10 @@ export function AuthInlineAlert({ alert }) {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -8, scale: 0.98 }}
           transition={{ duration: 0.22, ease: "easeOut" }}
-          className={`flex items-start gap-2.5 rounded-xl border px-3.5 py-2.5 text-xs font-medium ${
-            isSuccess
-              ? "border-[#C8FF00]/30 bg-gradient-to-r from-[#C8FF00]/10 via-[#C8FF00]/5 to-transparent text-[#5f7a00] shadow-[0_4px_12px_rgba(200,255,0,0.05)]"
-              : "border-red-100 bg-gradient-to-r from-red-50/70 via-red-50/40 to-transparent text-red-800 shadow-[0_4px_12px_rgba(239,68,68,0.05)]"
-          }`}
+          className={`flex items-start gap-2.5 rounded-xl border px-3.5 py-2.5 text-xs font-medium ${isSuccess
+            ? "border-[#C8FF00]/30 bg-gradient-to-r from-[#C8FF00]/10 via-[#C8FF00]/5 to-transparent text-[#5f7a00] shadow-[0_4px_12px_rgba(200,255,0,0.05)]"
+            : "border-red-100 bg-gradient-to-r from-red-50/70 via-red-50/40 to-transparent text-red-800 shadow-[0_4px_12px_rgba(239,68,68,0.05)]"
+            }`}
           role="status"
           aria-live="polite"
         >
@@ -154,7 +152,7 @@ export function AuthHeading() {
   return (
     <>
       <h1 className="text-[1.6rem] font-bold leading-tight tracking-tight text-slate-900 sm:text-[1.7rem]">
-        Welcome to <span className="text-[#C8FF00]">EngageHub</span>
+        Welcome to <span className="text-[#C8FF00]">Engage</span><span className="bg-black text-[#C8FF00] p-1">Hub</span>
       </h1>
       <p className="mt-1 text-xs leading-snug text-slate-500 sm:text-sm">
         Manage all your social media channels from one powerful workspace.

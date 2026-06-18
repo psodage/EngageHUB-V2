@@ -186,11 +186,11 @@ export default function SaaSDashboard() {
   }, []);
 
   useEffect(() => {
-    if (location.state?.caption) {
+    if (location.state?.openComposer || location.state?.caption) {
       setSelectedPost({
         _id: `new-${Date.now()}`,
         title: "",
-        caption: location.state.caption,
+        caption: location.state.caption || "",
         channelKeys: ["instagram"],
         scheduledAt: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().substring(0, 16), // Tomorrow same time
         status: "draft",
@@ -201,9 +201,9 @@ export default function SaaSDashboard() {
         isNew: true
       });
       setIsDrawerOpen(true);
-      window.history.replaceState({}, document.title);
+      navigate(location.pathname, { replace: true, state: {} });
     }
-  }, [location.state]);
+  }, [location.state, location.pathname, navigate]);
 
   // Close context menu when clicking elsewhere
   useEffect(() => {

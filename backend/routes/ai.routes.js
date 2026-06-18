@@ -3,7 +3,9 @@ import {
   generateCaptionVariants,
   generateWithOpenAI,
   generateLocalBusinessCopy,
-  generateBusinessCopyWithOpenAI
+  generateBusinessCopyWithOpenAI,
+  generateLocalInfluencerContent,
+  generateInfluencerContentWithOpenAI
 } from "../utils/aiCaptionGenerator.js";
 
 export function createAiRoutes(requireAuth) {
@@ -39,6 +41,22 @@ export function createAiRoutes(requireAuth) {
     }
 
     const variants = generateLocalBusinessCopy(req.body || {});
+    return res.json({ success: true, variants, source: "local" });
+  });
+
+  router.post("/generate-influencer-content", requireAuth, async (req, res) => {
+    const apiKey = process.env.OPENAI_API_KEY?.trim();
+
+    if (apiKey) {
+      try {
+        const variants = await generateInfluencerContentWithOpenAI(req.body, apiKey);
+        return res.json({ success: true, variants, source: "openai" });
+      } catch (error) {
+        console.warn("[ai:openai:influencer:fallback]", error.message);
+      }
+    }
+
+    const variants = generateLocalInfluencerContent(req.body || {});
     return res.json({ success: true, variants, source: "local" });
   });
 

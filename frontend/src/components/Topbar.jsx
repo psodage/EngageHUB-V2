@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Bell, ChevronRight, Menu, Moon, Sun, Search, Plus } from "lucide-react";
 import { getPageTitle } from "../data/constants";
 import { CHANNEL_PROFILE_TABS } from "../data/channelNav";
@@ -8,11 +8,18 @@ import { getChannelEntityIdFromSearch, getChannelTabFromSearch } from "../utils/
 import { getFacebookConnectionEntities, getLinkedInConnectionEntities } from "../utils/socialAccountEntities";
 import { findLinkedInEntityById } from "../utils/channelDisplay";
 import { useApp } from "../context/AppContext";
+import { getOnboardingRoute } from "../utils/onboarding";
 
 export default function Topbar({ onOpenSidebar }) {
   const { toggleTheme, theme, connectedAccounts, user } = useApp();
   const location = useLocation();
+  const navigate = useNavigate();
   const title = useMemo(() => getPageTitle(location.pathname), [location.pathname]);
+
+  const handleCreatePost = () => {
+    const targetPath = getOnboardingRoute(user);
+    navigate(targetPath, { state: { openComposer: true } });
+  };
   const ThemeIcon = theme === "dark" ? Sun : Moon;
 
   const displayTitle = useMemo(() => {
@@ -100,6 +107,16 @@ export default function Topbar({ onOpenSidebar }) {
         {/* Right: Actions */}
         <div className="flex shrink-0 items-center gap-3">
 
+
+          {/* Create Post Button */}
+          <button
+            type="button"
+            onClick={handleCreatePost}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[#C8FF00] px-4 py-2 text-xs font-bold text-black shadow-sm hover:bg-[#d4ff33] transition"
+          >
+            <Plus size={14} strokeWidth={2.5} />
+            <span>Create Post</span>
+          </button>
 
           {/* Notification Bell */}
           <button

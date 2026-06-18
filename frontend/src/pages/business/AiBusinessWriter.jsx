@@ -13,29 +13,35 @@ import {
   Ticket,
   ChevronRight,
   RefreshCw,
-  Zap,
+  Sliders,
   Globe,
-  Sliders
+  MessageSquare,
+  Lightbulb,
+  Sparkle
 } from "lucide-react";
 import { useApp } from "../../context/AppContext";
+import { generateAiCaptions } from "../../services/aiApi";
 import { generateBusinessCopy } from "../../services/aiBusinessApi";
 
 export default function AiBusinessWriter() {
   const navigate = useNavigate();
   const { setToast } = useApp();
 
-  const [mode, setMode] = useState("product"); // 'product' or 'promo'
+  const [mode, setMode] = useState("general"); // 'general', 'product', or 'promo'
   const [loading, setLoading] = useState(false);
   const [variants, setVariants] = useState([]);
-  const [source, setSource] = useState(null); // 'openai' or 'local'
   const [copiedId, setCopiedId] = useState(null);
 
-  // Form states - Product
+  // Form states - General Caption
+  const [generalTopic, setGeneralTopic] = useState("");
+  const [generalGoal, setGeneralGoal] = useState("engage");
+
+  // Form states - Product Highlight
   const [productName, setProductName] = useState("");
   const [features, setFeatures] = useState("");
   const [benefits, setBenefits] = useState("");
 
-  // Form states - Promo
+  // Form states - Promo Optimizer
   const [promoOffer, setPromoOffer] = useState("");
   const [promoCode, setPromoCode] = useState("");
   const [deadline, setDeadline] = useState("");
@@ -46,29 +52,42 @@ export default function AiBusinessWriter() {
   const [tone, setTone] = useState("professional");
   const [platform, setPlatform] = useState("all");
 
-  // Generate marketing copy
   const handleGenerate = async (e) => {
     e.preventDefault();
     setLoading(true);
     setVariants([]);
 
-    const payload = {
-      type: mode,
-      tone,
-      platform: platform === "all" ? "" : platform,
-      ctaType,
-      ...(mode === "product"
-        ? { productName, features, benefits }
-        : { promoOffer, promoCode, deadline, urgencyLevel })
-    };
-
     try {
-      // Trigger API generate
-      const result = await generateBusinessCopy(payload);
-      // Backend returns either OpenAI or Local templates
-      setVariants(result);
-      setSource(result.length > 0 ? "AI Model" : null);
-      setToast({ message: "Marketing copy generated successfully!" });
+      if (mode === "general") {
+        if (!generalTopic.trim()) {
+          setToast({ message: "Topic is required.", error: true });
+          setLoading(false);
+          return;
+        }
+        const payload = {
+          topic: generalTopic.trim(),
+          tone,
+          goal: generalGoal,
+          platform: platform === "all" ? "" : platform
+        };
+        const result = await generateAiCaptions(payload);
+        // Normalize: generateAiCaptions returns objects [{ caption, ... }]
+        const normalized = (result || []).map(v => v.caption);
+        setVariants(normalized);
+      } else {
+        const payload = {
+          type: mode,
+          tone,
+          platform: platform === "all" ? "" : platform,
+          ctaType,
+          ...(mode === "product"
+            ? { productName, features, benefits }
+            : { promoOffer, promoCode, deadline, urgencyLevel })
+        };
+        const result = await generateBusinessCopy(payload);
+        setVariants(result || []);
+      }
+      setToast({ message: "Content generated successfully!" });
     } catch (err) {
       setToast({ message: err.message || "Failed to generate copy.", error: true });
     } finally {
@@ -76,7 +95,6 @@ export default function AiBusinessWriter() {
     }
   };
 
-  // Copy to clipboard helper
   const handleCopyToClipboard = (text, id) => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
@@ -84,56 +102,99 @@ export default function AiBusinessWriter() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  // Direct send to planner
   const handleSendToPlanner = (text) => {
-    setToast({ message: "Redirecting to planner composer..." });
-    navigate("/dashboard/business", { state: { caption: text } });
+    setToast({ message: "Redirecting to content planner composer..." });
+    navigate("/dashboard/business", { state: { openComposer: true, caption: text } });
   };
 
   return (
     <DashboardPageShell
-      title="AI Business Writer"
-      description="Generate high-converting marketing copies, product details, and urgency-driven discount promos."
+      title="AI Content Generator"
+      description="Create platform-tailored captions, structured product highlights, and urgency-driven discount promos instantly."
     >
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left: Configuration parameters */}
-        <div className="rounded-2xl border border-slate-200/60 bg-white p-6 dark:border-slate-850/60 dark:bg-slate-900 shadow-sm flex flex-col gap-5 h-fit">
+        {/* Left: Input Configuration Panel */}
+        <div className="rounded-2xl border border-slate-200/65 bg-white p-6 dark:border-slate-850/60 dark:bg-slate-900 shadow-sm flex flex-col gap-5 h-fit">
           <div className="flex flex-col gap-1">
             <h3 className="text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-2">
               <Sliders size={16} className="text-[#82a800] dark:text-[#C8FF00]" /> Config Parameters
             </h3>
-            <p className="text-[11px] text-slate-400">Configure parameters for your marketing campaign copy.</p>
+            <p className="text-[11px] text-slate-400">Configure parameters for your marketing copy.</p>
           </div>
 
-          {/* Mode Switcher */}
-          <div className="grid grid-cols-2 p-1 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-850">
+          {/* Mode Tabs */}
+          <div className="flex flex-col gap-1 p-1 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-850">
             <button
               type="button"
-              onClick={() => setMode("product")}
+              onClick={() => { setMode("general"); setVariants([]); }}
               className={`flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-lg transition ${
-                mode === "product"
+                mode === "general"
                   ? "bg-white text-slate-950 shadow-xs dark:bg-slate-900 dark:text-white"
                   : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-350"
               }`}
             >
-              <ShoppingBag size={13} />
-              Product Highlight
+              <MessageSquare size={13} />
+              General Caption
             </button>
-            <button
-              type="button"
-              onClick={() => setMode("promo")}
-              className={`flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-lg transition ${
-                mode === "promo"
-                  ? "bg-white text-slate-950 shadow-xs dark:bg-slate-900 dark:text-white"
-                  : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-350"
-              }`}
-            >
-              <Ticket size={13} />
-              Promo Optimizer
-            </button>
+            <div className="grid grid-cols-2 gap-1 mt-1">
+              <button
+                type="button"
+                onClick={() => { setMode("product"); setVariants([]); }}
+                className={`flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-lg transition ${
+                  mode === "product"
+                    ? "bg-white text-slate-950 shadow-xs dark:bg-slate-900 dark:text-white"
+                    : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-350"
+                }`}
+              >
+                <ShoppingBag size={13} />
+                Product Highlight
+              </button>
+              <button
+                type="button"
+                onClick={() => { setMode("promo"); setVariants([]); }}
+                className={`flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-lg transition ${
+                  mode === "promo"
+                    ? "bg-white text-slate-950 shadow-xs dark:bg-slate-900 dark:text-white"
+                    : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-350"
+                }`}
+              >
+                <Ticket size={13} />
+                Promo Optimizer
+              </button>
+            </div>
           </div>
 
           <form onSubmit={handleGenerate} className="space-y-4">
+            {/* GENERAL MODE FIELDS */}
+            {mode === "general" && (
+              <>
+                <div className="flex flex-col gap-1">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Topic / Prompt</label>
+                  <textarea
+                    rows={4}
+                    required
+                    placeholder="e.g. Write a post about launching our new sustainable energy workspace, highlighting productivity."
+                    value={generalTopic}
+                    onChange={(e) => setGeneralTopic(e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-850 dark:bg-slate-950 outline-none transition resize-none"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Goal</label>
+                  <select
+                    value={generalGoal}
+                    onChange={(e) => setGeneralGoal(e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-850 dark:bg-slate-950 outline-none transition cursor-pointer"
+                  >
+                    <option value="engage">Increase Engagement 💬</option>
+                    <option value="sell">Promote &amp; Sell 🛍️</option>
+                    <option value="educate">Educate Audience 📚</option>
+                    <option value="inspire">Inspire Followers ✨</option>
+                  </select>
+                </div>
+              </>
+            )}
+
             {/* PRODUCT MODE FIELDS */}
             {mode === "product" && (
               <>
@@ -227,20 +288,22 @@ export default function AiBusinessWriter() {
             )}
 
             {/* SHARED SETTINGS */}
-            <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Call to Action Type</label>
-              <select
-                value={ctaType}
-                onChange={(e) => setCtaType(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-850 dark:bg-slate-950 outline-none transition cursor-pointer"
-              >
-                <option value="learn more">Learn More</option>
-                <option value="claim this discount">Claim Discount</option>
-                <option value="try it for free">Try for Free</option>
-                <option value="buy now">Buy / Shop Now</option>
-                <option value="register for our webinar">Register / Sign Up</option>
-              </select>
-            </div>
+            {mode !== "general" && (
+              <div className="flex flex-col gap-1">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Call to Action Type</label>
+                <select
+                  value={ctaType}
+                  onChange={(e) => setCtaType(e.target.value)}
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-850 dark:bg-slate-950 outline-none transition cursor-pointer"
+                >
+                  <option value="learn more">Learn More</option>
+                  <option value="claim this discount">Claim Discount</option>
+                  <option value="try it for free">Try for Free</option>
+                  <option value="buy now">Buy / Shop Now</option>
+                  <option value="register for our webinar">Register / Sign Up</option>
+                </select>
+              </div>
+            )}
 
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-1">
@@ -254,6 +317,7 @@ export default function AiBusinessWriter() {
                   <option value="enthusiastic">Enthusiastic</option>
                   <option value="playful">Playful / Witty</option>
                   <option value="urgent">Urgent</option>
+                  <option value="informative">Informative</option>
                 </select>
               </div>
               <div className="flex flex-col gap-1">
@@ -280,12 +344,12 @@ export default function AiBusinessWriter() {
               {loading ? (
                 <>
                   <RefreshCw size={14} className="animate-spin" />
-                  Generating Marketing Copy...
+                  Generating Copy...
                 </>
               ) : (
                 <>
                   <Sparkles size={14} />
-                  Generate Marketing Copy
+                  Generate AI Copy
                 </>
               )}
             </button>
@@ -302,10 +366,14 @@ export default function AiBusinessWriter() {
           </div>
 
           {variants.length === 0 ? (
-            <div className="flex-1 border border-dashed border-slate-200 dark:border-slate-800 rounded-xl py-24 flex flex-col items-center justify-center text-slate-400 gap-2">
-              <BadgeAlert size={36} strokeWidth={1.5} className="text-slate-350 dark:text-slate-755" />
-              <span className="text-xs font-bold text-slate-600 dark:text-slate-300">No copy generated yet</span>
-              <p className="text-[10px] text-slate-400 max-w-[250px] text-center mt-0.5">Fill in the product or promotion details on the left, select parameters, and click Generate.</p>
+            <div className="flex-1 border border-dashed border-slate-200 dark:border-slate-800 rounded-xl py-24 flex flex-col items-center justify-center text-slate-400 gap-3">
+              <div className="p-3 bg-[#C8FF00]/10 text-[#82a800] dark:text-[#C8FF00] rounded-2xl animate-pulse">
+                <Sparkle size={32} />
+              </div>
+              <span className="text-xs font-bold text-slate-650 dark:text-slate-300">AI Copywriting Board Ready</span>
+              <p className="text-[10px] text-slate-400 max-w-[280px] text-center mt-0.5 leading-relaxed">
+                Configure your options on the left, then click Generate to output high-converting copywriting templates.
+              </p>
             </div>
           ) : (
             <div className="space-y-4 overflow-y-auto max-h-[600px] pr-1">
@@ -334,7 +402,7 @@ export default function AiBusinessWriter() {
                       <button
                         type="button"
                         onClick={() => handleCopyToClipboard(text, idx)}
-                        className="flex items-center justify-center p-1.5 text-slate-500 hover:text-black dark:hover:text-white rounded-lg bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition"
+                        className="flex items-center justify-center p-1.5 text-slate-500 hover:text-black dark:hover:text-white rounded-lg bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition cursor-pointer"
                         title="Copy copy to clipboard"
                       >
                         {copiedId === idx ? <Check size={13} className="text-emerald-500" /> : <Copy size={13} />}
@@ -343,7 +411,7 @@ export default function AiBusinessWriter() {
                   </div>
 
                   {/* Preformatted copy text */}
-                  <p className="text-xs text-slate-750 dark:text-slate-300 leading-relaxed white-space-pre-wrap select-all bg-white dark:bg-slate-950 p-3 rounded-lg border border-slate-100 dark:border-slate-800/40 font-mono">
+                  <p className="text-xs text-slate-750 dark:text-slate-300 leading-relaxed whitespace-pre-wrap select-all bg-white dark:bg-slate-950 p-3 rounded-lg border border-slate-100 dark:border-slate-800/40 font-mono">
                     {text}
                   </p>
 
@@ -351,7 +419,7 @@ export default function AiBusinessWriter() {
                   <button
                     type="button"
                     onClick={() => handleSendToPlanner(text)}
-                    className="w-full flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900 py-2 text-xs font-semibold text-slate-800 dark:text-slate-250 transition"
+                    className="w-full flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-[#C8FF00] dark:hover:border-[#C8FF00] bg-white dark:bg-slate-900 py-2 text-xs font-semibold text-slate-800 dark:text-slate-250 transition cursor-pointer"
                   >
                     <Send size={11} className="text-[#82a800] dark:text-[#C8FF00]" />
                     Send to Content Planner
