@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -113,6 +113,7 @@ const SEED_MOCK_POSTS = [
 
 export default function SaaSDashboard() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, setToast } = useApp();
   const firstName = useMemo(() => (user?.name || "there").split(" ")[0], [user]);
 
@@ -183,6 +184,26 @@ export default function SaaSDashboard() {
   useEffect(() => {
     loadCampaigns();
   }, []);
+
+  useEffect(() => {
+    if (location.state?.caption) {
+      setSelectedPost({
+        _id: `new-${Date.now()}`,
+        title: "",
+        caption: location.state.caption,
+        channelKeys: ["instagram"],
+        scheduledAt: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().substring(0, 16), // Tomorrow same time
+        status: "draft",
+        assignedTeamMember: "Steven M.",
+        mediaUrl: "",
+        engagementRate: "0.0%",
+        campaignId: "",
+        isNew: true
+      });
+      setIsDrawerOpen(true);
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   // Close context menu when clicking elsewhere
   useEffect(() => {

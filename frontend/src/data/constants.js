@@ -33,7 +33,6 @@ export const STORAGE_KEYS = {
 /** Buffer-style primary navigation */
 export const MAIN_NAV = [
   { key: "dashboard", label: "Content Planner", path: "/dashboard", icon: Home },
-  { key: "schedule", label: "Schedule", path: "/schedule", icon: CalendarDays },
   { key: "channels", label: "Connect channels", path: "/channels", icon: Radio },
 ];
 
@@ -58,12 +57,8 @@ export function getPageTitle(pathname) {
   const PAGE_TITLES = {
     "/": "Content Planner",
     "/dashboard": "Content Planner",
-    "/schedule": "Content Calendar",
-    "/schedule/new": "Schedule Post",
-    "/content-calendar": "Content Calendar",
     "/channels": "Social Accounts",
     "/analytics": "Analytics",
-    "/media": "Media Library",
     "/settings": "Settings",
     "/settings/account": "Account Settings",
     "/settings/channels": "Channels & Connections",
@@ -84,12 +79,7 @@ export function getPageTitle(pathname) {
   }
   if (pathname.startsWith("/settings")) return "Settings";
   if (pathname.startsWith("/channels")) return "Social Accounts";
-  if (pathname.startsWith("/schedule/new")) return "Schedule Post";
-  if (/^\/schedule\/[^/]+$/.test(pathname)) return "Scheduled Post";
-  if (pathname.startsWith("/schedule")) return "Content Calendar";
-  if (pathname.startsWith("/content-calendar")) return "Content Calendar";
   if (pathname.startsWith("/analytics")) return "Analytics";
-  if (pathname.startsWith("/media")) return "Media Library";
   if (pathname === "/" || pathname === "/dashboard") return "Content Planner";
   return "Content Planner";
 }

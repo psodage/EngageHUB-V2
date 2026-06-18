@@ -23,14 +23,9 @@ import GoogleBusinessLocationSelectPage from "./pages/GoogleBusinessLocationSele
 // Dashboards and inner pages
 import BusinessDashboard from "./pages/BusinessDashboard";
 import InfluencerDashboard from "./pages/InfluencerDashboard";
-import ContentCalendarPage from "./pages/ContentCalendarPage";
-import SchedulePage from "./pages/SchedulePage";
-import SchedulePostPage from "./pages/SchedulePostPage";
-import ScheduledPostDetailPage from "./pages/ScheduledPostDetailPage";
 import ChannelsPage from "./pages/ChannelsPage";
 import ConnectedPlatformDetailPage from "./pages/ConnectedPlatformDetailPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
-import MediaLibraryPage from "./pages/MediaLibraryPage";
 
 // Business pages
 import CampaignsPage from "./pages/business/CampaignsPage";
@@ -237,15 +232,9 @@ function RootRouter() {
         <Route path="dashboard" element={<DashboardRedirect />} />
         <Route path="dashboard/business" element={<BusinessDashboard />} />
         <Route path="dashboard/influencer" element={<InfluencerDashboard />} />
-        <Route path="content-calendar" element={<ContentCalendarPage />} />
-        <Route path="content-calender" element={<Navigate to="/content-calendar" replace />} />
-        <Route path="schedule/new" element={<SchedulePostPage />} />
-        <Route path="schedule/:id" element={<ScheduledPostDetailPage />} />
-        <Route path="schedule" element={<SchedulePage />} />
         <Route path="channels" element={<ChannelsPage />} />
         <Route path="channels/:platformKey" element={<ConnectedPlatformDetailPage />} />
         <Route path="analytics" element={<AnalyticsPage />} />
-        <Route path="media" element={<MediaLibraryPage />} />
         
         {/* Persona Business Routes */}
         <Route path="campaigns" element={<CampaignsPage />} />

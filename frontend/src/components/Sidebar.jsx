@@ -52,8 +52,7 @@ export default function Sidebar({ open, onClose, onLogout }) {
         { key: "brand-kit", label: "Brand Kit", path: "/brand-kit", icon: Palette },
         { key: "automation", label: "Automations", path: "/automation", icon: MessageSquare },
         { key: "channels", label: "Social Accounts", path: "/channels", icon: Share2 },
-        { key: "analytics", label: "Analytics", path: "/analytics", icon: BarChart3 },
-        { key: "media", label: "Media Library", path: "/media", icon: Image }
+        { key: "analytics", label: "Analytics", path: "/analytics", icon: BarChart3 }
       );
     } else { // business
       items.push(
