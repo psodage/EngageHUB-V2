@@ -1,5 +1,10 @@
 import express from "express";
-import { generateCaptionVariants, generateWithOpenAI } from "../utils/aiCaptionGenerator.js";
+import {
+  generateCaptionVariants,
+  generateWithOpenAI,
+  generateLocalBusinessCopy,
+  generateBusinessCopyWithOpenAI
+} from "../utils/aiCaptionGenerator.js";
 
 export function createAiRoutes(requireAuth) {
   const router = express.Router();
@@ -19,6 +24,22 @@ export function createAiRoutes(requireAuth) {
 
     const variants = generateCaptionVariants({ topic, tone, goal, platform });
     return res.json({ variants, source: "local" });
+  });
+
+  router.post("/generate-business-copy", requireAuth, async (req, res) => {
+    const apiKey = process.env.OPENAI_API_KEY?.trim();
+
+    if (apiKey) {
+      try {
+        const variants = await generateBusinessCopyWithOpenAI(req.body, apiKey);
+        return res.json({ success: true, variants, source: "openai" });
+      } catch (error) {
+        console.warn("[ai:openai:business:fallback]", error.message);
+      }
+    }
+
+    const variants = generateLocalBusinessCopy(req.body || {});
+    return res.json({ success: true, variants, source: "local" });
   });
 
   return router;

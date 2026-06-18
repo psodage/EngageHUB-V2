@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { getSocialAccounts } from "../services/socialApi";
 import { SOCIAL_PLATFORM_CONFIGS, PLATFORMS_BY_USER_TYPE } from "../data/socialPlatforms";
 import { createEmptyChannelDraft } from "../data/platformComposerConfig";
@@ -15,6 +15,7 @@ import { resolveFacebookPageCreatePostPath } from "../utils/createPostChannels";
 
 export default function CreatePostPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const [connectedAccounts, setConnectedAccounts] = useState([]);
   const [step, setStep] = useState("pick");
@@ -89,12 +90,15 @@ export default function CreatePostPage() {
 
     setSelectedChannelKeys(keys);
     const nextDrafts = {};
+    const initialCaption = location.state?.caption || searchParams.get("caption") || "";
     keys.forEach((key) => {
-      nextDrafts[key] = createEmptyChannelDraft(key);
+      const draft = createEmptyChannelDraft(key);
+      if (initialCaption) draft.caption = initialCaption;
+      nextDrafts[key] = draft;
     });
     setDrafts(nextDrafts);
     setStep("compose");
-  }, [scopedPlatformKey, scopedEntityId, connectedByPlatform, channelOptions]);
+  }, [scopedPlatformKey, scopedEntityId, connectedByPlatform, channelOptions, location.state, searchParams]);
 
   const toggleChannel = useCallback(
     (key) => {
@@ -122,12 +126,15 @@ export default function CreatePostPage() {
 
   const startCompose = useCallback(() => {
     const nextDrafts = {};
+    const initialCaption = location.state?.caption || searchParams.get("caption") || "";
     selectedChannelKeys.forEach((key) => {
-      nextDrafts[key] = drafts[key] || createEmptyChannelDraft(key);
+      const draft = drafts[key] || createEmptyChannelDraft(key);
+      if (!draft.caption && initialCaption) draft.caption = initialCaption;
+      nextDrafts[key] = draft;
     });
     setDrafts(nextDrafts);
     setStep("compose");
-  }, [selectedChannelKeys, drafts]);
+  }, [selectedChannelKeys, drafts, location.state, searchParams]);
 
   const onSetDrafts = useCallback((nextDrafts) => {
     setDrafts(nextDrafts);
