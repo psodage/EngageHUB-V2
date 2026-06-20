@@ -46,7 +46,7 @@ export default function Sidebar({ open, onClose, onLogout }) {
 
     if (userType === "influencer") {
       items.push(
-        { key: "ai-writer", label: "AI Scriptwriter", path: "/ai-writer/influencer", icon: Sparkles },
+        { key: "ai-writer", label: "AI Content Generator", path: "/ai-writer/influencer", icon: Sparkles },
         { key: "trends", label: "Trend Detection", path: "/trends", icon: TrendingUp },
         { key: "monetization", label: "Sponsorships", path: "/monetization", icon: Coins },
         { key: "brand-kit", label: "Brand Kit", path: "/brand-kit", icon: Palette },
@@ -57,7 +57,7 @@ export default function Sidebar({ open, onClose, onLogout }) {
     } else { // business
       items.push(
         { key: "campaigns", label: "Campaigns", path: "/campaigns", icon: Layers },
-        { key: "ai-writer", label: "AI Business Writer", path: "/ai-writer/business", icon: Sparkles },
+        { key: "ai-writer", label: "AI Content Generator", path: "/ai-writer/business", icon: Sparkles },
         { key: "leads", label: "Lead Management", path: "/leads", icon: Inbox },
         { key: "channels", label: "Social Accounts", path: "/channels", icon: Share2 },
         { key: "analytics", label: "Analytics", path: "/analytics", icon: BarChart3 }

@@ -27,14 +27,14 @@ import ChannelsPage from "./pages/ChannelsPage";
 import ConnectedPlatformDetailPage from "./pages/ConnectedPlatformDetailPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 
-// Business pages
 import CampaignsPage from "./pages/business/CampaignsPage";
 import LeadsPage from "./pages/business/LeadsPage";
-import AiBusinessWriter from "./pages/business/AiBusinessWriter";
+import AiBusinessGenerator from "./pages/business/AiBusinessGenerator";
 
 // Influencer pages
 import TrendsPage from "./pages/influencer/TrendsPage";
-import AiInfluencerWriter from "./pages/influencer/AiInfluencerWriter";
+import AiContentGenerator from "./pages/influencer/AiContentGenerator";
+import AiInfluencerGenerator from "./pages/influencer/AiInfluencerGenerator";
 import MonetizationPage from "./pages/influencer/MonetizationPage";
 import BrandKitPage from "./pages/influencer/BrandKitPage";
 import AutomationPage from "./pages/influencer/AutomationPage";
@@ -239,11 +239,12 @@ function RootRouter() {
         {/* Persona Business Routes */}
         <Route path="campaigns" element={<CampaignsPage />} />
         <Route path="leads" element={<LeadsPage />} />
-        <Route path="ai-writer/business" element={<AiBusinessWriter />} />
+        <Route path="ai-writer/business" element={<AiBusinessGenerator />} />
 
         {/* Persona Influencer Routes */}
         <Route path="trends" element={<TrendsPage />} />
-        <Route path="ai-writer/influencer" element={<AiInfluencerWriter />} />
+        <Route path="ai-writer/influencer" element={<AiInfluencerGenerator />} />
+        <Route path="content-generation/influencer" element={<AiContentGenerator />} />
         <Route path="monetization" element={<MonetizationPage />} />
         <Route path="brand-kit" element={<BrandKitPage />} />
         <Route path="automation" element={<AutomationPage />} />

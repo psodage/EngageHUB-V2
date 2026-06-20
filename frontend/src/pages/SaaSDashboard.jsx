@@ -187,18 +187,22 @@ export default function SaaSDashboard() {
 
   useEffect(() => {
     if (location.state?.openComposer || location.state?.caption) {
+      const statePost = location.state.post || {};
+      const isEdit = Boolean(location.state.postId || statePost._id);
       setSelectedPost({
-        _id: `new-${Date.now()}`,
-        title: "",
-        caption: location.state.caption || "",
-        channelKeys: ["instagram"],
-        scheduledAt: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().substring(0, 16), // Tomorrow same time
-        status: "draft",
-        assignedTeamMember: "Steven M.",
-        mediaUrl: "",
-        engagementRate: "0.0%",
-        campaignId: "",
-        isNew: true
+        _id: location.state.postId || statePost._id || `new-${Date.now()}`,
+        title: location.state.title || statePost.title || "",
+        caption: location.state.caption || statePost.caption || "",
+        channelKeys: location.state.channelKeys || statePost.channelKeys || ["instagram"],
+        scheduledAt: location.state.scheduledAt || statePost.scheduledAt
+          ? (location.state.scheduledAt || statePost.scheduledAt).substring(0, 16)
+          : new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().substring(0, 16), // Tomorrow same time
+        status: location.state.status || statePost.status || "draft",
+        assignedTeamMember: location.state.assignedTeamMember || statePost.assignedTeamMember || "Steven M.",
+        mediaUrl: location.state.mediaUrl || statePost.mediaUrl || "",
+        engagementRate: location.state.engagementRate || statePost.engagementRate || "0.0%",
+        campaignId: location.state.campaignId || statePost.campaignId || "",
+        isNew: location.state.isNew !== undefined ? location.state.isNew : !isEdit
       });
       setIsDrawerOpen(true);
       navigate(location.pathname, { replace: true, state: {} });

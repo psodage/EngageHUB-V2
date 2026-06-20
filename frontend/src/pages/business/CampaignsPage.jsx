@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import DashboardPageShell from "../../components/layout/DashboardPageShell";
 import { 
   Layers, 
@@ -14,7 +16,9 @@ import {
   AlertCircle,
   FileText,
   CheckCircle2,
-  X
+  X,
+  Image as ImageIcon,
+  Briefcase
 } from "lucide-react";
 import { 
   listCampaigns, 
@@ -23,12 +27,64 @@ import {
   updateCampaign, 
   deleteCampaign 
 } from "../../services/campaignApi";
+import {
+  createScheduledPost,
+  updateScheduledPost,
+  deleteScheduledPost
+} from "../../services/scheduleApi";
+import { PLATFORM_BRAND_ICONS } from "../../data/platformBrandIcons";
 import { useApp } from "../../context/AppContext";
+const TEAM_MEMBERS = [
+  { name: "Steven M.", avatarBg: "bg-indigo-500" },
+  { name: "Sarah K.", avatarBg: "bg-pink-500" },
+  { name: "Alex R.", avatarBg: "bg-emerald-500" },
+  { name: "Michael T.", avatarBg: "bg-amber-500" },
+];
+
+const STATUSES = ["draft", "scheduled", "approved", "published", "rejected"];
+
+const channelOptions = [
+  { key: "instagram", label: "Instagram" },
+  { key: "facebook", label: "Facebook" },
+  { key: "linkedin", label: "LinkedIn" },
+  { key: "x", label: "X" },
+  { key: "youtube", label: "YouTube" },
+  { key: "googleBusiness", label: "Google" },
+];
+
+function getPostStatusColorClass(status) {
+  switch (status) {
+    case "draft": return "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400";
+    case "scheduled": return "bg-blue-50 text-blue-700 dark:bg-blue-950/45 dark:text-blue-400";
+    case "approved": return "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/45 dark:text-emerald-400";
+    case "published": return "bg-teal-50 text-teal-700 dark:bg-teal-950/45 dark:text-teal-400";
+    case "rejected": return "bg-red-50 text-red-700 dark:bg-red-950/45 dark:text-red-400";
+    default: return "bg-slate-100 text-slate-700";
+  }
+}
+
+function getPostStatusBorderAndBgClass(status) {
+  switch (status) {
+    case "draft": return "bg-slate-50 border-slate-200 text-slate-700 dark:bg-slate-950 dark:border-slate-800 dark:text-slate-400";
+    case "scheduled": return "bg-blue-50/50 border-blue-200 text-blue-700 dark:bg-blue-950/20 dark:border-blue-800 dark:text-blue-400";
+    case "approved": return "bg-emerald-50/50 border-emerald-200 text-emerald-700 dark:bg-emerald-950/20 dark:border-emerald-800 dark:text-emerald-400";
+    case "published": return "bg-teal-50/50 border-teal-200 text-teal-700 dark:bg-teal-950/20 dark:border-teal-850 dark:text-teal-450";
+    case "rejected": return "bg-red-50/50 border-red-200 text-red-700 dark:bg-red-950/20 dark:border-red-800 dark:text-red-400";
+    default: return "bg-slate-50 border-slate-200 text-slate-700";
+  }
+}
 
 export default function CampaignsPage() {
   const { setToast } = useApp();
+  const location = useLocation();
+  const navigate = useNavigate();
+  
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // Post Drawer State
+  const [isPostDrawerOpen, setIsPostDrawerOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
   
   // Detail View State
   const [selectedCampaignId, setSelectedCampaignId] = useState(null);
@@ -90,6 +146,100 @@ export default function CampaignsPage() {
       setCampaignDetail(null);
     }
   }, [selectedCampaignId]);
+
+  const handleOpenCreatePostDrawer = () => {
+    setSelectedPost({
+      _id: `new-${Date.now()}`,
+      title: "",
+      caption: "",
+      channelKeys: ["instagram"],
+      scheduledAt: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().substring(0, 16), // Tomorrow same time
+      status: "draft",
+      assignedTeamMember: "Steven M.",
+      mediaUrl: "",
+      engagementRate: "0.0%",
+      campaignId: selectedCampaignId || "", // preselect campaign if viewing detail
+      isNew: true
+    });
+    setIsPostDrawerOpen(true);
+  };
+
+  const handleOpenEditPostDrawer = (post) => {
+    setSelectedPost({
+      ...post,
+      assignedTeamMember: post.assignedTeamMember || "Steven M.",
+      engagementRate: post.engagementRate || "0.0%",
+      scheduledAt: post.scheduledAt ? post.scheduledAt.substring(0, 16) : new Date().toISOString().substring(0, 16),
+      isNew: false
+    });
+    setIsPostDrawerOpen(true);
+  };
+
+  const handleSavePostDrawer = async (updated) => {
+    setIsPostDrawerOpen(false);
+    const isoDate = new Date(updated.scheduledAt).toISOString();
+
+    if (updated.isNew) {
+      const payload = {
+        title: updated.title || "Scheduled Post",
+        caption: updated.caption,
+        channelKeys: updated.channelKeys,
+        scheduledAt: isoDate,
+        mediaUrl: updated.mediaUrl,
+        status: updated.status,
+        campaignId: updated.campaignId || null,
+      };
+
+      try {
+        await createScheduledPost(payload);
+        setToast({ message: "Post created and scheduled successfully." });
+        if (selectedCampaignId) {
+          fetchDetail(selectedCampaignId);
+        }
+      } catch (err) {
+        setToast({ message: err.message || "Failed to create post.", error: true });
+      }
+    } else {
+      try {
+        await updateScheduledPost(updated._id, {
+          title: updated.title,
+          caption: updated.caption,
+          channelKeys: updated.channelKeys,
+          scheduledAt: isoDate,
+          mediaUrl: updated.mediaUrl,
+          status: updated.status,
+          campaignId: updated.campaignId || null,
+        });
+        setToast({ message: "Post updated successfully." });
+        if (selectedCampaignId) {
+          fetchDetail(selectedCampaignId);
+        }
+      } catch (err) {
+        setToast({ message: err.message || "Failed to update post.", error: true });
+      }
+    }
+  };
+
+  const handleDeletePost = async (postId) => {
+    if (!window.confirm("Are you sure you want to delete this scheduled post?")) return;
+    try {
+      await deleteScheduledPost(postId);
+      setToast({ message: "Post deleted successfully." });
+      setIsPostDrawerOpen(false);
+      if (selectedCampaignId) {
+        fetchDetail(selectedCampaignId);
+      }
+    } catch (err) {
+      setToast({ message: err.message || "Failed to delete post.", error: true });
+    }
+  };
+
+  useEffect(() => {
+    if (location.state?.openComposer) {
+      handleOpenCreatePostDrawer();
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location.state, location.pathname, navigate]);
 
   const handleOpenCreateModal = () => {
     setEditingCampaign(null);
@@ -240,20 +390,38 @@ export default function CampaignsPage() {
 
           {/* Main section: Sequential Posts */}
           <div className="rounded-2xl border border-slate-200/60 bg-white p-6 dark:border-slate-800/80 dark:bg-slate-900 shadow-sm flex flex-col gap-6">
-            <div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <FolderOpen size={18} className="text-[#82a800] dark:text-[#C8FF00]" /> Sequential Scheduled Series
-              </h3>
-              <p className="text-xs text-slate-500 mt-0.5">Posts under this campaign, sorted in publishing order.</p>
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <FolderOpen size={18} className="text-[#82a800] dark:text-[#C8FF00]" /> Sequential Scheduled Series
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">Posts under this campaign, sorted in publishing order.</p>
+              </div>
+              <button
+                type="button"
+                onClick={handleOpenCreatePostDrawer}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-[#C8FF00] px-3.5 py-2 text-xs font-bold text-black hover:bg-[#d4ff33] transition"
+              >
+                <Plus size={14} />
+                Create Post
+              </button>
             </div>
 
             {detailLoading ? (
               <div className="py-12 flex justify-center text-slate-400 text-xs">Loading posts...</div>
             ) : campaignDetail.posts.length === 0 ? (
-              <div className="border border-dashed border-slate-200 dark:border-slate-800 rounded-xl py-16 flex flex-col items-center justify-center text-slate-400 gap-2">
+              <div className="border border-dashed border-slate-200 dark:border-slate-800 rounded-xl py-16 flex flex-col items-center justify-center text-slate-400 gap-3">
                 <FileText size={32} strokeWidth={1.5} className="text-slate-350 dark:text-slate-650" />
                 <span className="text-xs font-semibold">No posts in this campaign yet</span>
-                <p className="text-[10px] text-slate-400 max-w-xs text-center">To link posts to this campaign, select this campaign name when composing a post inside the Content Planner.</p>
+                <p className="text-[10px] text-slate-400 max-w-xs text-center">To link posts to this campaign, create a new post below or click Create Post above.</p>
+                <button
+                  type="button"
+                  onClick={handleOpenCreatePostDrawer}
+                  className="mt-2 inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-[#C8FF00] text-xs font-bold text-black hover:bg-[#d4ff33] transition shadow-sm"
+                >
+                  <Plus size={13} />
+                  Create Post
+                </button>
               </div>
             ) : (
               <div className="relative border-l border-slate-200 dark:border-slate-800 ml-4 pl-6 space-y-6">
@@ -262,7 +430,10 @@ export default function CampaignsPage() {
                     {/* Circle Indicator on the left line */}
                     <div className="absolute -left-[31px] top-1.5 h-3.5 w-3.5 rounded-full border-2 border-white bg-slate-300 dark:border-slate-900 dark:bg-slate-700 group-hover:bg-[#C8FF00] transition" />
                     
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 rounded-xl border border-slate-100 bg-slate-50/50 dark:border-slate-850 dark:bg-slate-950/30 hover:shadow-card transition duration-150">
+                    <div 
+                      onClick={() => handleOpenEditPostDrawer(post)}
+                      className="cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 rounded-xl border border-slate-100 bg-slate-50/50 dark:border-slate-850 dark:bg-slate-950/30 hover:shadow-card hover:border-slate-350 dark:hover:border-slate-700 transition duration-150"
+                    >
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
                           <span className="text-[9px] font-extrabold text-[#82a800] dark:text-[#C8FF00] uppercase tracking-wider">Step {idx + 1}</span>
@@ -364,133 +535,381 @@ export default function CampaignsPage() {
             </div>
           )}
         </div>
-      )}
-
-      {/* ==================== CREATE / EDIT MODAL ==================== */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-[1.5px]">
-          <form 
-            onSubmit={handleSave}
-            className="w-full max-w-md bg-white dark:bg-[#111] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 flex flex-col gap-4"
+      )}      {/* ==================== CREATE / EDIT CAMPAIGN DRAWER ==================== */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] flex justify-end"
+            onClick={() => setIsModalOpen(false)}
           >
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-              <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                {editingCampaign ? "Edit Campaign" : "Create New Campaign"}
-              </h3>
-              <button
-                type="button"
-                onClick={() => setIsModalOpen(false)}
-                className="p-1 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-400 rounded-lg transition"
-              >
-                <X size={16} />
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-col gap-1">
-                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Campaign Name *</label>
-                <input
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="E.g., Summer Sneakers Launch 2026"
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 outline-none transition"
-                />
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Description</label>
-                <textarea
-                  rows={2}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Goals, targets, or links for this campaign series..."
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 outline-none transition resize-none"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div className="flex flex-col gap-1">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Start Date *</label>
-                  <input
-                    type="date"
-                    required
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 outline-none transition"
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">End Date *</label>
-                  <input
-                    type="date"
-                    required
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 outline-none transition"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-sans">Campaign Tag Color</label>
-                <div className="flex gap-2.5">
-                  {colors.map((c) => (
-                    <button
-                      key={c.value}
-                      type="button"
-                      onClick={() => setColor(c.value)}
-                      className={`h-7 w-7 rounded-full border transition flex items-center justify-center shrink-0 ${
-                        color === c.value 
-                          ? "border-slate-600 dark:border-white scale-110 shadow-sm" 
-                          : "border-transparent opacity-70 hover:opacity-100"
-                      }`}
-                      style={{ backgroundColor: c.value }}
-                      title={c.label}
-                    >
-                      {color === c.value && (
-                        <span className="h-1.5 w-1.5 rounded-full bg-slate-900 dark:bg-slate-900" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {editingCampaign && (
-                <div className="flex flex-col gap-1">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Status</label>
-                  <select
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 outline-none transition cursor-pointer"
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 220 }}
+              className="w-full max-w-lg bg-white dark:bg-[#111] h-full shadow-2xl overflow-y-auto border-l border-slate-200 dark:border-slate-800/80 flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <form onSubmit={handleSave} className="flex flex-col h-full">
+                {/* Header */}
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 p-5 shrink-0">
+                  <div>
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                      {editingCampaign ? "Edit Campaign" : "Create New Campaign"}
+                    </h3>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      {editingCampaign ? "Update campaign timeline or details." : "Define a new sequential campaign catalog."}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="rounded-lg p-1.5 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition"
                   >
-                    <option value="active">Active</option>
-                    <option value="completed">Completed</option>
-                    <option value="draft">Draft</option>
-                  </select>
+                    <X size={16} />
+                  </button>
                 </div>
-              )}
-            </div>
 
-            <div className="flex justify-end gap-2 border-t border-slate-100 dark:border-slate-800 pt-3">
-              <button
-                type="button"
-                onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 dark:border-slate-800 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 rounded-xl bg-[#C8FF00] text-xs font-bold text-black hover:bg-[#d4ff33] transition"
-              >
-                {editingCampaign ? "Save Changes" : "Create"}
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
+                {/* Scrollable Content */}
+                <div className="p-5 flex-1 overflow-y-auto flex flex-col gap-5">
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Campaign Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="E.g., Summer Sneakers Launch 2026"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 dark:focus:border-[#C8FF00] outline-none transition"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Description</label>
+                    <textarea
+                      rows={4}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Goals, targets, or links for this campaign series..."
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 dark:focus:border-[#C8FF00] outline-none transition resize-none"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Start Date *</label>
+                      <input
+                        type="date"
+                        required
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 cursor-pointer"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">End Date *</label>
+                      <input
+                        type="date"
+                        required
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 cursor-pointer"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2.5">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider font-sans">Campaign Tag Color</label>
+                    <div className="flex gap-2.5">
+                      {colors.map((c) => (
+                        <button
+                          key={c.value}
+                          type="button"
+                          onClick={() => setColor(c.value)}
+                          className={`h-7 w-7 rounded-full border transition flex items-center justify-center shrink-0 ${
+                            color === c.value 
+                              ? "border-slate-600 dark:border-white scale-110 shadow-sm" 
+                              : "border-transparent opacity-70 hover:opacity-100"
+                          }`}
+                          style={{ backgroundColor: c.value }}
+                          title={c.label}
+                        >
+                          {color === c.value && (
+                            <span className="h-1.5 w-1.5 rounded-full bg-slate-900 dark:bg-slate-900" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {editingCampaign && (
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Status</label>
+                      <select
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 cursor-pointer"
+                      >
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                        <option value="draft">Draft</option>
+                      </select>
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer */}
+                <div className="p-5 border-t border-slate-100 dark:border-slate-800/80 bg-slate-50/60 dark:bg-slate-950/20 flex items-center justify-end gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="rounded-xl border border-slate-200 bg-white hover:bg-slate-50 px-4 py-2 text-xs font-bold text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 transition"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="rounded-xl bg-[#C8FF00] hover:bg-[#a8d600] px-5 py-2 text-xs font-bold text-black shadow-sm transition"
+                  >
+                    {editingCampaign ? "Save Changes" : "Create"}
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ==================== CREATE / EDIT POST DRAWER ==================== */}
+      <AnimatePresence>
+        {isPostDrawerOpen && selectedPost && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] flex justify-end"
+            onClick={() => setIsPostDrawerOpen(false)}
+          >
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 220 }}
+              className="w-full max-w-lg bg-white dark:bg-[#111] h-full shadow-2xl overflow-y-auto border-l border-slate-200 dark:border-slate-800/80 flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 p-5 shrink-0">
+                <div>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                    {selectedPost.isNew ? "Create Post Entry" : "Post Details & Schedule"}
+                  </h3>
+                  <p className="text-[11px] text-slate-400 mt-0.5">
+                    {selectedPost.isNew ? "Define a brand-new publishing schedule." : `Post ID: ${selectedPost._id}`}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsPostDrawerOpen(false)}
+                  className="rounded-lg p-1.5 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Drawer Scrollable Content */}
+              <div className="p-5 flex-1 overflow-y-auto flex flex-col gap-5">
+                {/* Title Input */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Post Title</label>
+                  <input
+                    type="text"
+                    value={selectedPost.title}
+                    onChange={(e) => setSelectedPost({ ...selectedPost, title: e.target.value })}
+                    placeholder="Enter post title..."
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 dark:focus:border-[#C8FF00] outline-none transition"
+                  />
+                </div>
+
+                {/* Caption / Content Input */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Post Content / Caption</label>
+                  <textarea
+                    rows={4}
+                    value={selectedPost.caption}
+                    onChange={(e) => setSelectedPost({ ...selectedPost, caption: e.target.value })}
+                    placeholder="Write what you want to publish..."
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 dark:focus:border-[#C8FF00] outline-none transition resize-none"
+                  />
+                </div>
+
+                {/* Media Url & Preview */}
+                <div className="flex flex-col gap-2.5">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Media URL</label>
+                  <input
+                    type="text"
+                    value={selectedPost.mediaUrl || ""}
+                    onChange={(e) => setSelectedPost({ ...selectedPost, mediaUrl: e.target.value })}
+                    placeholder="Paste image/video URL link..."
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 outline-none transition"
+                  />
+
+                  {/* Media Preview Box */}
+                  {selectedPost.mediaUrl ? (
+                    <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 max-h-40 flex items-center justify-center relative group">
+                      <img
+                        src={selectedPost.mediaUrl}
+                        alt="Media upload preview"
+                        className="w-full h-full object-cover max-h-40"
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                          e.target.nextSibling.style.display = "flex";
+                        }}
+                      />
+                      <div className="hidden flex-col items-center justify-center p-6 text-slate-400 gap-1">
+                        <AlertCircle size={20} />
+                        <span className="text-[10px] font-bold">Failed to load preview image</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="rounded-xl border border-dashed border-slate-200 dark:border-slate-800 py-6 flex flex-col items-center justify-center text-slate-400 gap-1.5">
+                      <ImageIcon size={18} />
+                      <span className="text-[10px] font-bold">No media attached</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Grid: Date/Time + Assigned */}
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Date & Time Picker */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Scheduled Date & Time</label>
+                    <input
+                      type="datetime-local"
+                      value={selectedPost.scheduledAt}
+                      onChange={(e) => setSelectedPost({ ...selectedPost, scheduledAt: e.target.value })}
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 cursor-pointer"
+                    />
+                  </div>
+
+                  {/* Assigned Team Member */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Assigned Team Member</label>
+                    <select
+                      value={selectedPost.assignedTeamMember}
+                      onChange={(e) => setSelectedPost({ ...selectedPost, assignedTeamMember: e.target.value })}
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 cursor-pointer"
+                    >
+                      {TEAM_MEMBERS.map((m) => (
+                        <option key={m.name} value={m.name}>{m.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Campaign Selection */}
+                {campaigns.length > 0 && (
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Associated Campaign</label>
+                    <select
+                      value={selectedPost.campaignId || ""}
+                      onChange={(e) => setSelectedPost({ ...selectedPost, campaignId: e.target.value })}
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none focus:border-[#C8FF00] dark:border-slate-800 dark:bg-slate-950 cursor-pointer"
+                    >
+                      <option value="">-- No Campaign --</option>
+                      {campaigns.map((c) => (
+                        <option key={c._id} value={c._id}>{c.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {/* Platforms selection */}
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Target Channels</label>
+                  <div className="flex flex-wrap gap-2">
+                    {channelOptions.map((opt) => {
+                      const Icon = PLATFORM_BRAND_ICONS[opt.key] || Briefcase;
+                      const isSelected = (selectedPost.channelKeys || []).includes(opt.key);
+
+                      return (
+                        <button
+                          key={opt.key}
+                          type="button"
+                          onClick={() => {
+                            const current = selectedPost.channelKeys || [];
+                            const next = current.includes(opt.key)
+                              ? current.filter((k) => k !== opt.key)
+                              : [...current, opt.key];
+                            setSelectedPost({ ...selectedPost, channelKeys: next });
+                          }}
+                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition ${isSelected
+                              ? "bg-slate-900 border-slate-900 text-white dark:bg-white dark:text-slate-900"
+                              : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100 dark:bg-slate-950 dark:border-slate-800 dark:text-slate-300"
+                            }`}
+                        >
+                          <Icon size={12} className={isSelected ? "text-[#C8FF00] dark:text-slate-900" : "text-slate-400"} />
+                          {opt.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Status selector */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Status Badge</label>
+                  <div className="grid grid-cols-5 gap-1.5">
+                    {STATUSES.map((status) => (
+                      <button
+                        key={status}
+                        type="button"
+                        onClick={() => setSelectedPost({ ...selectedPost, status })}
+                        className={`py-1.5 rounded-xl text-[10px] font-bold capitalize border text-center transition ${selectedPost.status === status
+                            ? getPostStatusBorderAndBgClass(status) + " ring-1 ring-offset-1 dark:ring-offset-slate-900"
+                            : "bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100 dark:bg-slate-950 dark:border-slate-800"
+                          }`}
+                      >
+                        {status}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Drawer footer buttons */}
+              <div className="p-5 border-t border-slate-100 dark:border-slate-800/80 bg-slate-50/60 dark:bg-slate-950/20 flex items-center justify-end gap-2 shrink-0">
+                {!selectedPost.isNew && (
+                  <button
+                    type="button"
+                    onClick={() => handleDeletePost(selectedPost._id)}
+                    className="mr-auto rounded-xl border border-red-200 bg-red-50 hover:bg-red-100 px-4 py-2 text-xs font-bold text-red-650 dark:border-red-950/20 dark:bg-red-950/10 dark:text-red-400 transition"
+                  >
+                    Delete Post
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setIsPostDrawerOpen(false)}
+                  className="rounded-xl border border-slate-200 bg-white hover:bg-slate-50 px-4 py-2 text-xs font-bold text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSavePostDrawer(selectedPost)}
+                  className="rounded-xl bg-[#C8FF00] hover:bg-[#a8d600] px-5 py-2 text-xs font-bold text-black shadow-sm transition"
+                >
+                  {selectedPost.isNew ? "Schedule Post" : "Save Changes"}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </DashboardPageShell>
   );
 }

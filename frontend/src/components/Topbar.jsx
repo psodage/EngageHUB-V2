@@ -17,8 +17,12 @@ export default function Topbar({ onOpenSidebar }) {
   const title = useMemo(() => getPageTitle(location.pathname), [location.pathname]);
 
   const handleCreatePost = () => {
-    const targetPath = getOnboardingRoute(user);
-    navigate(targetPath, { state: { openComposer: true } });
+    if (location.pathname === "/campaigns") {
+      navigate("/campaigns", { state: { openComposer: true } });
+    } else {
+      const targetPath = getOnboardingRoute(user);
+      navigate(targetPath, { state: { openComposer: true } });
+    }
   };
   const ThemeIcon = theme === "dark" ? Sun : Moon;
 
