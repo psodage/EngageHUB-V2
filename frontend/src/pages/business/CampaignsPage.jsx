@@ -82,16 +82,7 @@ const CAMPAIGN_TABS = [
 
 // ─── Campaign Templates Data ────────────────────────────────────────────────────
 
-const CAMPAIGN_TEMPLATES = [
-  { id: "independence", title: "Independence Day Campaign", description: "Celebrate national pride with patriotic content across all platforms.", icon: "🇮🇳", tags: ["Holiday", "National"], platforms: ["facebook", "instagram", "linkedin"] },
-  { id: "diwali", title: "Diwali Promotion Campaign", description: "Festival of lights — drive sales with festive offers and wishes.", icon: "🪔", tags: ["Festival", "Sales"], platforms: ["instagram", "facebook", "x"] },
-  { id: "product-launch", title: "Product Launch Campaign", description: "Build hype and announce your latest product across channels.", icon: "🚀", tags: ["Product", "Launch"], platforms: ["linkedin", "instagram", "facebook"] },
-  { id: "festival-sale", title: "Festival Sale Campaign", description: "Seasonal discounts, flash deals and promotional bundles.", icon: "🛍️", tags: ["Sales", "Seasonal"], platforms: ["instagram", "facebook"] },
-  { id: "feedback", title: "Customer Feedback Campaign", description: "Collect reviews, testimonials and valuable user insights.", icon: "💬", tags: ["Engagement", "Feedback"], platforms: ["linkedin", "googleBusiness"] },
-  { id: "new-service", title: "New Service Announcement", description: "Announce new services and capabilities to your audience.", icon: "📢", tags: ["Announcement", "Growth"], platforms: ["linkedin", "facebook", "x"] },
-  { id: "anniversary", title: "Business Anniversary Campaign", description: "Celebrate your company milestones with engaging stories.", icon: "🎂", tags: ["Milestone", "Brand"], platforms: ["instagram", "facebook", "linkedin"] },
-  { id: "lead-gen", title: "Lead Generation Campaign", description: "Drive qualified leads with targeted content and CTAs.", icon: "🎯", tags: ["Lead Gen", "Growth"], platforms: ["linkedin", "facebook", "instagram"] },
-];
+
 
 // ─── AI Suggested Campaigns Data ────────────────────────────────────────────────
 
@@ -117,7 +108,7 @@ function getAISuggestions() {
       return { ...e, daysRemaining: diff };
     })
     .sort((a, b) => a.daysRemaining - b.daysRemaining)
-    .slice(0, 6);
+    .slice(0, 4);
 }
 
 // ─── Status Helpers ─────────────────────────────────────────────────────────────
@@ -490,7 +481,7 @@ export default function CampaignsPage() {
           </div>
         </div>
 
-        <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin">
+        <div className="flex gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {aiSuggestions.map((s) => (
             <div key={s.name} className="shrink-0 w-64 rounded-2xl border border-slate-200/60 bg-white dark:border-slate-800/80 dark:bg-slate-900 p-4 hover:shadow-card hover:-translate-y-0.5 transition duration-200 flex flex-col gap-3 group">
               <div className="flex items-start justify-between">
@@ -524,38 +515,7 @@ export default function CampaignsPage() {
         </div>
       </section>
 
-      {/* ==================== CAMPAIGN TEMPLATES ==================== */}
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Layers size={16} className="text-[#82a800] dark:text-[#C8FF00]" />
-            Campaign Templates
-          </h3>
-          <button type="button" className="text-[11px] font-bold text-[#82a800] dark:text-[#C8FF00] hover:underline flex items-center gap-0.5">
-            View All <ChevronRight size={12} />
-          </button>
-        </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {CAMPAIGN_TEMPLATES.map((t) => (
-            <div key={t.id} className="rounded-xl border border-slate-200/60 bg-white dark:border-slate-800/80 dark:bg-slate-900 p-3.5 hover:shadow-card hover:-translate-y-0.5 transition duration-200 flex flex-col gap-2.5 group cursor-pointer" onClick={() => handleOpenCreateModal({ name: t.title, description: t.description })}>
-              <div className="flex items-center justify-between">
-                <span className="text-lg">{t.icon}</span>
-                <ChevronRight size={14} className="text-slate-300 group-hover:text-[#82a800] dark:group-hover:text-[#C8FF00] transition" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate group-hover:text-[#82a800] dark:group-hover:text-[#C8FF00] transition">{t.title}</h4>
-                <p className="text-[10px] text-slate-400 line-clamp-2 mt-0.5 leading-relaxed">{t.description}</p>
-              </div>
-              <div className="flex items-center gap-1.5 flex-wrap">
-                {t.tags.map((tag) => (
-                  <span key={tag} className="text-[8px] font-bold px-1.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 uppercase tracking-wider">{tag}</span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ==================== TABS + FILTERS + LIST ==================== */}
       <section className="flex flex-col gap-4">
