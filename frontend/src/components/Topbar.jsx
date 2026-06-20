@@ -93,9 +93,9 @@ export default function Topbar({ onOpenSidebar }) {
                 ) : null}
               </h1>
             </nav>
-          ) : (
+          ) : displayTitle !== "Content Planner" ? (
             <h1 className="truncate text-base font-bold text-slate-900 dark:text-white">{displayTitle}</h1>
-          )}
+          ) : null}
         </div>
 
         {/* Center: Search Bar */}
