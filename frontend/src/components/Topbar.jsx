@@ -67,7 +67,7 @@ export default function Topbar({ onOpenSidebar }) {
     <header className="dashboard-topbar">
       <div className="dashboard-topbar-inner w-full flex items-center justify-between gap-4">
         {/* Left: Menu toggle (mobile) & Title/Breadcrumbs */}
-        <div className="flex min-w-0 items-center gap-3">
+        <div className="flex min-w-0 items-center gap-3 pointer-events-auto">
           <button
             type="button"
             onClick={onOpenSidebar}
@@ -99,7 +99,7 @@ export default function Topbar({ onOpenSidebar }) {
         </div>
 
         {/* Center: Search Bar */}
-        <div className="hidden max-w-sm flex-1 md:block lg:hidden relative">
+        <div className="hidden max-w-sm flex-1 md:block lg:hidden relative pointer-events-auto">
           <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
@@ -109,18 +109,20 @@ export default function Topbar({ onOpenSidebar }) {
         </div>
 
         {/* Right: Actions */}
-        <div className="flex shrink-0 items-center gap-3">
+        <div className="flex shrink-0 items-center gap-3 pointer-events-auto">
 
 
           {/* Create Post Button */}
-          <button
-            type="button"
-            onClick={handleCreatePost}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#C8FF00] px-4 py-2 text-xs font-bold text-black shadow-sm hover:bg-[#d4ff33] transition"
-          >
-            <Plus size={14} strokeWidth={2.5} />
-            <span>Create Post</span>
-          </button>
+          {location.pathname !== "/campaigns" && (
+            <button
+              type="button"
+              onClick={handleCreatePost}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[#C8FF00] px-4 py-2 text-xs font-bold text-black shadow-sm hover:bg-[#d4ff33] transition"
+            >
+              <Plus size={14} strokeWidth={2.5} />
+              <span>Create Post</span>
+            </button>
+          )}
 
           {/* Notification Bell */}
           <button

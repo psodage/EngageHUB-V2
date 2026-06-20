@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import DashboardPageShell from "../../components/layout/DashboardPageShell";
 import {
@@ -680,12 +681,12 @@ export default function CampaignsPage() {
 
       {/* ==================== CAMPAIGN DETAIL DRAWER ==================== */}
       <AnimatePresence>
-        {isDetailDrawerOpen && selectedCampaignId && (
+        {isDetailDrawerOpen && selectedCampaignId && createPortal(
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-black/45 backdrop-blur-[2px] flex justify-end"
+            className="fixed inset-0 z-[100] bg-black/45 backdrop-blur-[2px] flex justify-end"
             onClick={() => { setIsDetailDrawerOpen(false); setSelectedCampaignId(null); }}
           >
             <motion.div
@@ -814,18 +815,19 @@ export default function CampaignsPage() {
                 </>
               )}
             </motion.div>
-          </motion.div>
+          </motion.div>,
+          document.body
         )}
       </AnimatePresence>
 
       {/* ==================== CREATE / EDIT CAMPAIGN DRAWER ==================== */}
       <AnimatePresence>
-        {isModalOpen && (
+        {isModalOpen && createPortal(
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] flex justify-end"
+            className="fixed inset-0 z-[100] bg-black/45 backdrop-blur-[2px] flex justify-end"
             onClick={() => setIsModalOpen(false)}
           >
             <motion.div
@@ -894,18 +896,19 @@ export default function CampaignsPage() {
                 </div>
               </form>
             </motion.div>
-          </motion.div>
+          </motion.div>,
+          document.body
         )}
       </AnimatePresence>
 
       {/* ==================== CREATE / EDIT POST DRAWER ==================== */}
       <AnimatePresence>
-        {isPostDrawerOpen && selectedPost && (
+        {isPostDrawerOpen && selectedPost && createPortal(
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] flex justify-end"
+            className="fixed inset-0 z-[100] bg-black/45 backdrop-blur-[2px] flex justify-end"
             onClick={() => setIsPostDrawerOpen(false)}
           >
             <motion.div
@@ -1009,7 +1012,8 @@ export default function CampaignsPage() {
                 <button type="button" onClick={() => handleSavePostDrawer(selectedPost)} className="rounded-xl bg-[#C8FF00] hover:bg-[#a8d600] px-5 py-2 text-xs font-bold text-black shadow-sm transition">{selectedPost.isNew ? "Schedule Post" : "Save Changes"}</button>
               </div>
             </motion.div>
-          </motion.div>
+          </motion.div>,
+          document.body
         )}
       </AnimatePresence>
     </DashboardPageShell>

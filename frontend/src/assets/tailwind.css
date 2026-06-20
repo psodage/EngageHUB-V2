@@ -29,7 +29,11 @@
   }
 
   .dashboard-scroll {
-    @apply min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain;
+    @apply relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain;
+  }
+
+  body:has(.fixed.inset-0) .dashboard-scroll {
+    @apply z-50;
   }
 
   .dashboard-scroll--composer {
@@ -38,7 +42,7 @@
 
   /* —— Main content regions (route-aware via DashboardLayout) —— */
   .dashboard-content {
-    @apply mx-auto w-full min-h-0 px-4 pt-1 pb-5 sm:px-6 sm:pt-2 sm:pb-6 lg:px-8 lg:pt-2 lg:pb-7;
+    @apply mx-auto w-full min-h-0 px-4 pt-4 pb-5 sm:px-6 sm:pt-5 sm:pb-6 lg:px-8 lg:pt-6 lg:pb-7;
   }
 
   .dashboard-content--default {
@@ -232,11 +236,11 @@
 
   /* —— Top bar —— */
   .dashboard-topbar {
-    @apply sticky top-0 z-20 shrink-0 bg-transparent border-none;
+    @apply absolute top-0 left-0 right-0 z-20 shrink-0 bg-transparent border-none pointer-events-none pt-4 sm:pt-5 lg:pt-6;
   }
 
   .dashboard-topbar-inner {
-    @apply mx-auto flex min-h-[3.5rem] w-full items-center justify-between gap-3 px-4 py-2.5 sm:min-h-14 sm:gap-4 sm:px-6 sm:py-3 lg:px-8;
+    @apply mx-auto flex min-h-[3.5rem] w-full items-center justify-between gap-3 px-4 py-2.5 sm:min-h-14 sm:gap-4 sm:px-6 sm:py-3 lg:px-8 pointer-events-none;
   }
 
   .dashboard-topbar-start {

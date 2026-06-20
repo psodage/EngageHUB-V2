@@ -23,7 +23,7 @@ export default function DashboardPageShell({
               <p className="mt-1 max-w-2xl text-sm text-slate-500 dark:text-slate-400">{description}</p>
             ) : null}
           </div>
-          {actions ? <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div> : null}
+          {actions ? <div className="flex shrink-0 flex-wrap items-center gap-2 lg:mr-36 sm:mr-32">{actions}</div> : null}
         </header>
       ) : null}
       {children}
