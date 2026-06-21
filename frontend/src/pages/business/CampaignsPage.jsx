@@ -225,11 +225,14 @@ export default function CampaignsPage() {
   };
 
   const fetchDetail = async (id) => {
+    console.log("[CampaignsPage] fetchDetail starting for id:", id);
     try {
       setDetailLoading(true);
       const data = await getCampaign(id);
+      console.log("[CampaignsPage] fetchDetail succeeded, loaded campaign detail:", data);
       setCampaignDetail(data);
     } catch (err) {
+      console.error("[CampaignsPage] fetchDetail failed:", err);
       setToast({ message: err.message || "Failed to load campaign details.", error: true });
       setSelectedCampaignId(null);
       setIsDetailDrawerOpen(false);
@@ -325,8 +328,15 @@ export default function CampaignsPage() {
   };
 
   useEffect(() => {
+    console.log("[CampaignsPage] Current location.state:", location.state);
     if (location.state?.openComposer) {
+      console.log("[CampaignsPage] openComposer detected");
       handleOpenCreatePostDrawer();
+      navigate(location.pathname, { replace: true, state: {} });
+    } else if (location.state?.viewCampaignId) {
+      console.log("[CampaignsPage] viewCampaignId detected:", location.state.viewCampaignId);
+      setSelectedCampaignId(location.state.viewCampaignId);
+      setIsDetailDrawerOpen(true);
       navigate(location.pathname, { replace: true, state: {} });
     }
   }, [location.state, location.pathname, navigate]);

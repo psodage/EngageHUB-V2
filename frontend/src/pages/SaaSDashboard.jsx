@@ -1082,7 +1082,22 @@ export default function SaaSDashboard() {
                 {/* Campaign Selection */}
                 {campaigns.length > 0 && (
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Associated Campaign</label>
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Associated Campaign</label>
+                      {selectedPost.campaignId && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            console.log("[SaaSDashboard] Drawer 'View Campaign' clicked. selectedPost.campaignId =", selectedPost.campaignId);
+                            setIsDrawerOpen(false);
+                            navigate("/campaigns", { state: { viewCampaignId: selectedPost.campaignId } });
+                          }}
+                          className="text-[10px] font-bold text-[#82a800] dark:text-[#C8FF00] hover:underline flex items-center gap-1 cursor-pointer"
+                        >
+                          View Campaign
+                        </button>
+                      )}
+                    </div>
                     <select
                       value={selectedPost.campaignId || ""}
                       onChange={(e) => setSelectedPost({ ...selectedPost, campaignId: e.target.value })}
@@ -1214,6 +1229,7 @@ function getStatusLineColor(status) {
 
 // 1. Backlog Queue item rendering on Left Panel
 function BacklogCard({ post, campaignName, campaignColor, onDragStart, onClick }) {
+  const navigate = useNavigate();
   return (
     <div
       draggable
@@ -1227,9 +1243,17 @@ function BacklogCard({ post, campaignName, campaignColor, onDragStart, onClick }
             className="w-1.5 h-1.5 rounded-full shrink-0"
             style={{ backgroundColor: campaignColor || "#C8FF00" }}
           />
-          <span className="text-[9px] font-bold text-[#82a800] dark:text-[#C8FF00] uppercase tracking-wider truncate max-w-full">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log("[SaaSDashboard] BacklogCard campaign badge clicked. post.campaignId =", post.campaignId);
+              navigate("/campaigns", { state: { viewCampaignId: post.campaignId } });
+            }}
+            className="text-[9px] font-bold text-[#82a800] dark:text-[#C8FF00] hover:underline uppercase tracking-wider truncate max-w-full text-left cursor-pointer"
+          >
             {campaignName}
-          </span>
+          </button>
         </div>
       )}
       <div className="flex items-center justify-between mb-1">
@@ -1268,6 +1292,7 @@ function CalendarPostCard({
   onDelete,
   menuRef
 }) {
+  const navigate = useNavigate();
   const timeStr = useMemo(() => {
     if (!post.scheduledAt) return "Draft";
     const d = new Date(post.scheduledAt);
@@ -1350,9 +1375,17 @@ function CalendarPostCard({
               className="w-1.5 h-1.5 rounded-full shrink-0"
               style={{ backgroundColor: campaignColor || "#C8FF00" }}
             />
-            <span className="text-[9px] font-bold text-[#82a800] dark:text-[#C8FF00] uppercase tracking-wider truncate">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                console.log("[SaaSDashboard] CalendarPostCard campaign badge clicked. post.campaignId =", post.campaignId);
+                navigate("/campaigns", { state: { viewCampaignId: post.campaignId } });
+              }}
+              className="text-[9px] font-bold text-[#82a800] dark:text-[#C8FF00] hover:underline uppercase tracking-wider truncate text-left cursor-pointer"
+            >
               {campaignName}
-            </span>
+            </button>
           </div>
         )}
 
