@@ -194,6 +194,8 @@ export default function CampaignsPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
 
+  console.log("[CampaignsPage Render] isDetailDrawerOpen:", isDetailDrawerOpen, "selectedCampaignId:", selectedCampaignId, "campaignDetail:", campaignDetail);
+
   // Actions menu
   const [activeMenuId, setActiveMenuId] = useState(null);
   const menuRef = useRef(null);
@@ -340,6 +342,21 @@ export default function CampaignsPage() {
       navigate(location.pathname, { replace: true, state: {} });
     }
   }, [location.state, location.pathname, navigate]);
+  useEffect(() => {
+    const el = document.querySelector("[class*='backdrop-blur']");
+    const isAnalyticsInDom = document.body.innerHTML.includes("Analytics Preview");
+    console.log("[CampaignsPage DOM Check] backdrop element by class wildcard:", el);
+    console.log("[CampaignsPage DOM Check] Is 'Analytics Preview' text in body HTML?", isAnalyticsInDom);
+    if (el) {
+      console.log("[CampaignsPage DOM Check] backdrop styling:", {
+        opacity: window.getComputedStyle(el).opacity,
+        display: window.getComputedStyle(el).display,
+        zIndex: window.getComputedStyle(el).zIndex,
+        visibility: window.getComputedStyle(el).visibility,
+        pointerEvents: window.getComputedStyle(el).pointerEvents
+      });
+    }
+  }, [isDetailDrawerOpen, campaignDetail]);
 
   // ─── Campaign Handlers ────────────────────────────────────────────────────
 
